@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using IS.Domain.Model;
+using System.Linq;
 
 namespace IS.Domain
 {
@@ -15,6 +16,15 @@ namespace IS.Domain
         public Context()
         {
             Database.EnsureCreated();
+            if(this.Customers.Count() < 1)
+            {
+                Seed();
+            }
+        }
+
+        private void Seed()
+        {
+            throw new NotImplementedException();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -51,10 +51,14 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Purchased"/>
                 <TextBlock Grid.Column="1" Text="Orders"/>
-                <DataGrid Grid.Row="1" x:Name="Purchases">
+                <DataGrid Grid.Row="1" 
+                          AutoGenerateColumns="True"
+                          x:Name="Purchases">
 
                 </DataGrid>
-                <DataGrid Grid.Row="1" Grid.Column="1" x:Name="Orders">
+                <DataGrid Grid.Row="1" Grid.Column="1" 
+                          AutoGenerateColumns="True"
+                          x:Name="Orders">
 
                 </DataGrid>
             </Grid>

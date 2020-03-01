@@ -23,9 +23,6 @@ namespace IS.UI.View
         public CustomerView()
         {
             InitializeComponent();
-            Context context = new Context();
-            Orders.DataContext = context.Products.ToList();
-            Purchases.DataContext = context.RawMaterials.ToList();
         }
     }
 }
