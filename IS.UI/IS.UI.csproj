@@ -10,4 +10,10 @@
     <ProjectReference Include="..\IS.Domain\IS.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\" />
+    <Folder Include="Control\" />
+    <Folder Include="ViewModel\" />
+  </ItemGroup>
+
 </Project>
