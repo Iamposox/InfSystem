@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IS.Domain;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,9 @@ namespace IS.UI
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            Context context = new Context();
+        }
     }
 }
