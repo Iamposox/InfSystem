@@ -24,8 +24,8 @@ namespace IS.UI.View
         {
             InitializeComponent();
             Context context = new Context();
-            Orders.DataContext = context.Products.ToList();
-            Purchases.DataContext = context.RawMaterials.ToList();
+            Orders.ItemsSource = context.Products.ToList();
+            Purchases.ItemsSource = context.RawMaterials.ToList();
         }
     }
 }

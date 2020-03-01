@@ -28,13 +28,13 @@ namespace IS.UI
         {
             Context context = new Context();
 
-            RawMaterial Rw = new RawMaterial()
+            for (int i = 0; i < 100; i++)
             {
-                Name = "Eggs",
-                Amount = 10
-            };
-            for (int i = 0; i < 999; i++)
-            {
+                RawMaterial Rw = new RawMaterial()
+                {
+                    Name = "Eggs",
+                    Amount = 10
+                };
                 Product product = new Product()
                 {
                     Amount = 20,
@@ -46,11 +46,51 @@ namespace IS.UI
                     Rw
                 }
                 };
+                Customer Cm = new Customer()
+                {
+                    Name = $"Dirty bakery{i}",
+                    Contact = $"890440588{i}",
+                    Purchased = new List<Product>
+                    {
+                        product
+                    },
+                    Orders = new List<Product> 
+                    {
+                        product
+                    }
+                };
+                Assortment As = new Assortment()
+                {
+                    InAssortment = 15000,
+                    Products = product
+                };
+                Supplier sup = new Supplier()
+                {
+                    Name = $"Buyer{i}",
+                    Contact = $"890440588{i}",
+                    Transport = $"Wagon {i}",
+                    RawMaterials = new List<RawMaterial> 
+                    {
+                        Rw
+                    }
+                };
+                RawMaterialsToOrder RMTO = new RawMaterialsToOrder()
+                {
+                    Supplier_ID = i,
+                    ID = i,
+                    Price = 1500 * i,
+                    Name = $"SomeRawToOrder {i}"
+                };
                 context.Products.Add(product);
+                context.Assortments.Add(As);
+                context.Customers.Add(Cm);
+                context.RawMaterials.Add(Rw);
+                context.RawMaterialsToOrder.Add(RMTO);
+                context.Suppliers.Add(sup);
             }
             context.SaveChanges();
 
-            var GetProduct = context.Products.Where(x => x.Name == "Smells like crap").First();
+            //var GetProduct = context.Products.Where(x => x.Name == "Smells like crap").First();
 
         }
     }
