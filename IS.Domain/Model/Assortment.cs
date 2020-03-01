@@ -8,6 +8,6 @@ namespace IS.Domain.Model
     {
         public int ID { get; set; }
         public int InAssortment { get; set; }
-        public Product Product { get; set; }
+        public Product Products { get; set; }
     }
 }
