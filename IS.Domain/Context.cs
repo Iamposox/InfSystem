@@ -2,6 +2,7 @@
 using System;
 using IS.Domain.Model;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace IS.Domain
 {
@@ -24,7 +25,66 @@ namespace IS.Domain
 
         private void Seed()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < 100; i++)
+            {
+                RawMaterial Rw = new RawMaterial()
+                {
+                    Name = "Eggs",
+                    Amount = 10
+                };
+                Product product = new Product()
+                {
+                    Amount = 20,
+                    Name = $"Smells like crap {i}",
+                    PassiveCosts = 99.9,
+                    PreparationDuration = new TimeSpan(2, 30, 0),
+                    RequeredMaterials = new List<RawMaterial>
+                {
+                    Rw
+                }
+                };
+                Customer Cm = new Customer()
+                {
+                    Name = $"Dirty bakery{i}",
+                    Contact = $"890440588{i}",
+                    Purchased = new List<Product>
+                    {
+                        product
+                    },
+                    Orders = new List<Product>
+                    {
+                        product
+                    }
+                };
+                Assortment As = new Assortment()
+                {
+                    InAssortment = 15000,
+                    Products = product,
+                };
+                Supplier sup = new Supplier()
+                {
+                    Name = $"Buyer{i}",
+                    Contact = $"890440588{i}",
+                    Transport = $"Wagon {i}",
+                    RawMaterials = new List<RawMaterial>
+                    {
+                        Rw
+                    }
+                };
+                //RawMaterialsToOrder RMTO = new RawMaterialsToOrder()
+                //{
+                //    Supplier_ID = i,
+                //    Price = 1500 * i,
+                //    Name = $"SomeRawToOrder {i}"
+                //};
+                //RawMaterialsToOrder.Add(RMTO);
+                Products.Add(product);
+                Assortments.Add(As);
+                Customers.Add(Cm);
+                RawMaterials.Add(Rw);
+                Suppliers.Add(sup);
+            }
+            SaveChanges();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
