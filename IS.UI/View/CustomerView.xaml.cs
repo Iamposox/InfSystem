@@ -1,5 +1,7 @@
-﻿using System;
+﻿using IS.Domain;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,6 +23,9 @@ namespace IS.UI.View
         public CustomerView()
         {
             InitializeComponent();
+            Context context = new Context();
+            Orders.DataContext = context.Products.ToList();
+            Purchases.DataContext = context.RawMaterials.ToList();
         }
     }
 }

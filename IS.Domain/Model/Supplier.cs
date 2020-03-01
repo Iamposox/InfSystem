@@ -8,7 +8,7 @@ namespace IS.Domain.Model
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public List<RawMaterials> RawMaterials { get; set; }
+        public List<RawMaterial> RawMaterials { get; set; }
         public string Transport { get; set; }
         public string Contact { get; set; }
     }

@@ -8,20 +8,37 @@
              xmlns:Converters="clr-namespace:IS.UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" 
-             d:DesignWidth="200"
-             Background="Red"
-             >
+             d:DesignWidth="200">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition MaxHeight="50"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Button 
-            FontFamily="Arial Black">
-        </Button>
-
+        <Border>
+            <TextBlock Text="Navigation"/>
+        </Border>
+        <ListView Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border 
+                        BorderBrush="DarkGray" 
+                        BorderThickness="1">
+                        <Button 
+                            Background="Gray"
+                            Content="{Binding}"/>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+           
+            <ListViewItem Content="Dashboard"/>
+            <ListViewItem Content="Client"/>
+            <ListViewItem Content="Products"/>
+            <ListViewItem Content="Suppliers"/>
+            <ListViewItem Content="Deliveries"/>
+            <ListViewItem Content="Expenses"/>
+            <ListViewItem Content="Assortment"/>
+            
+        </ListView>
 
     </Grid>
 </UserControl>

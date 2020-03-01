@@ -11,6 +11,6 @@ namespace IS.Domain.Model
         public double Amount { get; set; }
         public double PassiveCosts { get; set; }
         public TimeSpan PreparationDuration { get; set; }
-        public RawMaterials RequeredMaterials { get; set; }
+        public List<RawMaterial> RequeredMaterials { get; set; }
     }
 }

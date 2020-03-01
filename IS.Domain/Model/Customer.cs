@@ -4,10 +4,12 @@ using System.Text;
 
 namespace IS.Domain.Model
 {
-    public class RawMaterials
+    public class Customer
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public double Amount { get; set; }
+        public string Contact { get; set; }
+        public List<Product> Purchased { get; set; }
+        public List<Product> Orders { get; set; }
     }
 }

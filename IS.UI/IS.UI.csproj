@@ -13,7 +13,6 @@
   <ItemGroup>
     <Folder Include="Model\" />
     <Folder Include="Control\" />
-    <Folder Include="ViewModel\" />
   </ItemGroup>
 
 </Project>

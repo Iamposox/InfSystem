@@ -36,7 +36,7 @@
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="1" LastChildFill="False">
                 <TextBlock DockPanel.Dock="Left" Margin="10,0,0,0" Text="Name:"/>
-                <TextBlock DockPanel.Dock="Left" Margin="10,0,0,0" Text="Actual Name"/>
+                <TextBlock x:Name="ActualName" DockPanel.Dock="Left" Margin="10,0,0,0" Text="Actual Name"/>
                 <TextBlock DockPanel.Dock="Right" Margin="10,0,40,0" Text="Actual Contact Info"/>
                 <TextBlock DockPanel.Dock="Right" Margin="10,0,0,0" Text="Contact:"/>
             </DockPanel>
@@ -51,10 +51,10 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Purchased"/>
                 <TextBlock Grid.Column="1" Text="Orders"/>
-                <DataGrid Grid.Row="1" >
+                <DataGrid Grid.Row="1" x:Name="Purchases">
 
                 </DataGrid>
-                <DataGrid Grid.Row="1" Grid.Column="1">
+                <DataGrid Grid.Row="1" Grid.Column="1" x:Name="Orders">
 
                 </DataGrid>
             </Grid>
