@@ -26,8 +26,8 @@ namespace IS.UI
 
         private void Seed()
         {
-            Context context = new Context();
 
+            Context context = new Context();
             for (int i = 0; i < 100; i++)
             {
                 RawMaterial Rw = new RawMaterial()
@@ -62,7 +62,7 @@ namespace IS.UI
                 Assortment As = new Assortment()
                 {
                     InAssortment = 15000,
-                    Products = product
+                    Products = product,
                 };
                 Supplier sup = new Supplier()
                 {
@@ -77,7 +77,6 @@ namespace IS.UI
                 RawMaterialsToOrder RMTO = new RawMaterialsToOrder()
                 {
                     Supplier_ID = i,
-                    ID = i,
                     Price = 1500 * i,
                     Name = $"SomeRawToOrder {i}"
                 };
