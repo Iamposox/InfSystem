@@ -6,6 +6,7 @@ using System.Text;
 
 namespace IS.UI.Abstract
 {
+    //Hello World
     /// <summary>
     /// This class is used as based class for objects which need to informa UI over PropertyChanged
     /// </summary>
