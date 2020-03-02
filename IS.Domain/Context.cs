@@ -18,26 +18,17 @@ namespace IS.Domain
         {
             Database.EnsureDeleted();
             Database.EnsureCreated();
-            Role roles = new Role()
+
+            SeedUser();
+            SeedRoles();
+           
+            if (this.Customers.Count() < 1)
             {
-                RoleName = $"Kassir"
-            };
-            Role.Add(roles);
-            Role rolesTwo = new Role()
-            {
-                RoleName = $"Baker"
-            };
-            Role.Add(rolesTwo);
-            Role rolesThree = new Role()
-            {
-                RoleName = $"Director"
-            };
-            Role.Add(rolesThree);
-            Role rolesFour = new Role()
-            {
-                RoleName = $"Accountant"
-            };
-            Role.Add(rolesFour);
+                Seed();
+            }
+        }
+        private void SeedUser()
+        {
             Users user = new Users()
             {
                 Email = $"one@gmail.com",
@@ -45,10 +36,38 @@ namespace IS.Domain
                 Password = $"123qwerty456"
             };
             Users.Add(user);
-            if (this.Customers.Count() < 1)
+            SaveChanges();
+        }
+
+        private void SeedRoles()
+        {
+            Users users = Users.Single(x => x.Name == "Vlada");
+            Role roles = new Role()
             {
-                Seed();
-            }
+                RoleName = $"Kassir"
+            };
+            Roles.Add(roles);
+            Role rolesTwo = new Role()
+            {
+                RoleName = $"Baker"
+            };
+            Roles.Add(rolesTwo);
+            Role rolesThree = new Role()
+            {
+                RoleName = $"Director"
+            };
+            Roles.Add(rolesThree);
+            Role rolesFour = new Role()
+            {
+                RoleName = $"Accountant"
+            };
+            Roles.Add(rolesFour);
+            Roles.Add(new Role
+            {
+                RoleName = "Admin",
+                Users = new List<Users> { users }
+            }); ; ;
+            SaveChanges();
         }
 
         private void Seed()
@@ -99,16 +118,6 @@ namespace IS.Domain
                         Rw
                     }
                 };
-                Users user = new Users()
-                {
-                    Email = $"one{i}@gmail.com",
-                    Name = $"Vlada{i}",
-                    Password = $"123qwerty456"
-                };
-                Role roles = new Role()
-                {
-                    RoleName = $"Kassir{i}"
-                };
                 //RawMaterialsToOrder RMTO = new RawMaterialsToOrder()
                 //{
                 //    Supplier_ID = i,
@@ -121,8 +130,6 @@ namespace IS.Domain
                 Customers.Add(Cm);
                 RawMaterials.Add(Rw);
                 Suppliers.Add(sup);
-                Users.Add(user);
-                Role.Add(roles);
             }
             SaveChanges();
         }
@@ -139,7 +146,7 @@ namespace IS.Domain
         public DbSet<RawMaterialsToOrder> RawMaterialsToOrder { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Users> Users { get; set; }
-        public DbSet<Role> Role { get; set; }
-        //public DbSet<RoleUsers> RoleUs { get; set; }
+        public DbSet<Role> Roles { get; set; }
+
     }
 }
