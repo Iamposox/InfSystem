@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace IS.UI.Manager
 {
@@ -42,27 +43,29 @@ namespace IS.UI.Manager
             }
         }
 
-        private User m_CurrentUser;
-        public User CurrentUser
+        public User CurrentUser { get; private set; }
+
+        public async Task<User> Login(User _user)
         {
-            get => m_CurrentUser;
-            set
+            if (CurrentUser is null)
             {
+                var temp = await context
+                    .Users
+                    .Where(x => x.Name == _user.Name)
+                    .Where(x => x.Password == _user.Password)
+                    .SingleOrDefaultAsync();
 
+                if (temp != null)
+                    CurrentUser = temp;
             }
+            return CurrentUser;
         }
 
-        public async void Login(User _user)
+        public void LogOut()
         {
-            var user = await context
-                .Users
-                .Where(x => x.Name == _user.Name)
-                .Where(x => x.Password == _user.Password)
-                .SingleOrDefaultAsync();
-           // if (user is null)
-           //     Status = "Combination of user and password was not found";
-           // else
-           //     Status = $"Loged in as {user.Name}";
+            CurrentUser = null;
         }
+
+
     }
 }
