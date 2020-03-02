@@ -8,6 +8,6 @@ namespace IS.Domain.Model
     {
         public int ID { get; set; }
         public string RoleName { get; set; }
-        public List<Users> Users { get; set; } = new List<Users>();
+        public List<User> Users { get; set; } = new List<User>();
     }
 }

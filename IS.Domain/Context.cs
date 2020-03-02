@@ -29,7 +29,7 @@ namespace IS.Domain
         }
         private void SeedUser()
         {
-            Users user = new Users()
+            User user = new User()
             {
                 Email = $"one@gmail.com",
                 Name = $"Vlada",
@@ -41,7 +41,7 @@ namespace IS.Domain
 
         private void SeedRoles()
         {
-            Users users = Users.Single(x => x.Name == "Vlada");
+            User users = Users.Single(x => x.Name == "Vlada");
             Role roles = new Role()
             {
                 RoleName = $"Kassir"
@@ -65,7 +65,7 @@ namespace IS.Domain
             Roles.Add(new Role
             {
                 RoleName = "Admin",
-                Users = new List<Users> { users }
+                Users = new List<User> { users }
             }); ; ;
             SaveChanges();
         }
@@ -145,7 +145,7 @@ namespace IS.Domain
         public DbSet<RawMaterial> RawMaterials { get; set; }
         public DbSet<RawMaterialsToOrder> RawMaterialsToOrder { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
-        public DbSet<Users> Users { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
 
     }
