@@ -1,5 +1,6 @@
 ﻿using IS.Domain;
 using IS.Domain.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,7 +18,6 @@ namespace IS.UI
     {
         public App()
         {
-
         }
 
     }
