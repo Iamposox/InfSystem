@@ -16,8 +16,9 @@ namespace IS.Domain
 
         public Context()
         {
+            Database.EnsureDeleted();
             Database.EnsureCreated();
-            if(this.Customers.Count() < 1)
+            if (this.Customers.Count() < 1)
             {
                 Seed();
             }
@@ -71,6 +72,16 @@ namespace IS.Domain
                         Rw
                     }
                 };
+                Users user = new Users()
+                {
+                    Email = $"one{i}@gmail.com",
+                    Name = $"Vlada{i}",
+                    Password = $"123qwerty456"
+                };
+                Role roles = new Role()
+                {
+                    RoleName = $"Kassir{i}"
+                };
                 //RawMaterialsToOrder RMTO = new RawMaterialsToOrder()
                 //{
                 //    Supplier_ID = i,
@@ -83,6 +94,8 @@ namespace IS.Domain
                 Customers.Add(Cm);
                 RawMaterials.Add(Rw);
                 Suppliers.Add(sup);
+                Users.Add(user);
+                Role.Add(roles);
             }
             SaveChanges();
         }
@@ -98,5 +111,8 @@ namespace IS.Domain
         public DbSet<RawMaterial> RawMaterials { get; set; }
         public DbSet<RawMaterialsToOrder> RawMaterialsToOrder { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Role> Role { get; set; }
+        //public DbSet<RoleUsers> RoleUs { get; set; }
     }
 }
