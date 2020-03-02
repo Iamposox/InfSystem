@@ -4,9 +4,9 @@ using System.Text;
 
 namespace IS.Domain.Model
 {
-    public class Role
+    public class RoleUsers
     {
-        public int ID { get; set; }
-        public string RoleName { get; set; }
+        public int Role_ID { get; set; }
+        public int Users_ID { get; set; }
     }
 }
