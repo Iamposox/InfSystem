@@ -18,6 +18,33 @@ namespace IS.Domain
         {
             Database.EnsureDeleted();
             Database.EnsureCreated();
+            Role roles = new Role()
+            {
+                RoleName = $"Kassir"
+            };
+            Role.Add(roles);
+            Role rolesTwo = new Role()
+            {
+                RoleName = $"Baker"
+            };
+            Role.Add(rolesTwo);
+            Role rolesThree = new Role()
+            {
+                RoleName = $"Director"
+            };
+            Role.Add(rolesThree);
+            Role rolesFour = new Role()
+            {
+                RoleName = $"Accountant"
+            };
+            Role.Add(rolesFour);
+            Users user = new Users()
+            {
+                Email = $"one@gmail.com",
+                Name = $"Vlada",
+                Password = $"123qwerty456"
+            };
+            Users.Add(user);
             if (this.Customers.Count() < 1)
             {
                 Seed();
