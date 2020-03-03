@@ -28,7 +28,7 @@
         <TextBox x:Name="LoginTxb" MaxWidth="110" MaxHeight="20" Grid.Column="1" Grid.Row="1" Margin="20,15,20,15" Text="{Binding AddUser.Name}"/>
         <TextBox x:Name="PasswordTxb" MaxWidth="110" MaxHeight="20" Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding AddUser.Password}"/>
         <Button x:Name="AddBtn" MaxWidth="40" MaxHeight="15" Grid.Row="3" Grid.ColumnSpan="2" Content="Создать" VerticalContentAlignment="Center" FontSize="8" Command="{Binding AddUsers}"/>
-        <ComboBox Grid.Row="1" Grid.Column="2" Margin="0,15,5,15" MaxWidth="100" ItemsSource="{Binding roles}">
+        <ComboBox Grid.Row="1" Grid.Column="2" Margin="0,15,5,15" MaxWidth="100" ItemsSource="{Binding roles}" SelectedValue="{Binding SelectedRole}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding RoleName}" />

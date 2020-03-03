@@ -10,13 +10,23 @@ namespace IS.UI.ViewModel
 {
     public class AddUserViewModel: Abstract.BindableObject
     {
-        private User m_Add = new User();
+        private User m_User = new User();
+        private Role m_SelectedRole = new Role();
+        public Role SelectedRole 
+        {
+            get => m_SelectedRole;
+            set
+            {
+                m_SelectedRole = value;
+            }
+        }
         public User AddUser
         { 
-            get=>m_Add; 
+            get=>m_User; 
             set 
             {
-                m_Add = value;
+                m_User = value;
+
             }
         }
         private readonly Context context;
@@ -28,7 +38,10 @@ namespace IS.UI.ViewModel
         public ICommand AddUsers { get => new Command.ActionCommand((obj) => Add(obj)); }
         public void Add(object obj) 
         {
-            var user = context.Users.Add(AddUser);
+            m_User.Role = m_SelectedRole;
+            SelectedRole.Users.Add(m_User);
+            context.Users.Add(m_User);
+            context.SaveChanges();
         }
     }
 }
