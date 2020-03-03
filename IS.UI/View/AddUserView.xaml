@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="IS.UI.View.AddUserView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IS.UI.View"
+             xmlns:VM="clr-namespace:IS.UI.ViewModel"
+             mc:Ignorable="d" 
+             Background="White"
+             d:DesignHeight="150" d:DesignWidth="400">
+    <UserControl.DataContext>
+        <VM:AddUserViewModel/>
+    </UserControl.DataContext>
+<Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="25"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition MaxHeight="25"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition MaxWidth="100"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Создание нового пользователя" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox x:Name="EmailTxb" MaxWidth="110" MaxHeight="20" Grid.Row="1" Text="{Binding AddUser.Email}"/>
+        <TextBox x:Name="LoginTxb" MaxWidth="110" MaxHeight="20" Grid.Column="1" Grid.Row="1" Margin="20,15,20,15" Text="{Binding AddUser.Name}"/>
+        <TextBox x:Name="PasswordTxb" MaxWidth="110" MaxHeight="20" Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding AddUser.Password}"/>
+        <Button x:Name="AddBtn" MaxWidth="40" MaxHeight="15" Grid.Row="3" Grid.ColumnSpan="2" Content="Создать" VerticalContentAlignment="Center" FontSize="8" Command="{Binding AddUsers}"/>
+        <ComboBox Grid.Row="1" Grid.Column="2" Margin="0,15,5,15" MaxWidth="100" ItemsSource="{Binding roles}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding RoleName}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </Grid>
+</UserControl>
