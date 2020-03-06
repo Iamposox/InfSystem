@@ -17,7 +17,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <local:AddUserView Grid.Row="0" VerticalAlignment="Top" Width="300" Height="150"/>
-            <local:CustomerView Grid.Row="1"/>
+            <local:RawMaterialsVIew Grid.Row="1"/>
         </Grid>
         <local:NavigationView/>
     </Grid>
