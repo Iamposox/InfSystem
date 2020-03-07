@@ -13,7 +13,7 @@ namespace IS.UI
 {
     /// <summary>
     /// Interaction logic for App.xaml
-    /// </summary>
+    /// </summary>S
     public partial class App : Application
     {
         public App()

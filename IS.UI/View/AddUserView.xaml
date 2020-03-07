@@ -11,6 +11,12 @@
     <UserControl.DataContext>
         <VM:AddUserViewModel/>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <Style x:Key="FirstStyleExample" TargetType="TextBox">
+            <Setter Property="Width" Value="110"/>
+            <Setter Property="Height" Value="20"/>
+        </Style>
+    </UserControl.Resources>
 <Grid>
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="25"/>
@@ -24,9 +30,9 @@
             <ColumnDefinition MaxWidth="100"/>
         </Grid.ColumnDefinitions>
         <TextBlock Text="Создание нового пользователя" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBox x:Name="EmailTxb" MaxWidth="110" MaxHeight="20" Grid.Row="1" Text="{Binding AddUser.Email}"/>
-        <TextBox x:Name="LoginTxb" MaxWidth="110" MaxHeight="20" Grid.Column="1" Grid.Row="1" Margin="20,15,20,15" Text="{Binding AddUser.Name}"/>
-        <TextBox x:Name="PasswordTxb" MaxWidth="110" MaxHeight="20" Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding AddUser.Password}"/>
+        <TextBox x:Name="EmailTxb" Style="{StaticResource FirstStyleExample}" Grid.Row="1" Text="{Binding AddUser.Email}"/>
+        <TextBox x:Name="LoginTxb" Style="{StaticResource FirstStyleExample}" Grid.Column="1" Grid.Row="1" Margin="20,15,20,15" Text="{Binding AddUser.Name}"/>
+        <TextBox Style="{StaticResource FirstStyleExample}" x:Name="PasswordTxb" Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding AddUser.Password}"/>
         <Button x:Name="AddBtn" MaxWidth="40" MaxHeight="15" Grid.Row="3" Grid.ColumnSpan="2" Content="Создать" VerticalContentAlignment="Center" FontSize="8" Command="{Binding AddUsers}"/>
         <ComboBox Grid.Row="1" Grid.Column="2" Margin="0,15,5,15" MaxWidth="100" ItemsSource="{Binding roles}" SelectedValue="{Binding SelectedRole}">
             <ComboBox.ItemTemplate>
