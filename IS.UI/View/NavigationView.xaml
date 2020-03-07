@@ -17,23 +17,61 @@
     <UserControl.Resources>
         <DataTemplate x:Key="NavigationItem" DataType="{x:Type ListViewItem}">
             <Border 
-                BorderBrush="DarkBlue"
+                x:Name="border"
+                BorderBrush="DarkGray"
                 BorderThickness="1"
-                CornerRadius="10"
-                 HorizontalAlignment="Stretch"
-                 Background="LightCyan">
+                CornerRadius="0"
+                HorizontalAlignment="Stretch"
+                >
                 <Grid Height="30" Margin="5" HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="35"/>
                         <ColumnDefinition Width="130"/>
                     </Grid.ColumnDefinitions>
-                    <fa:ImageAwesome  Icon="{Binding Icon}"/>
-                    <TextBlock Grid.Column="1" Text="{Binding Title}"/>
+                    <fa:ImageAwesome Icon="{Binding Icon}">
+                        <fa:ImageAwesome.Foreground>
+                            <SolidColorBrush Color="Black" x:Name="IconForeGroundColor"/>
+                        </fa:ImageAwesome.Foreground>
+                    </fa:ImageAwesome>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0"
+                               FontSize="16" Text="{Binding Title}"/>
                 </Grid>
+                <Border.Background>
+                    <SolidColorBrush Color="AliceBlue" x:Name="SolidBackground"/>
+                </Border.Background>
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard Storyboard="{DynamicResource MouseOverBorderStoryEnter}"/>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard Storyboard="{DynamicResource MouseOverBorderStoryExit}"/>
+                    </EventTrigger>
+                </Border.Triggers>
             </Border>
         </DataTemplate>
-        
-        
+     
+        <Storyboard x:Key="MouseOverBorderStoryEnter">
+            <ThicknessAnimation Duration="0:0:0.400" To="3" Storyboard.TargetProperty="BorderThickness" />
+            <ColorAnimation 
+                Storyboard.TargetName="SolidBackground"
+                Storyboard.TargetProperty="Color"
+                From="AliceBlue" To="Gray" Duration="0:0:1" />
+            <ColorAnimation 
+                Storyboard.TargetName="IconForeGroundColor"
+                Storyboard.TargetProperty="Color"
+                From="SkyBlue" To="LightBlue" Duration="0:0:0.400" />
+        </Storyboard>
+        <Storyboard  x:Key="MouseOverBorderStoryExit">
+            <ThicknessAnimation Duration="0:0:0.250" To="0" Storyboard.TargetProperty="BorderThickness" />
+            <ColorAnimation 
+                Storyboard.TargetName="SolidBackground"
+                Storyboard.TargetProperty="Color"
+                From="Gray" To="AliceBlue" Duration="0:0:1" />
+            <ColorAnimation 
+                Storyboard.TargetName="IconForeGroundColor"
+                Storyboard.TargetProperty="Color"
+                From="LightBlue" To="SkyBlue" Duration="0:0:0.400" />
+        </Storyboard>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -51,6 +89,18 @@
             ItemTemplate="{StaticResource NavigationItem}"
             ItemsSource="{Binding NavigationOptions}"
                   >
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
     </Grid>
 </UserControl>
