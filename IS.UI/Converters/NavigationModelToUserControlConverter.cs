@@ -12,16 +12,7 @@ namespace IS.UI.Converters
     public class NavigationModelToUserControlConverter : MarkupExtension, IValueConverter
     {
         private static NavigationModelToUserControlConverter _converter = null;
-
-        private static Dictionary<string, UserControl> NavigationNameToUserControl = new Dictionary<string, UserControl>
-        {
-            {"Dashboard", new View.AddUserView()},
-            {"Users", new View.AddUserView()},
-            {"Customers", new View.CustomerView()},
-            {"Raw Materials",new View.RawMaterialsVIew()},
-            {"Supplier",new View.SupplierView()}
-        };
-
+       
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             if (_converter is null)
@@ -36,9 +27,9 @@ namespace IS.UI.Converters
         {
             NavigationModel navigateTo = (NavigationModel)value;
             if (navigateTo is null) return null;
-            if (NavigationNameToUserControl.ContainsKey(navigateTo.Title))
+            if (Manager.ApplicationManager.NavigationNameToUserControl.ContainsKey(navigateTo))
             {
-                return NavigationNameToUserControl[navigateTo.Title];
+                return Manager.ApplicationManager.NavigationNameToUserControl[navigateTo];
             }
             return null;
         }

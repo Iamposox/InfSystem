@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace IS.UI.Manager
 {
@@ -71,6 +72,15 @@ namespace IS.UI.Manager
 
         public void RaiseNavigationEven(object _sender, NavigationModel _navigateTo)
             => NewNavigationRequested?.Invoke(_sender, _navigateTo);
+
+        public static Dictionary<NavigationModel, UserControl> NavigationNameToUserControl = new Dictionary<NavigationModel, UserControl>
+        {
+            {new NavigationModel("Dashboard",FontAwesome.WPF.FontAwesomeIcon.Globe), new View.AddUserView()},
+            {new NavigationModel("Users",FontAwesome.WPF.FontAwesomeIcon.GoogleWallet), new View.AddUserView()},
+            {new NavigationModel("Customers",FontAwesome.WPF.FontAwesomeIcon.HandScissorsOutline), new View.CustomerView()},
+            {new NavigationModel("Raw Materials",FontAwesome.WPF.FontAwesomeIcon.Heart),new View.RawMaterialsVIew()},
+            {new NavigationModel("Supplier",FontAwesome.WPF.FontAwesomeIcon.HourglassEnd),new View.SupplierView()}
+        };
 
     }
 }

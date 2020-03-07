@@ -32,6 +32,8 @@
                 </Grid>
             </Border>
         </DataTemplate>
+        
+        
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -39,12 +41,16 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <ListView 
+            BorderThickness="0"
+            SelectedIndex="0"
             HorizontalContentAlignment="Stretch"
             Grid.Row="1" 
             SelectionMode="Single"
+            
             SelectedValue="{Binding SelectedItem}"
             ItemTemplate="{StaticResource NavigationItem}"
-            ItemsSource="{Binding NavigationOptions}">
+            ItemsSource="{Binding NavigationOptions}"
+                  >
         </ListView>
     </Grid>
 </UserControl>

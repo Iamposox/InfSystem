@@ -14,5 +14,17 @@ namespace IS.UI.Model
         }
         public string Title { get; set; }
         public FontAwesomeIcon Icon { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is NavigationModel model &&
+                   Title == model.Title &&
+                   Icon == model.Icon;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Title, Icon);
+        }
     }
 }
