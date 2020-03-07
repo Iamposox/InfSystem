@@ -4,6 +4,10 @@
              xmlns:local="clr-namespace:IS.UI"
              StartupUri="View\MainWindow.xaml">
     <Application.Resources>
-         
+
+        <ResourceDictionary>
+
+        </ResourceDictionary>
+
     </Application.Resources>
 </Application>

@@ -4,8 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IS.UI.View"
+        xmlns:converter="clr-namespace:IS.UI.Converters"
+        xmlns:VM="clr-namespace:IS.UI.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <VM:MainViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <converter:NavigationModelToUserControlConverter x:Key="NavigationConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MaxWidth="200"/>
@@ -16,8 +24,10 @@
                 <RowDefinition MaxHeight="150"></RowDefinition>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <local:AddUserView Grid.Row="0" VerticalAlignment="Top" Width="300" Height="150"/>
-            <local:SupplierView Grid.Row="1"/>
+            <UserControl Grid.RowSpan="2" Content="{Binding  CurrentView,Converter={StaticResource NavigationConverter}}"/>
+
+            <!--<local:AddUserView Grid.Row="0" VerticalAlignment="Top" Width="300" Height="150"/>
+            <local:SupplierView Grid.Row="1"/>-->
         </Grid>
         <local:NavigationView/>
     </Grid>

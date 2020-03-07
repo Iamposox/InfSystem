@@ -4,41 +4,47 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IS.UI.View"
+             xmlns:VM="clr-namespace:IS.UI.ViewModel"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:Convert="clr-namespace:IS.UI.Converters"
              xmlns:Converters="clr-namespace:IS.UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="200">
+    <UserControl.DataContext>
+        <VM:NavigationViewModel/>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <DataTemplate x:Key="NavigationItem" DataType="{x:Type ListViewItem}">
+            <Border 
+                BorderBrush="DarkBlue"
+                BorderThickness="1"
+                CornerRadius="10"
+                 HorizontalAlignment="Stretch"
+                 Background="LightCyan">
+                <Grid Height="30" Margin="5" HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="130"/>
+                    </Grid.ColumnDefinitions>
+                    <fa:ImageAwesome  Icon="{Binding Icon}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Title}"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="50"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border>
-            <TextBlock Text="Navigation"/>
-        </Border>
-        <ListView Grid.Row="1">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Border 
-                        BorderBrush="DarkGray" 
-                        BorderThickness="1">
-                        <Button 
-                            Background="Gray"
-                            Content="{Binding}"/>
-                    </Border>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-           
-            <ListViewItem Content="Dashboard"/>
-            <ListViewItem Content="Client"/>
-            <ListViewItem Content="Products"/>
-            <ListViewItem Content="Suppliers"/>
-            <ListViewItem Content="Deliveries"/>
-            <ListViewItem Content="Expenses"/>
-            <ListViewItem Content="Assortment"/>
-            
+        <ListView 
+            HorizontalContentAlignment="Stretch"
+            Grid.Row="1" 
+            SelectionMode="Single"
+            SelectedValue="{Binding SelectedItem}"
+            ItemTemplate="{StaticResource NavigationItem}"
+            ItemsSource="{Binding NavigationOptions}">
         </ListView>
-
     </Grid>
 </UserControl>

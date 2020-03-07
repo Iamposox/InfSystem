@@ -22,5 +22,6 @@ namespace IS.UI.View
         {
             InitializeComponent();
         }
+
     }
 }

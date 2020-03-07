@@ -1,5 +1,6 @@
 ﻿using IS.Domain;
 using IS.Domain.Model;
+using IS.UI.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace IS.UI.Manager
 {
-
+    public delegate void NavigationDelegate(object _sender, NavigationModel _navigateTo);
     /// <summary>
     /// Simple Thread Safe Singleton
     /// Application Manager Stores global accessable elements in application
@@ -66,6 +67,10 @@ namespace IS.UI.Manager
             CurrentUser = null;
         }
 
+        public event NavigationDelegate NewNavigationRequested;
+
+        public void RaiseNavigationEven(object _sender, NavigationModel _navigateTo)
+            => NewNavigationRequested?.Invoke(_sender, _navigateTo);
 
     }
 }
