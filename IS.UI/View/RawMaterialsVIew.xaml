@@ -7,15 +7,25 @@
              xmlns:VM="clr-namespace:IS.UI.ViewModel"
              mc:Ignorable="d" 
              Background="White"
-             d:DesignHeight="450" d:DesignWidth="350">
+             d:DesignHeight="450" d:DesignWidth="550">
     <UserControl.DataContext>
         <VM:RawMaterialsViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <TextBlock Text="Search rawmaterials" Margin="15,10,0,420"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Search rawmaterials" Margin="15,10,0,0"/>
         <Button Content="Run" Width="50" Height="20" Margin="248,40,52,390"/>
         <TextBox Grid.Row="0" Grid.Column="0" Width="200" Margin="15,35,135,390"/>
         <TextBlock Text="RawMaterials" Grid.Column="0" Margin="15,65,440,350"/>
         <DataGrid Grid.Row="0" Grid.RowSpan="2" Width="300" HorizontalAlignment="Left" Grid.ColumnSpan="2" ItemsSource="{Binding rawMaterials}" Grid.Column="0" Margin="15,80,0,5" AutoGenerateColumns="True" Background="AliceBlue"></DataGrid>
+        <TextBox Grid.Column="1" Width="75" Height="20" Margin="-60,-300,0,0"/>
+        <TextBox Grid.Column="1" Width="50" Height="20" Margin="100,-300,0,0"/>
+        <TextBlock Grid.Column="1" Text="Add RawMaterials" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+        <TextBlock Grid.Column="1" Text="Name" HorizontalAlignment="Center" Margin="-100,50,0,0"/>
+        <TextBlock Grid.Column="1" Text="Amount" HorizontalAlignment="Center" Margin="95,50,0,0"/>
+        <Button x:Name="AddRaw" Content="Add" Width="40" Height="20" Grid.Column="1" Margin="80,108,80,322" RenderTransformOrigin="1.65,0.2"/>
     </Grid>
 </UserControl>
