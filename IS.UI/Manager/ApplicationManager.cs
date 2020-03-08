@@ -53,12 +53,15 @@ namespace IS.UI.Manager
             {
                 var temp = await context
                     .Users
+                    .Include(x=>x.Role)
                     .Where(x => x.Name == _user.Name)
                     .Where(x => x.Password == _user.Password)
                     .SingleOrDefaultAsync();
 
                 if (temp != null)
+                {
                     CurrentUser = temp;
+                }
             }
             return CurrentUser;
         }
@@ -73,6 +76,10 @@ namespace IS.UI.Manager
         public void RaiseNavigationEven(object _sender, NavigationModel _navigateTo)
             => NewNavigationRequested?.Invoke(_sender, _navigateTo);
 
+
+        /// <summary>
+        /// Mapping Navigation names to actual Views
+        /// </summary>
         public static Dictionary<NavigationModel, UserControl> NavigationNameToUserControl = new Dictionary<NavigationModel, UserControl>
         {
             {new NavigationModel("Dashboard",FontAwesome.WPF.FontAwesomeIcon.Globe), new View.AddUserView()},

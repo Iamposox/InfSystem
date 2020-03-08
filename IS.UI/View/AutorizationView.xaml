@@ -23,9 +23,9 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TextBlock TextAlignment="Center" Grid.ColumnSpan="2" Text="Окно авторизации"/>
-        <TextBox x:Name="LoginTxb" MaxWidth="110" MaxHeight="20" Grid.Row="1" Text="{Binding LoginUser.Name}"></TextBox>
-        <Button x:Name="Sign_In" Grid.Column="0" Grid.Row="2" MaxHeight="20" MaxWidth="50" Grid.ColumnSpan="2" Content="Войти" Command="{Binding Logic}"></Button>
-        <TextBox x:Name="PasswordTxb" MaxWidth="95" Grid.Row="1" Grid.Column="1" MaxHeight="20" Text="{Binding LoginUser.Password}"></TextBox>
-        <TextBlock x:Name="AutorizatedAnswer" TextAlignment="Center" Grid.Row="3" Grid.ColumnSpan="2" Margin="-40,0,0,0" Text="{Binding Status}"/>
+        <TextBox Grid.Row="1" Text="{Binding LoginUser.Name}"></TextBox>
+        <Button Grid.Row="2" Grid.ColumnSpan="2" Content="Войти" Command="{Binding Logic}"></Button>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LoginUser.Password}"></TextBox>
+        <TextBlock TextAlignment="Center" Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding Status}"/>
     </Grid>
 </UserControl>

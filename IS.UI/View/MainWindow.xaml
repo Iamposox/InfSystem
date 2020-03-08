@@ -16,7 +16,7 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="200"/>
+            <ColumnDefinition Width="Auto" MaxWidth="200"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="1">
@@ -25,9 +25,6 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <UserControl Grid.RowSpan="2" Content="{Binding  CurrentView,Converter={StaticResource NavigationConverter}}"/>
-
-            <!--<local:AddUserView Grid.Row="0" VerticalAlignment="Top" Width="300" Height="150"/>
-            <local:SupplierView Grid.Row="1"/>-->
         </Grid>
         <local:NavigationView/>
     </Grid>
