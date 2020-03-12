@@ -7,33 +7,40 @@
              xmlns:VM="clr-namespace:IS.UI.ViewModel"
              mc:Ignorable="d" 
              Background="White"
-             d:DesignHeight="450" d:DesignWidth="550">
+             d:DesignHeight="600" d:DesignWidth="550">
     <UserControl.DataContext>
         <VM:SupplierViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
             <RowDefinition/>
+            <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Name" Margin="10,5,0,0"/>
-        <TextBox Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,25,0,0" />
-        <TextBlock Text="Transport" Margin="100,5,0,0"/>
-        <TextBox Width="50" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,25,50,0"/>
-        <TextBlock Text="RawName" Margin="10,0,0,30" VerticalAlignment="Center"/>
-        <TextBlock Text="Amount" Margin="0,0,55,30" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-        <TextBox Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,0,0"/>
-        <TextBlock Text="Transport" Margin="100,5,0,0"/>
-        <TextBox Width="50" Height="20" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5,50,0"/>
-        <TextBlock Text="Contact" VerticalAlignment="Bottom" Margin="10,0,0,35"/>
-        <TextBox Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,15"/>
-        <Button Content="Add supplier's" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,15"/>
-        <TextBlock Grid.Column="1" Text="List of suppliers" Margin="10,10,0,0"/>
-        <DataGrid Grid.RowSpan="2" ItemsSource="{Binding Suppliers}" Grid.Column="1" Margin="0,30,0,0"/>
+        <TextBlock Grid.Row="1" Text="Name" Margin="10,5,0,0"/>
+        <TextBox Grid.Row="1" Style="{StaticResource 20HTextBoxStyle}" Text="{Binding Supp.Name}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,25,0,0" />
+        <TextBox Grid.Row="1" Style="{StaticResource 20HTextBoxStyle}" Text="{Binding Supp.Transport}" HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,25,50,0"/>
+        <TextBlock Grid.Row="1" Text="RawMaterials" Margin="10,0,0,30" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="1" Text="Price" Margin="150,0,115,30" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <ComboBox Grid.Row="1" HorizontalAlignment="Left" ItemsSource="{Binding rawMaterialsToOrder}" VerticalAlignment="Center" Margin="10,5,0,0">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBlock Grid.Row="1" Text="Transport" Margin="100,5,110,0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+        <ComboBox Grid.Row="1" ItemsSource="{Binding rawMaterialsToOrder}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="150,5,50,0">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Price}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBlock Grid.Row="1" Text="Contact" VerticalAlignment="Top" Margin="0,5,65,0" HorizontalAlignment="Center"/>
+        <TextBox Style="{StaticResource 20HTextBoxStyle}" Grid.Row="1" Text="{Binding Supp.Contact}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,0"/>
+        <Button Style="{StaticResource ButtonStyle}" Grid.Row="1" MaxWidth="110" Content="Add supplier's" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,50,15" Command="{Binding AddSuplier}"/>
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="List of suppliers" Margin="10,10,0,0"/>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Suppliers}" Grid.Column="1" ItemTemplate="{Binding Suppliers}" Margin="0,30,0,0"/>
     </Grid>
     
 </UserControl>

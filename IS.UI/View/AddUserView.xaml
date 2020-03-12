@@ -33,8 +33,8 @@
         <TextBox x:Name="EmailTxb" Style="{StaticResource FirstStyleExample}" Grid.Row="1" Text="{Binding AddUser.Email}"/>
         <TextBox x:Name="LoginTxb" Style="{StaticResource FirstStyleExample}" Grid.Column="1" Grid.Row="1" Margin="20,15,20,15" Text="{Binding AddUser.Name}"/>
         <TextBox Style="{StaticResource FirstStyleExample}" x:Name="PasswordTxb" Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding AddUser.Password}"/>
-        <Button x:Name="AddBtn" MaxWidth="40" MaxHeight="15" Grid.Row="3" Grid.ColumnSpan="2" Content="Создать" VerticalContentAlignment="Center" FontSize="8" Command="{Binding AddUsers}"/>
-        <ComboBox Grid.Row="1" Grid.Column="2" Margin="0,15,5,15" MaxWidth="100" ItemsSource="{Binding roles}" SelectedValue="{Binding SelectedRole}">
+        <Button x:Name="AddBtn" Style="{StaticResource ButtonStyle}" Grid.Row="3" Grid.ColumnSpan="2" Content="Создать" VerticalContentAlignment="Center" Command="{Binding AddUsers}"/>
+        <ComboBox Style="{StaticResource ComboStyle}" Grid.Row="1" Grid.Column="2" Margin="0,15,5,15" ItemsSource="{Binding roles}" SelectedValue="{Binding SelectedRole}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding RoleName}" />

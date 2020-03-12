@@ -7,29 +7,25 @@
              xmlns:VM="clr-namespace:IS.UI.ViewModel"
              mc:Ignorable="d" 
              Background="White"
-             d:DesignHeight="450" d:DesignWidth="550">
+             d:DesignHeight="450" d:DesignWidth="350">
     <UserControl.DataContext>
         <VM:RawMaterialsViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="350"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition MaxHeight="80"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Search rawmaterials"/>
-        <Button Content="Run" Width="50" Height="20" HorizontalAlignment="Right" Command="{Binding FindRaw}"/>
-        <TextBox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Width="200" Height="20" Text="{Binding Find.Name}"/>
-        <TextBlock Text="RawMaterials" Grid.Column="0" Grid.Row="1"/>
-        <DataGrid Grid.Row="1" Grid.RowSpan="2" Width="300" Margin="0,15,0,0" HorizontalAlignment="Left" Grid.ColumnSpan="2" ItemsSource="{Binding rawMaterials}" Grid.Column="0" AutoGenerateColumns="True" Background="AliceBlue"></DataGrid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MaxWidth="350"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="RawMaterials" Margin="5,0,0,0" Grid.Column="0" Grid.Row="1"/>
+        <DataGrid Grid.Row="1" MaxWidth="300" Margin="0,15,333,0" HorizontalAlignment="Right" ItemsSource="{Binding rawMaterials}" Grid.Column="0" AutoGenerateColumns="True" Background="AliceBlue"/>
         <TextBlock Grid.Column="1" Text="Add RawMaterials" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-        <TextBlock Grid.Column="1" Text="Name" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <TextBlock Grid.Column="1" Text="Amount" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <TextBox Grid.Column="1" Width="75" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="{Binding Raw.Name}"/>
-        <TextBox Grid.Column="1" Width="50" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Text="{Binding Raw.Amount}"/>
-        <Button x:Name="AddRaw" Content="Add" Width="40" Height="20" Grid.Column="1" VerticalAlignment="Bottom" Command="{Binding AddRaw}"/>
+        <TextBlock Grid.Column="1" Text="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
+        <TextBlock Grid.Column="1" Text="Amount" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,65,0"/>
+        <TextBox Grid.Column="1" Style="{StaticResource 20HTextBoxStyle}" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Bottom" Text="{Binding Raw.Name}"/>
+        <TextBox Grid.Column="1" Style="{StaticResource 20HTextBoxStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Text="{Binding Raw.Amount}"/>
+        <Button x:Name="AddRaw" Content="Add" Style="{StaticResource ButtonStyle}" Grid.Column="1" VerticalAlignment="Bottom" Command="{Binding AddRaw}"/>
     </Grid>
 </UserControl>

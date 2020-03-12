@@ -23,9 +23,9 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TextBlock TextAlignment="Center" Grid.ColumnSpan="2" Text="Окно авторизации"/>
-        <TextBox Grid.Row="1" Text="{Binding LoginUser.Name}"></TextBox>
+        <TextBox Style="{StaticResource 20HTextBoxStyle}" Grid.Row="1" Text="{Binding LoginUser.Name}"></TextBox>
         <Button Grid.Row="2" Grid.ColumnSpan="2" Content="Войти" Command="{Binding Logic}"></Button>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LoginUser.Password}"></TextBox>
+        <TextBox Style="{StaticResource 20HTextBoxStyle}" Grid.Row="1" Grid.Column="1" Text="{Binding LoginUser.Password}"></TextBox>
         <TextBlock TextAlignment="Center" Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding Status}"/>
     </Grid>
 </UserControl>
