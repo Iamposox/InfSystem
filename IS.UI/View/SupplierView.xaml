@@ -33,7 +33,46 @@
         <TextBox Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,15"/>
         <Button Content="Add supplier's" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,15"/>
         <TextBlock Grid.Column="1" Text="List of suppliers" Margin="10,10,0,0"/>
-        <DataGrid Grid.RowSpan="2" ItemsSource="{Binding Suppliers}" Grid.Column="1" Margin="0,30,0,0"/>
+        <DataGrid Grid.RowSpan="2" AutoGenerateColumns="False" ItemsSource="{Binding Suppliers}" Grid.Column="1" Margin="2,30,-2,0">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="Supplier name"/>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Expander Header="{Binding Name}">
+                                <ListView ItemsSource="{Binding RawMaterials}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <DockPanel>
+                                                <TextBlock DockPanel.Dock="Left" Text="Name:"/>
+                                                <TextBlock DockPanel.Dock="Left" Text="{Binding Name}"/>
+                                                <TextBlock Margin="10 0 0 0" DockPanel.Dock="Left" Text="Amount:"/>
+                                                <TextBlock DockPanel.Dock="Left" Text="{Binding Amount}"/>
+                                            </DockPanel>
+                                        </DataTemplate>    
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Expander>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding Contact}">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="Contacts"/>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Transport}">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="Transport"/>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
-    
+
 </UserControl>
