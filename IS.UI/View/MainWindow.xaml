@@ -27,5 +27,6 @@
             <UserControl Grid.RowSpan="2" Content="{Binding  CurrentView,Converter={StaticResource NavigationConverter}}"/>
         </Grid>
         <local:NavigationView/>
+        <local:AssortmentsView Grid.Column="1"/>
     </Grid>
 </Window>
