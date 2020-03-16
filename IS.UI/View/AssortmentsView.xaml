@@ -17,15 +17,45 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <DataGrid ItemsSource="{Binding assortment}"/>
-        <ComboBox Grid.Row="1" ItemsSource="{Binding products}">
+        <DataGrid Grid.Row="0" AutoGenerateColumns="False" Grid.ColumnSpan="2" ItemsSource="{Binding Assortments}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="Name of Assortiments"/>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Expander Header="{Binding Product.Name}">
+                                <DockPanel>
+                                    <TextBlock Text="Amount: "/>
+                                    <TextBlock DockPanel.Dock="Left" Text="{Binding Product.Amount}"/>
+                                    <TextBlock Text=" Passive costs:"/>
+                                    <TextBlock Margin="5 0 0 0" DockPanel.Dock="Left" Text="{Binding Product.PassiveCosts}"/>
+                                    <TextBlock Text=" Preparation of duration:"/>
+                                    <TextBlock Margin="5 0 0 0" DockPanel.Dock="Left" Text="{Binding Product.PreparationDuration}"/>
+                                </DockPanel>
+                            </Expander>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding InAssortment}">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="Count of Assortments"/>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBox Grid.Row="1" Grid.Column="0" Style="{StaticResource 20HTextBoxStyle}" HorizontalAlignment="Left" Margin="10 0 0 100"/>
+        <ComboBox Style="{StaticResource ComboStyle}" Grid.Row="1" Margin="100 0 0 100" ItemsSource="{Binding roles}" SelectedValue="{Binding SelectedRole}" VerticalAlignment="Center">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                <TextBlock Text="{Binding PassiveCosts}"/>
+                    <TextBlock Text="{Binding Name}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
+        <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource ButtonStyle}" Content="Add"/>
     </Grid>
 </UserControl>

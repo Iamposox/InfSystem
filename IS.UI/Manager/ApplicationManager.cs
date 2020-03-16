@@ -86,7 +86,8 @@ namespace IS.UI.Manager
             {new NavigationModel("Users",FontAwesome.WPF.FontAwesomeIcon.GoogleWallet), new View.AddUserView()},
             {new NavigationModel("Customers",FontAwesome.WPF.FontAwesomeIcon.HandScissorsOutline), new View.CustomerView()},
             {new NavigationModel("Raw Materials",FontAwesome.WPF.FontAwesomeIcon.Heart),new View.RawMaterialsVIew()},
-            {new NavigationModel("Supplier",FontAwesome.WPF.FontAwesomeIcon.HourglassEnd),new View.SupplierView()}
+            {new NavigationModel("Supplier",FontAwesome.WPF.FontAwesomeIcon.HourglassEnd),new View.SupplierView()},
+            {new NavigationModel("Asortiments",FontAwesome.WPF.FontAwesomeIcon.Fire),new View.AssortmentsView()}
         };
 
     }

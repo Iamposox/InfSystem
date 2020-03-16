@@ -106,7 +106,7 @@ namespace IS.Domain
                 Assortment As = new Assortment()
                 {
                     InAssortment = 15000,
-                    Products = product,
+                    Product = product
                 };
                 Supplier sup = new Supplier()
                 {

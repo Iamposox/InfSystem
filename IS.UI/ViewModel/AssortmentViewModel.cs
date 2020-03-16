@@ -11,14 +11,22 @@ namespace IS.UI.ViewModel
     public class AssortmentViewModel:Abstract.BindableObject
     {
         readonly Context context;
-        public ObservableCollection<Assortment> assortment { get; set; }
-        public ObservableCollection<Product> products{ get; set; }
-        public List<Product> product;
+        public ObservableCollection<Assortment> Assortments { get; set; }
+        public List<Product >Product { get; set; }
         public AssortmentViewModel() 
         {
             context = new Context();
-            assortment = new ObservableCollection<Assortment>(context.Assortments.ToList());
-            products = new ObservableCollection<Product>(context.Products.ToList());
+            Assortments = new ObservableCollection<Assortment>(context.Assortments.ToList());
+            Product = new List<Product>(context.Products.ToList());
+        }
+        private Product m_SelectedProd;
+        public Product SelectedProd 
+        {
+            get => m_SelectedProd;
+            set 
+            {
+                m_SelectedProd = value;
+            }
         }
     }
 }
