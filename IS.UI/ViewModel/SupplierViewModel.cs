@@ -14,11 +14,13 @@ namespace IS.UI.ViewModel
         readonly Context context;
         public ObservableCollection<Supplier> Suppliers { get; set; }
         public ObservableCollection<RawMaterialsToOrder> rawMaterialsToOrder { get; set; }
+        public ObservableCollection<RawMaterial> RawMaterials { get; set; }
         
         public SupplierViewModel() 
         {
             context = new Context();
             Suppliers = new ObservableCollection<Supplier>(context.Suppliers.ToList());
+            RawMaterials = new ObservableCollection<RawMaterial>(context.RawMaterials.ToList());
             rawMaterialsToOrder = new ObservableCollection<RawMaterialsToOrder>(context.RawMaterialsToOrder.ToList());
         }
         private Supplier m_supplier = new Supplier();
