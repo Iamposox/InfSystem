@@ -48,14 +48,14 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox Grid.Row="1" Grid.Column="0" Style="{StaticResource 20HTextBoxStyle}" HorizontalAlignment="Left" Margin="10 0 0 100"/>
-        <ComboBox Style="{StaticResource ComboStyle}" Grid.Row="1" Margin="100 0 0 100" ItemsSource="{Binding roles}" SelectedValue="{Binding SelectedRole}" VerticalAlignment="Center">
+        <TextBox Grid.Row="1" Text="{Binding Assortiment}" Grid.Column="0" Style="{StaticResource 20HTextBoxStyle}" HorizontalAlignment="Left" Margin="10 0 0 100"/>
+        <ComboBox Style="{StaticResource ComboStyle}" Grid.Row="1" Margin="100 0 0 100" ItemsSource="{Binding Product}" SelectedValue="{Binding SelectedProd}" VerticalAlignment="Center">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource ButtonStyle}" Content="Add"/>
+        <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource ButtonStyle}" Content="Add" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding AddInAssort}" Margin="0 0 50 0"/>
     </Grid>
 </UserControl>
