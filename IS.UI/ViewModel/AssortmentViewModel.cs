@@ -21,17 +21,26 @@ namespace IS.UI.ViewModel
             Product = new List<Product>(context.Products.ToList());
         }
         private Product m_SelectedProd = new Product();
-        public Product SelectedProd
+        public Product SelectedProduct
         {
             get => m_SelectedProd;
             set
             {
                 m_SelectedProd = value;
-                Assortment = new Assortment { Product = value, InAssortment=m_Assortiment  };
+                Assortiments = new Assortment { Product = value, InAssortment=m_CountOfAssortiment  };
             }
         }
-        private int m_Assortiment;
-        public int Assortiment
+        private int m_CountOfAssortiment;
+        public int CountAssortiment
+        {
+            get => m_CountOfAssortiment;
+            set
+            {
+                m_CountOfAssortiment = value;
+            }
+        }
+        private Assortment m_Assortiment;
+        public Assortment Assortiments
         {
             get => m_Assortiment;
             set
@@ -39,19 +48,10 @@ namespace IS.UI.ViewModel
                 m_Assortiment = value;
             }
         }
-        private Assortment m_Assortment = new Assortment();
-        public Assortment Assortment
+        public ICommand AddInAssortiment { get => new Command.ActionCommand((obj) => AddAssortiment(obj)); }
+        public void AddAssortiment(object obj) 
         {
-            get => m_Assortment;
-            set
-            {
-                m_Assortment = value;
-            }
-        }
-        public ICommand AddInAssort { get => new Command.ActionCommand((obj) => AddAssort(obj)); }
-        public void AddAssort(object obj) 
-        {
-            context.Assortments.Add(m_Assortment);
+            context.Assortments.Add(m_Assortiment);
             context.SaveChanges();
         }
     }

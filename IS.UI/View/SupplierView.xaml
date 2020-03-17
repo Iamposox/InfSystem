@@ -17,23 +17,34 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
+            <RowDefinition Height="170"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Name" Margin="10,5,0,0"/>
-        <TextBox Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,25,0,0" />
-        <TextBlock Text="Transport" Margin="100,5,0,0"/>
-        <TextBox Width="50" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,25,50,0"/>
-        <TextBlock Text="RawName" Margin="10,0,0,30" VerticalAlignment="Center"/>
-        <TextBlock Text="Amount" Margin="0,0,55,30" VerticalAlignment="Center" HorizontalAlignment="Right"/>
-        <TextBox Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,0,0"/>
-        <TextBlock Text="Transport" Margin="100,5,0,0"/>
-        <TextBox Width="50" Height="20" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,5,50,0"/>
-        <TextBlock Text="Contact" VerticalAlignment="Bottom" Margin="10,0,0,35"/>
-        <TextBox Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,15"/>
-        <Button Content="Add supplier's" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,30,15"/>
+        <TextBlock Text="Name" Margin="10,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBox Width="50" Height="20" Text="{Binding Supplier.Name}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,25,0,0" />
+        <TextBox Width="50" Height="20" Text="{Binding Supplier.Transport}" HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,25,50,0"/>
+        <TextBlock Text="RawName:" Margin="10,55,0,0" VerticalAlignment="Top"/>
+        <TextBlock Text="Amount:" Margin="10,20,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <ComboBox MaxWidth="150" MaxHeight="30" HorizontalAlignment="Left" ItemsSource="{Binding Suppliers}" SelectedValue="{Binding NameOfRawMaterial}" VerticalAlignment="Top" Margin="70,55,0,0">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <ListView ItemsSource="{Binding RawMaterials}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBlock Text="Transport"  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 5 50 0"/>
+        <TextBox Width="50" Height="20" Text="{Binding Supplier.Contact}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="60,75,0,0"/>
+        <TextBlock Text="Contact:" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,75,0,0"/>
+        <TextBox Width="50" Height="20" Text="{Binding AmountOfRawMaterial}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,25,90,0"/>
+        <Button Content="Add supplier's" Height="20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10" Command="{Binding AddSuplier}"/>
         <TextBlock Grid.Column="1" Text="List of suppliers" Margin="10,10,0,0"/>
-        <DataGrid Grid.RowSpan="2" AutoGenerateColumns="False" ItemsSource="{Binding Suppliers}" Grid.Column="1" Margin="2,30,-2,0">
+        <DataGrid Grid.RowSpan="2" AutoGenerateColumns="False" CanUserAddRows="False" ItemsSource="{Binding Suppliers}" Grid.Column="1" Margin="2,30,-2,0">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.Header>
@@ -51,7 +62,7 @@
                                                 <TextBlock Margin="10 0 0 0" DockPanel.Dock="Left" Text="Amount:"/>
                                                 <TextBlock DockPanel.Dock="Left" Text="{Binding Amount}"/>
                                             </DockPanel>
-                                        </DataTemplate>    
+                                        </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
                             </Expander>

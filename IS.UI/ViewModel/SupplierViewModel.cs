@@ -14,13 +14,14 @@ namespace IS.UI.ViewModel
         readonly Context context;
         public ObservableCollection<Supplier> Suppliers { get; set; }
         public ObservableCollection<RawMaterialsToOrder> rawMaterialsToOrder { get; set; }
+        
         public SupplierViewModel() 
         {
             context = new Context();
             Suppliers = new ObservableCollection<Supplier>(context.Suppliers.ToList());
             rawMaterialsToOrder = new ObservableCollection<RawMaterialsToOrder>(context.RawMaterialsToOrder.ToList());
         }
-        private Supplier m_supplier;
+        private Supplier m_supplier = new Supplier();
         public Supplier Supplier
         {
             
@@ -28,10 +29,39 @@ namespace IS.UI.ViewModel
             set 
             {
                 m_supplier = value;
+                m_supplier.RawMaterials = new List<RawMaterial>();
+                m_supplier.RawMaterials.Add(m_RawMaterialsInSupplier);
             }
         }
-        public ICommand AddSuplier { get => new Command.ActionCommand((obj) => AddSupli(obj)); }
-        public void AddSupli(object obj) 
+        private double m_RawMaterialAmount;
+        public double AmountOfRawMaterial 
+        {
+            get=>m_RawMaterialAmount;
+            set 
+            {
+                m_RawMaterialAmount = value;
+            }
+        }
+        private string m_NameOfRawMaterial;
+        public string NameOfRawMaterial 
+        {
+            get => m_NameOfRawMaterial;
+            set 
+            {
+                m_NameOfRawMaterial = value;
+            }
+        }
+        private RawMaterial m_RawMaterialsInSupplier=new RawMaterial();
+        public RawMaterial RawMaterialsInSupplier 
+        {
+            get => m_RawMaterialsInSupplier;
+            set 
+            {
+                m_RawMaterialsInSupplier = value;
+            }
+        }
+        public ICommand AddSuplier { get => new Command.ActionCommand((obj) => AddSupliers(obj)); }
+        public void AddSupliers(object obj) 
         {
             context.Suppliers.Add(m_supplier);
             context.SaveChanges();

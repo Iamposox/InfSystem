@@ -53,11 +53,13 @@
                 <TextBlock Grid.Column="1" Text="Orders"/>
                 <DataGrid Grid.Row="1" 
                           AutoGenerateColumns="True"
+                          CanUserAddRows="False"
                           x:Name="Purchases">
 
                 </DataGrid>
                 <DataGrid Grid.Row="1" Grid.Column="1" 
                           AutoGenerateColumns="True"
+                          CanUserAddRows="False"
                           x:Name="Orders">
 
                 </DataGrid>

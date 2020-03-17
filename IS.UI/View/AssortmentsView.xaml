@@ -20,7 +20,7 @@
             <ColumnDefinition Width="350"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Row="0" AutoGenerateColumns="False" Grid.ColumnSpan="2" ItemsSource="{Binding Assortments}">
+        <DataGrid Grid.Row="0" AutoGenerateColumns="False" CanUserAddRows="False" Grid.ColumnSpan="2" ItemsSource="{Binding Assortments}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.Header>
@@ -48,14 +48,14 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox Grid.Row="1" Text="{Binding Assortiment}" Grid.Column="0" Style="{StaticResource 20HTextBoxStyle}" HorizontalAlignment="Left" Margin="10 0 0 100"/>
-        <ComboBox Style="{StaticResource ComboStyle}" Grid.Row="1" Margin="100 0 0 100" ItemsSource="{Binding Product}" SelectedValue="{Binding SelectedProd}" VerticalAlignment="Center">
+        <TextBox Grid.Row="1" Text="{Binding CountAssortiment}" Grid.Column="0" Style="{StaticResource 20HTextBoxStyle}" HorizontalAlignment="Left" Margin="10 0 0 100"/>
+        <ComboBox Style="{StaticResource ComboStyle}" Grid.Row="1" Margin="100 0 0 100" ItemsSource="{Binding Product}" SelectedValue="{Binding SelectedProduct}" VerticalAlignment="Center">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource ButtonStyle}" Content="Add" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding AddInAssort}" Margin="0 0 50 0"/>
+        <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource ButtonStyle}" Content="Add" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding AddInAssortiment}" Margin="0 0 50 0"/>
     </Grid>
 </UserControl>
