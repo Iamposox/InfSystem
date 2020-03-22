@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IS.UI.View"
              xmlns:VM="clr-namespace:IS.UI.ViewModel"
+             xmlns:Converters="clr-namespace:IS.UI.Converters"
              mc:Ignorable="d" 
              Background="White"
              d:DesignHeight="150" d:DesignWidth="400">
@@ -17,7 +18,7 @@
             <Setter Property="Height" Value="20"/>
         </Style>
     </UserControl.Resources>
-<Grid>
+<Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=10}">
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="25"/>
             <RowDefinition/>
