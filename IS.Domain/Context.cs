@@ -108,23 +108,22 @@ namespace IS.Domain
                     InAssortment = 15000,
                     Product = product
                 };
+                RawMaterialsToOrder RMTO = new RawMaterialsToOrder()
+                {
+                    Price = 1500 * i,
+                    Name = $"SomeRawToOrder {i}"
+                };
+                RawMaterialsToOrder.Add(RMTO);
                 Supplier sup = new Supplier()
                 {
                     Name = $"Buyer{i}",
                     Contact = $"890440588{i}",
                     Transport = $"Wagon {i}",
-                    RawMaterials = new List<RawMaterial>
+                    RawMaterials = new List<RawMaterialsToOrder>
                     {
-                        Rw
+                        RMTO
                     }
                 };
-                //RawMaterialsToOrder RMTO = new RawMaterialsToOrder()
-                //{
-                //    Supplier_ID = i,
-                //    Price = 1500 * i,
-                //    Name = $"SomeRawToOrder {i}"
-                //};
-                //RawMaterialsToOrder.Add(RMTO);
                 Products.Add(product);
                 Assortments.Add(As);
                 Customers.Add(Cm);

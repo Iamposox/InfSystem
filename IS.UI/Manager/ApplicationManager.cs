@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace IS.UI.Manager
 {
@@ -25,6 +26,13 @@ namespace IS.UI.Manager
         private ApplicationManager()
         {
             context = new Context();
+#if DEBUG
+            SetTestingUser();
+#endif
+        }
+        private void SetTestingUser()
+        {
+            CurrentUser = context.Users.Include(x => x.Role).FirstOrDefault();
         }
 
         public static ApplicationManager GetInstance
@@ -75,7 +83,6 @@ namespace IS.UI.Manager
 
         public void RaiseNavigationEven(object _sender, NavigationModel _navigateTo)
             => NewNavigationRequested?.Invoke(_sender, _navigateTo);
-
 
         /// <summary>
         /// Mapping Navigation names to actual Views

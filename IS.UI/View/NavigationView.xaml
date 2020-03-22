@@ -51,31 +51,6 @@
             </Border>
         </DataTemplate>
 
-        <Storyboard x:Key="MouseOverBorderStoryEnter">
-            <ThicknessAnimation Duration="0:0:0.400" To="3" Storyboard.TargetProperty="BorderThickness" />
-            <ColorAnimation 
-                Storyboard.TargetName="SolidBackground"
-                Storyboard.TargetProperty="Color"
-                From="AliceBlue" To="Gray" Duration="0:0:1" />
-            <ColorAnimation 
-                Storyboard.TargetName="IconForeGroundColor"
-                Storyboard.TargetProperty="Color"
-                From="Black" To="LightBlue" Duration="0:0:0.400" />
-        </Storyboard>
-        <Storyboard x:Key="MouseOverBorderStoryExit">
-            <ThicknessAnimation 
-                Duration="0:0:0.250" 
-                To="0" 
-                Storyboard.TargetProperty="BorderThickness" />
-            <ColorAnimation 
-                Storyboard.TargetName="SolidBackground"
-                Storyboard.TargetProperty="Color"
-                From="Gray" To="AliceBlue" Duration="0:0:1" />
-            <ColorAnimation 
-                Storyboard.TargetName="IconForeGroundColor"
-                Storyboard.TargetProperty="Color"
-                From="LightBlue" To="Black" Duration="0:0:0.400" />
-        </Storyboard>
         
         
         <SolidColorBrush x:Key="Expander.Static.Circle.Stroke" Color="#FF333333"/>
