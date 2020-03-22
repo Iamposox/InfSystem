@@ -32,7 +32,11 @@ namespace IS.UI.Manager
         }
         private void SetTestingUser()
         {
-            CurrentUser = context.Users.Include(x => x.Role).FirstOrDefault();
+            CurrentUser = context
+                .Users
+                .Include(x => x.Role)
+                .Where(x=>x.Role.RoleName == "Admin")
+                .SingleOrDefault();
         }
 
         public static ApplicationManager GetInstance

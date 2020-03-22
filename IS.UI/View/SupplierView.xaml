@@ -17,28 +17,29 @@
     <UserControl.Resources>
         
     </UserControl.Resources>
-    <Grid Margin="10">
+    <Grid Margin="10,0,0,0">
         <Grid.ColumnDefinitions>
             <!--Avalable Suppliers-->
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto" MinWidth="350"/>
             <ColumnDefinition Width="13"/>
-            <ColumnDefinition Width="Auto" MinWidth="200" MaxWidth="500"/>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Center"   
                       VerticalAlignment="Stretch"   
                       Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=10}"
                       Width="5" Background="Silver"/>
 
-        <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=10}" Grid.Column="2" Margin="0,10,0,10">
+        <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1}" 
+              Grid.Column="0" Margin="2,0,0,10">
             <Grid.RowDefinitions>
-                <RowDefinition/>
+                <RowDefinition MinHeight="220"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition MaxHeight="70"/>
                 </Grid.RowDefinitions>
                 <UniformGrid Tag="3" Style="{StaticResource UniformInputFormStyle}">
                     <StackPanel 
@@ -67,39 +68,60 @@
                         <TextBox />
                     </StackPanel>
                 </UniformGrid>
+                <Controls:IconButton  
+                    HorizontalAlignment="Right"
+                    Command="{Binding AddNewSupplierCommand}"
+                    VerticalAlignment="Top"
+                    Grid.Row="2" 
+                    Icon="PlusCircle" Text="Add Supplier"/>
 
                 <!--Selected Raw Materials-->
-                <!--<ListView Grid.Row="1">
-                    <ListView.ItemTemplate>
+                <ScrollViewer Grid.Row="1">
+                <ItemsControl 
+                    Grid.Row="1"
+                          ItemsSource="{Binding rawMaterialsToOrder}"
+                          Margin="1,0,1,0">
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <TextBlock Text="{Binding Name}"/>
-                                <TextBlock Text="{Binding Amount}"/>
-                                <Button Content="Remove"/>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30*"/>
+                                    <ColumnDefinition Width="40*"/>
+                                    <ColumnDefinition Width="50"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Name}"
+                                           VerticalAlignment="Center"/>
+                                <Controls:NumericBox Grid.Column="1" 
+                                        HorizontalAlignment="Stretch" Style="{StaticResource NumericTextBox}"
+                                         Text="{Binding Amount}"/>
+                                <Controls:IconButton Command="{Binding Selected}" Height="20"
+                                    Grid.Column="2" Icon="Remove"/>
                             </Grid>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>-->
-                <Controls:IconButton  
-                    Grid.Row="2" Style="{StaticResource DefaultIconButton}" 
-                    Icon="PlusCircle" Text="Add Supplier"/>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                </ScrollViewer>
             </Grid>
 
-            <ListBox Grid.Row="1" ItemsSource="{Binding RawMaterials}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <ScrollViewer Grid.Row="1">
+                <ItemsControl
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    ItemsSource="{Binding RawMaterials}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                                <Controls:IconButton 
+                                    Icon="Plus" Text="{Binding Name}"
+                                    Command="{Binding Selected}"
+                                    Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}, Path=ActualWidth}"
+                                    />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </Grid>
 
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="2" Margin="0,0,0,10">
             <ListView ItemsSource="{Binding Suppliers}">
                 <ListView.ItemTemplate>
                     <DataTemplate>

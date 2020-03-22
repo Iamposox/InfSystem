@@ -44,29 +44,34 @@ namespace IS.Domain
             User users = Users.Single(x => x.Name == "Vlada");
             Role roles = new Role()
             {
+                ID = 5,
                 RoleName = $"Kassir"
             };
             Roles.Add(roles);
             Role rolesTwo = new Role()
             {
+                ID = 4,
                 RoleName = $"Baker"
             };
             Roles.Add(rolesTwo);
             Role rolesThree = new Role()
             {
+                ID = 2,
                 RoleName = $"Director"
             };
             Roles.Add(rolesThree);
             Role rolesFour = new Role()
             {
+                ID = 3,
                 RoleName = $"Accountant"
             };
             Roles.Add(rolesFour);
             Roles.Add(new Role
             {
+                ID=1,
                 RoleName = "Admin",
                 Users = new List<User> { users }
-            }); ; ;
+            });
             SaveChanges();
         }
 
@@ -111,7 +116,7 @@ namespace IS.Domain
                 RawMaterialsToOrder RMTO = new RawMaterialsToOrder()
                 {
                     Price = 1500 * i,
-                    Name = $"SomeRawToOrder {i}"
+                    Material = Rw
                 };
                 RawMaterialsToOrder.Add(RMTO);
                 Supplier sup = new Supplier()

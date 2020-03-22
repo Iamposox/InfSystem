@@ -23,6 +23,10 @@
     
     
     <!--Aleksandr Styles XD-->
+    <Style x:Key="NumericTextBox" TargetType="{x:Type Controls:NumericBox}">
+        <Setter Property="Height" Value="20"/>
+    </Style>
+    
     <Style x:Key="UniformInputFormStyle" TargetType="{x:Type UniformGrid}">
         <Setter Property="Columns" Value="1"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -129,15 +133,15 @@
                 Storyboard.TargetProperty="Color"
                 From="LightBlue" To="Black" Duration="0:0:0.400" />
     </Storyboard>
-    <Style TargetType="{x:Type Controls:IconButton}" x:Key="DefaultIconButton" >
+    <Style TargetType="{x:Type Controls:IconButton}">
         <Setter Property="Height" Value="30"/>
-        <Setter Property="Width" Value="200"/>
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
                     <Border x:Name="border" BorderBrush="DarkGray"
                             BorderThickness="1" CornerRadius="0"
-                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Stretch">
                         <Grid HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="35"/>
