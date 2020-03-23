@@ -21,16 +21,28 @@
     <Grid Margin="10,0,0,0">
         <Grid.ColumnDefinitions>
             <!--Avalable Suppliers-->
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition >
+                <ColumnDefinition.Style>
+                    <Style TargetType="ColumnDefinition">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
+                                         Value="Collapsed">
+                                <Setter Property="Width" Value="0"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Width" Value="*"/>
+                    </Style>
+                </ColumnDefinition.Style>
+            </ColumnDefinition>
             <ColumnDefinition Width="13"/>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Center"   
                       VerticalAlignment="Stretch"   
-                      Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=10}"
+                      Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
                       Width="5" Background="Silver"/>
 
-        <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3|4}" 
+        <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}" 
               Grid.Column="0" 
               Margin="2,0,0,10">
             <Grid.RowDefinitions>
@@ -44,7 +56,7 @@
                     <RowDefinition/>
                     <RowDefinition MaxHeight="70"/>
                 </Grid.RowDefinitions>
-                
+
                 <UniformGrid Tag="3" 
                              Style="{StaticResource UniformInputFormStyle}">
                     <DockPanel 
@@ -122,32 +134,32 @@
                            />
                         </Border>
                         <ScrollViewer Grid.Row="1">
-                    <ItemsControl 
+                            <ItemsControl 
                     Grid.Row="1"
                           ItemsSource="{Binding rawMaterialsToOrder}"
                           Margin="1,0,1,0">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30*"/>
-                                        <ColumnDefinition Width="40*"/>
-                                        <ColumnDefinition Width="50"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding Name}"
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30*"/>
+                                                <ColumnDefinition Width="40*"/>
+                                                <ColumnDefinition Width="50"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Name}"
                                                FontSize="18"
                                            VerticalAlignment="Center"/>
-                                    <Controls:NumericBox Grid.Column="1" 
+                                            <Controls:NumericBox Grid.Column="1" 
                                         HorizontalAlignment="Stretch" Style="{StaticResource NumericTextBox}"
                                    FontSize="18"
                                                          Text="{Binding Price}"/>
-                                    <Controls:IconButton Command="{Binding Selected}" Height="20"
+                                            <Controls:IconButton Command="{Binding Selected}" Height="20"
                                     Grid.Column="2" Icon="Remove"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
                     </Grid>
                 </Border>
 
@@ -213,6 +225,7 @@
 
                                         <Controls:IconButton 
                                                 Command="{Binding Selected}"
+                                                Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
                                                 Text="Edit"   Grid.Column="3" Grid.RowSpan="4"
                                                 Width="90" VerticalAlignment="Top"
                                                 HorizontalAlignment="Right"
