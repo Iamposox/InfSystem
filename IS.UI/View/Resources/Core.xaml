@@ -23,8 +23,64 @@
     
     
     <!--Aleksandr Styles XD-->
+    <Style x:Key="InputDockingPanelStyle" TargetType="{x:Type DockPanel}">
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Height" Value="35"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=Width, RelativeSource={RelativeSource Self},
+                Converter={Converters:IsValueLessThanParameter},ConverterParameter=450}"
+                         Value="True">
+                <Setter Property="Height" Value="55"/>
+            </DataTrigger>
+        </Style.Triggers>
+        <Style.Resources>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="BorderBrush" Value="Gray"/>
+                <Setter Property="Height" Value="25"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=Width, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DockPanel},
+                Converter={Converters:IsValueLessThanParameter},ConverterParameter=450}"
+                         Value="True">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="0,0,0,0"/>
+                        <Setter Property="DockPanel.Dock" Value="Bottom"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=Width, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DockPanel},
+                Converter={Converters:IsValueLessThanParameter},ConverterParameter=450}"
+                         Value="False">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="DockPanel.Dock" Value="Left"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
 
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="FontWeight" Value="DemiBold"/>
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="Width" Value="90"/>
+                <Setter Property="DockPanel.Dock" Value="Left"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=Width, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DockPanel},
+                Converter={Converters:IsValueLessThanParameter},ConverterParameter=450}"
+                         Value="True">
+                        <Setter Property="TextAlignment" Value="Center"/>
+                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                        <Setter Property="Margin" Value="0,0,0,0"/>
+                        <Setter Property="DockPanel.Dock" Value="Top"/>
 
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    
+    
+    
     <Style TargetType="{x:Type Controls:IconButton}" x:Key="IconButtonStyle">
         <Setter Property="Height" Value="30"/>
         <Setter Property="ContentTemplate">
@@ -72,7 +128,7 @@
     </Style>
 
     <Style x:Key="NumericTextBox" TargetType="{x:Type Controls:NumericBox}">
-        <Setter Property="Height" Value="20"/>
+        <Setter Property="Height" Value="25"/>
     </Style>
     
     <Style x:Key="UniformInputFormStyle" TargetType="{x:Type UniformGrid}">
@@ -81,7 +137,7 @@
         <Setter Property="Rows" Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding Path=ActualWidth, RelativeSource={RelativeSource Self},
-                Converter={Converters:IsValueLessThanParameter},ConverterParameter=300}"
+                Converter={Converters:IsValueLessThanParameter},ConverterParameter=450}"
                          Value="True">
                 <Setter Property="Rows" Value="1"/>
                 <Setter Property="Columns" Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"/>
@@ -96,7 +152,7 @@
         <Setter Property="Height" Value="25"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding Path=Width, RelativeSource={RelativeSource Self},
-                Converter={Converters:IsValueLessThanParameter},ConverterParameter=300}"
+                Converter={Converters:IsValueLessThanParameter},ConverterParameter=450}"
                          Value="True">
                 <Setter Property="Orientation" Value="Vertical"/>
                 <Setter Property="Height" Value="55"/>
@@ -106,12 +162,11 @@
             <Style TargetType="{x:Type TextBox}">
                 <Setter Property="BorderBrush" Value="Gray"/>
                 <Setter Property="Height" Value="20"/>
-                <Setter Property="Width" Value="150"/>
                 
                 <Setter Property="BorderThickness" Value="2"/>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Path=Width, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel},
-                Converter={Converters:IsValueLessThanParameter},ConverterParameter=300}"
+                Converter={Converters:IsValueLessThanParameter},ConverterParameter=450}"
                          Value="True">
                         <Setter Property="Width" Value="75"/>
                         <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -119,9 +174,8 @@
                         <Setter Property="Margin" Value="0,0,0,0"/>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Path=Width, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel},
-                Converter={Converters:IsValueLessThanParameter},ConverterParameter=300}"
+                Converter={Converters:IsValueLessThanParameter},ConverterParameter=450}"
                          Value="False">
-                        <Setter Property="Width" Value="150"/>
                         <Setter Property="HorizontalAlignment" Value="Right"/>
                     </DataTrigger>
                 </Style.Triggers>
@@ -129,11 +183,11 @@
             
             <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="FontWeight" Value="DemiBold"/>
-                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontSize" Value="18"/>
                 <Setter Property="Width" Value="90"/>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Path=Width, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel},
-                Converter={Converters:IsValueLessThanParameter},ConverterParameter=300}"
+                Converter={Converters:IsValueLessThanParameter},ConverterParameter=450}"
                          Value="True">
                         <Setter Property="TextAlignment" Value="Left"/>
                         <Setter Property="Width" Value="75"/>

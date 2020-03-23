@@ -32,10 +32,10 @@
 
         <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3|4}" 
               Grid.Column="0" 
-              MaxWidth="350"
               Margin="2,0,0,10">
             <Grid.RowDefinitions>
                 <RowDefinition MinHeight="220"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid>
@@ -44,39 +44,43 @@
                     <RowDefinition/>
                     <RowDefinition MaxHeight="70"/>
                 </Grid.RowDefinitions>
-                <UniformGrid Tag="3" Style="{StaticResource UniformInputFormStyle}">
-                    <StackPanel 
+                
+                <UniformGrid Tag="3" 
+                             Style="{StaticResource UniformInputFormStyle}">
+                    <DockPanel 
+                        LastChildFill="True"
                         Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
-                        Style="{StaticResource InputStackPanelStyle}">
+                        Style="{StaticResource InputDockingPanelStyle}">
                         <TextBlock Text="Name :"/>
                         <TextBox 
                             x:Name="SupplierName"
-                            Text="{Binding EditedSupplier.Name}"
-                            >
+                            Text="{Binding EditedSupplier.Name}">
                         </TextBox>
-                    </StackPanel>
-                    <StackPanel
+                    </DockPanel>
+
+                    <DockPanel
                         Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
-                        Style="{StaticResource InputStackPanelStyle}">
+                        Style="{StaticResource InputDockingPanelStyle}">
                         <TextBlock Text="Contact :"/>
                         <TextBox 
                             x:Name="SupplierContact"
                             Text="{Binding EditedSupplier.Contact}"
                             />
-                    </StackPanel>
-                    <StackPanel
+                    </DockPanel>
+                    <DockPanel
                         Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
-                        Style="{StaticResource InputStackPanelStyle}">
+                        Style="{StaticResource InputDockingPanelStyle}">
                         <TextBlock Text="Transport :"/>
                         <TextBox 
                             x:Name="SupplierTransport"
                             Text="{Binding EditedSupplier.Transport}"
                             />
-                    </StackPanel>
+                    </DockPanel>
                 </UniformGrid>
 
                 <Controls:IconButton  
-                    HorizontalAlignment="Right"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
                     Command="{Binding AddNewSupplierCommand}"
                     VerticalAlignment="Top"
                     Grid.Row="2" 
@@ -101,7 +105,23 @@
                 </Controls:IconButton>
 
                 <!--Selected Raw Materials-->
-                <ScrollViewer Grid.Row="1">
+                <Border Grid.Row="1"
+                        BorderBrush="DimGray"
+                        BorderThickness="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" BorderThickness="2"
+                            BorderBrush="DarkGray">
+                            <TextBlock Text="Material Supplier Delivers:"
+                                FontSize="22"
+                                Margin="5,0,0,0"
+                                FontWeight="DemiBold"
+                           />
+                        </Border>
+                        <ScrollViewer Grid.Row="1">
                     <ItemsControl 
                     Grid.Row="1"
                           ItemsSource="{Binding rawMaterialsToOrder}"
@@ -115,10 +135,12 @@
                                         <ColumnDefinition Width="50"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{Binding Name}"
+                                               FontSize="18"
                                            VerticalAlignment="Center"/>
                                     <Controls:NumericBox Grid.Column="1" 
                                         HorizontalAlignment="Stretch" Style="{StaticResource NumericTextBox}"
-                                        Text="{Binding Price}"/>
+                                   FontSize="18"
+                                                         Text="{Binding Price}"/>
                                     <Controls:IconButton Command="{Binding Selected}" Height="20"
                                     Grid.Column="2" Icon="Remove"/>
                                 </Grid>
@@ -126,9 +148,19 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
-            </Grid>
+                    </Grid>
+                </Border>
 
-            <ScrollViewer Grid.Row="1">
+            </Grid>
+            <Border Grid.Row="1" BorderThickness="2"
+                    BorderBrush="DarkGray">
+                <TextBlock Text="Select Material :"
+                           FontSize="22"
+                           Margin="5,0,0,0"
+                           FontWeight="DemiBold"
+                           />
+            </Border>
+            <ScrollViewer Grid.Row="2">
                 <ItemsControl
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
@@ -146,68 +178,72 @@
             </ScrollViewer>
         </Grid>
 
-        <Grid Grid.Column="2" Margin="0,0,0,10">
-            <ScrollViewer>
-                
-            <ItemsControl  ItemsSource="{Binding Suppliers}">
-
+        <ScrollViewer Grid.Column="2" Margin="0,0,0,10">
+            <ItemsControl ItemsSource="{Binding Suppliers}"
+                              Background="WhiteSmoke">
                 <ItemsControl.ItemTemplate>
-                    
                     <DataTemplate>
-                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-                        <Controls:IconButton 
-                            Command="{Binding Selected}"
-                                Height="25" Text="Edit" 
-                                Width="90"
-                                Icon="PencilSquareOutline"/>
-                        <Expander ExpandDirection="Down">
-                            <Expander.Header>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="25*"/>
-                                        <ColumnDefinition Width="25*"/>
-                                        <ColumnDefinition Width="25*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding Name}"/>
-                                    <TextBlock Grid.Column="1" Margin="10,0,0,0" Text="{Binding Transport}"/>
-                                    <TextBlock Grid.Column="2" Margin="10,0,0,0" Text="{Binding Contact}"/>
-                                </Grid>
-                            </Expander.Header>
-                            <ListView ItemsSource="{Binding GetModel.RawMaterials}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="25*"/>
-                                                <ColumnDefinition Width="25*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Text="{Binding Material.Name}"/>
-                                            <TextBlock Grid.Column="1" Margin="10,0,0,0" Text="{Binding Price}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                            <Expander.Style>
-                                <Style TargetType="Expander">
-                                    <Style.Triggers>
-                                        <DataTrigger  Binding="{Binding RelativeSource={RelativeSource Mode=Self},Path=IsExpanded}" Value="True">
-                                            <!--<Setter Property=
-                                                    "{Binding RelativeSource=
-                                                {RelativeSource AncestorType={x:Type ListViewItem}, Mode=FindAncestor}
-                                                ,Path=IsSelected}" Value="True"/>-->
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Expander.Style>
-                        </Expander>
-                        </StackPanel>
+                        <Border Margin="0,8,0,0"
+                                    BorderBrush="LightGray"
+                                    BorderThickness="2">
+                            <Expander Background="AliceBlue"
+                                          ExpandDirection="Down">
+                                <Expander.Header>
+                                    <Grid  HorizontalAlignment="{Binding Path=HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20*"/>
+                                            <ColumnDefinition Width="25*"/>
+                                            <ColumnDefinition Width="25*"/>
+                                            <ColumnDefinition Width="100"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="Supplier: "/>
+                                        <TextBlock Grid.Column="1" Text="{Binding Name}"/>
+
+                                        <TextBlock Grid.Row="1" Text="Transport: "/>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Transport}"/>
+
+
+                                        <TextBlock Grid.Row="2" Text="Contact: "/>
+                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Contact}"/>
+
+                                        <Controls:IconButton 
+                                                Command="{Binding Selected}"
+                                                Text="Edit"   Grid.Column="3" Grid.RowSpan="4"
+                                                Width="90" VerticalAlignment="Top"
+                                                HorizontalAlignment="Right"
+                                                Icon="PencilSquareOutline"/>
+                                    </Grid>
+                                </Expander.Header>
+                                <ItemsControl ItemsSource="{Binding GetModel.RawMaterials}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="25*"/>
+                                                    <ColumnDefinition Width="25*"/>
+                                                    <ColumnDefinition Width="25*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock HorizontalAlignment="Left" Text="Material: "/>
+                                                <TextBlock HorizontalAlignment="Left" Grid.Column="1" Text="{Binding Material.Name}"/>
+                                                <TextBlock HorizontalAlignment="Right" Grid.Column="2" Text="Price: "/>
+                                                <TextBlock HorizontalAlignment="Left" Grid.Column="3" Margin="10,0,0,0" Text="{Binding Price,  StringFormat={}{0:C0}.00}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Expander>
+                        </Border>
+
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            </ScrollViewer>
-
-        </Grid>
-
+        </ScrollViewer>
     </Grid>
 
 </UserControl>
