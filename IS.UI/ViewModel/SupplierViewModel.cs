@@ -1,5 +1,6 @@
 ﻿using IS.Domain;
 using IS.Domain.Model;
+using IS.UI.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,43 +12,6 @@ using System.Windows.Input;
 namespace IS.UI.ViewModel
 {
     public delegate void SelectedItemDelegate(object _sender, object _sendObject);
-
-    public class RawMaterialWrapper
-    {
-        private RawMaterial rawMaterial;
-        public event SelectedItemDelegate ItemSelected;
-        public RawMaterialWrapper(RawMaterial _rawMaterial)
-        {
-            rawMaterial = _rawMaterial;
-        }
-
-
-        public string Name { get => rawMaterial.Name; }
-        public ICommand Selected { get => new Command.ActionCommand((obj) =>
-        {
-            ItemSelected?.Invoke(this, rawMaterial);
-        });}
-    }
-
-    public class RawMaterialsToOrderWrapper
-    {
-        private RawMaterialsToOrder rawMaterial;
-        public event SelectedItemDelegate ItemSelected;
-        public RawMaterialsToOrderWrapper(RawMaterialsToOrder _rawMaterial)
-        {
-            rawMaterial = _rawMaterial;
-        }
-
-
-        public string Name { get => rawMaterial.Material.Name; }
-        public ICommand Selected
-        {
-            get => new Command.ActionCommand((obj) =>
-            {
-                ItemSelected?.Invoke(this, rawMaterial);
-            });
-        }
-    }
 
     public class SupplierViewModel:Abstract.BindableObject
     {
@@ -65,14 +29,36 @@ namespace IS.UI.ViewModel
         {
             get => new Command.ActionCommand((obj) =>
             {
-
+                if(NewSupplier.Validate())
+                {
+                    rawMaterialsToOrder.ToList().ForEach(x => 
+                    { 
+                        NewSupplier.RawMaterials.Add(x.GetRawMaterialsToOrder);
+                        x.ItemSelected -= ToOrder_ItemSelected;
+                    });
+                    context.Add(NewSupplier);
+                    context.SaveChanges();
+                    Suppliers = new ObservableCollection<Supplier>(context
+                        .Suppliers
+                        .Include(x => x.RawMaterials)
+                        .ThenInclude(x => x.Material)
+                        .ToList());
+                    NewSupplier = new Supplier();
+                    rawMaterialsToOrder.Clear();
+                    OnPropertyChanged(nameof(NewSupplier));
+                    OnPropertyChanged(nameof(Suppliers));
+                }
             });
         }
 
         public SupplierViewModel() 
         {
             context = new Context();
-            Suppliers = new ObservableCollection<Supplier>(context.Suppliers.Include(x=>x.RawMaterials).ToList());
+            Suppliers = new ObservableCollection<Supplier>(context
+                .Suppliers
+                .Include(x=>x.RawMaterials)
+                .ThenInclude(x=>x.Material)
+                .ToList());
             
             RawMaterials = new ObservableCollection<RawMaterialWrapper>();
             context.RawMaterials.ToList().ForEach(x=> RawMaterials.Add(new RawMaterialWrapper(x)));

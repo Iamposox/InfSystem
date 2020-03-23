@@ -11,5 +11,13 @@ namespace IS.Domain.Model
         public List<RawMaterialsToOrder> RawMaterials { get; set; } = new List<RawMaterialsToOrder>();
         public string Transport { get; set; }
         public string Contact { get; set; }
+
+        public bool Validate()
+        {
+            if (String.IsNullOrEmpty(Name)) return false;
+            if (String.IsNullOrEmpty(Transport)) return false;
+            if (String.IsNullOrEmpty(Contact)) return false;
+            return true;
+        }
     }
 }
