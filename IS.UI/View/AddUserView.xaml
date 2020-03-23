@@ -3,8 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:IS.UI.View"
              xmlns:VM="clr-namespace:IS.UI.ViewModel"
+             xmlns:Controls="clr-namespace:IS.UI.Control"
              xmlns:Converters="clr-namespace:IS.UI.Converters"
              mc:Ignorable="d" 
              Background="White"
@@ -18,7 +20,7 @@
             <Setter Property="Height" Value="20"/>
         </Style>
     </UserControl.Resources>
-<Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=10}">
+    <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=10}">
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="25"/>
             <RowDefinition/>
@@ -31,16 +33,41 @@
             <ColumnDefinition MaxWidth="100"/>
         </Grid.ColumnDefinitions>
         <TextBlock Text="Создание нового пользователя" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Text="Email" Grid.Row="1" Margin="20 0 0 0"/>
         <TextBox x:Name="EmailTxb" Style="{StaticResource FirstStyleExample}" Grid.Row="1" Text="{Binding AddUser.Email}"/>
+        <TextBlock Text="Login" Grid.Row="1" Grid.Column="1" Margin="20 0 0 0"/>
         <TextBox x:Name="LoginTxb" Style="{StaticResource FirstStyleExample}" Grid.Column="1" Grid.Row="1" Margin="20,15,20,15" Text="{Binding AddUser.Name}"/>
+        <TextBlock Text="Password" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0 0 60 0"/>
         <TextBox Style="{StaticResource FirstStyleExample}" x:Name="PasswordTxb" Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding AddUser.Password}"/>
-        <Button x:Name="AddBtn" Style="{StaticResource ButtonStyle}" Grid.Row="3" Grid.ColumnSpan="2" Content="Создать" VerticalContentAlignment="Center" Command="{Binding AddUsers}"/>
-        <ComboBox Style="{StaticResource ComboStyle}" Grid.Row="1" Grid.Column="2" Margin="0,15,5,15" ItemsSource="{Binding roles}" SelectedValue="{Binding SelectedRole}">
+        <ComboBox x:Name="RolesSelect" Style="{StaticResource ComboStyle}" Grid.Row="1" Grid.Column="2" Margin="0,15,5,15" ItemsSource="{Binding roles}" SelectedValue="{Binding SelectedRole}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding RoleName}" />
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
+        <Controls:IconButton 
+            HorizontalAlignment="Center" 
+            Command="{Binding AddUsers}" VerticalAlignment="Bottom" Grid.Row="3" Grid.ColumnSpan="2" Icon="PlusCircle" Text="Создать">
+            <Controls:IconButton.Style>
+                <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
+                    <Setter Property="IsEnabled" Value="True"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=EmailTxb, Path=Text}" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=LoginTxb, Path=Text}" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=PasswordTxb, Path=Text}" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=RolesSelect, Path=Text}" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Controls:IconButton.Style>
+        </Controls:IconButton>
     </Grid>
 </UserControl>
