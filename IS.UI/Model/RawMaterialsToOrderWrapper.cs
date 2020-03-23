@@ -15,6 +15,15 @@ namespace IS.UI.Model
 
         public RawMaterialsToOrder GetRawMaterialsToOrder { get => rawMaterial; }
 
+        public bool Valid
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Name)) return false;
+                if (Price == 0) return false;
+                return true;
+            }
+        }
         public string Name { get => rawMaterial.Material.Name; }
         public double Price
         {
