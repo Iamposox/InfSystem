@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IS.UI.View"
              xmlns:VM="clr-namespace:IS.UI.ViewModel"
+             xmlns:Converter="clr-namespace:IS.UI.Converters"
              mc:Ignorable="d" 
              Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -20,6 +21,7 @@
             <ColumnDefinition Width="350"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <Grid Grid.ColumnSpan="2">
         <DataGrid Grid.Row="0" AutoGenerateColumns="False" CanUserAddRows="False" Grid.ColumnSpan="2" ItemsSource="{Binding Assortments}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
@@ -48,6 +50,8 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        </Grid>
+        <Grid Visibility="{Binding Converter={Converter:RoleToVisibilityConverter}, ConverterParameter=1}">
         <TextBox Grid.Row="1" Text="{Binding CountAssortiment}" Grid.Column="0" Style="{StaticResource 20HTextBoxStyle}" HorizontalAlignment="Left" Margin="10 0 0 100"/>
         <ComboBox Style="{StaticResource ComboStyle}" Grid.Row="1" Margin="100 0 0 100" ItemsSource="{Binding Product}" SelectedValue="{Binding SelectedProduct}" VerticalAlignment="Center">
             <ComboBox.ItemTemplate>
@@ -57,5 +61,6 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource ButtonStyle}" Content="Add" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding AddInAssortiment}" Margin="0 0 50 0"/>
+        </Grid>
     </Grid>
 </UserControl>

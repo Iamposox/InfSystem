@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IS.UI.View"
              xmlns:VM="clr-namespace:IS.UI.ViewModel"
+             xmlns:Converter="clr-namespace:IS.UI.Converters"
              mc:Ignorable="d" 
              Background="White"
              d:DesignHeight="450" d:DesignWidth="350">
@@ -16,13 +17,17 @@
             <RowDefinition/>
             <RowDefinition MaxHeight="80"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="RawMaterials" Margin="5,0,0,0" Grid.Column="0" Grid.Row="1"/>
-        <DataGrid Grid.Row="0" MaxWidth="300" Margin="0,15,0,0" ItemsSource="{Binding rawMaterials}" CanUserAddRows="False" AutoGenerateColumns="True" Background="AliceBlue"/>
+        <Grid>
+            <TextBlock Text="RawMaterials" Margin="25,0,0,0"/>
+            <DataGrid Grid.Row="0" MaxWidth="300" Margin="0,15,0,0" ItemsSource="{Binding rawMaterials}" CanUserAddRows="False" AutoGenerateColumns="True" Background="AliceBlue"/>
+        </Grid>
+        <Grid Visibility="{Binding Converter={Converter:RoleToVisibilityConverter}, ConverterParameter=1}" Grid.Row="1">
         <TextBlock Grid.Row="1" Grid.Column="1" Text="Add RawMaterials" HorizontalAlignment="Center" Margin="0,10,0,0"/>
         <TextBlock Grid.Row="1" Grid.Column="1" Text="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
         <TextBlock Grid.Row="1" Grid.Column="1" Text="Amount" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,65,0"/>
         <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource 20HTextBoxStyle}" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Bottom" Text="{Binding Raw.Name}"/>
         <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource 20HTextBoxStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Text="{Binding Raw.Amount}"/>
         <Button Grid.Row="1" x:Name="AddRaw" Content="Add" Style="{StaticResource ButtonStyle}" Grid.Column="1" VerticalAlignment="Bottom" Command="{Binding AddRaw}"/>
+        </Grid>
     </Grid>
 </UserControl>
