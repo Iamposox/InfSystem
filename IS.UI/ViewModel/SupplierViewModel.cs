@@ -13,56 +13,101 @@ namespace IS.UI.ViewModel
 {
     public delegate void SelectedItemDelegate(object _sender, object _sendObject);
 
-    public class SupplierViewModel:Abstract.BindableObject
+    public class SupplierViewModel : Abstract.BindableObject
     {
         readonly Context context;
-        public ObservableCollection<Supplier> Suppliers { get; set; }
+        public ObservableCollection<SupplierWrapper> Suppliers { get; set; } = new ObservableCollection<SupplierWrapper>();
 
-        public ObservableCollection<RawMaterialWrapper> RawMaterials { get; set; }
+        public ObservableCollection<RawMaterialWrapper> RawMaterials { get; set; } = new ObservableCollection<RawMaterialWrapper>();
 
-        public ObservableCollection<RawMaterialsToOrderWrapper> rawMaterialsToOrder { get; set; } 
+        public ObservableCollection<RawMaterialsToOrderWrapper> rawMaterialsToOrder { get; set; }
             = new ObservableCollection<RawMaterialsToOrderWrapper>();
 
-        public Supplier NewSupplier { get; set; } = new Supplier();
+        private Supplier m_EditedSupplier = new Supplier();
+
+        public Supplier EditedSupplier
+        {
+            get => m_EditedSupplier;
+            set
+            {
+                rawMaterialsToOrder.ToList().ForEach(x => x.ItemSelected -= ToOrder_ItemSelected);
+                rawMaterialsToOrder.Clear();
+                m_EditedSupplier = value;
+                OnPropertyChanged(nameof(EditedSupplier));
+                OnPropertyChanged(nameof(EditedSupplier.Contact));
+                OnPropertyChanged(nameof(EditedSupplier.Name));
+                OnPropertyChanged(nameof(EditedSupplier.Transport));
+                EditedSupplier.RawMaterials.ForEach(x =>
+                {
+                    var toOrder = new RawMaterialsToOrderWrapper(x);
+                    toOrder.ItemSelected += ToOrder_ItemSelected;
+                    rawMaterialsToOrder.Add(toOrder);
+                });
+            }
+        }
 
         public ICommand AddNewSupplierCommand
         {
             get => new Command.ActionCommand((obj) =>
             {
-                if(NewSupplier.Validate())
+                if (EditedSupplier.Validate())
                 {
-                    rawMaterialsToOrder.ToList().ForEach(x => 
-                    { 
-                        NewSupplier.RawMaterials.Add(x.GetRawMaterialsToOrder);
+                    rawMaterialsToOrder.ToList().ForEach(x =>
+                    {
+                        EditedSupplier.RawMaterials.Add(x.GetRawMaterialsToOrder);
                         x.ItemSelected -= ToOrder_ItemSelected;
                     });
-                    context.Add(NewSupplier);
+
+                    //New Supplier
+                    if (EditedSupplier.ID == 0)
+                        context.Add(EditedSupplier);
+                    EditedSupplier.RawMaterials.Clear();
+                    foreach (var item in rawMaterialsToOrder)
+                    {
+                        EditedSupplier.RawMaterials.Add(item.GetRawMaterialsToOrder);
+                    }
                     context.SaveChanges();
-                    Suppliers = new ObservableCollection<Supplier>(context
+                    Suppliers.Clear();
+                    context
                         .Suppliers
                         .Include(x => x.RawMaterials)
                         .ThenInclude(x => x.Material)
-                        .ToList());
-                    NewSupplier = new Supplier();
+                        .ToList().ForEach(x => Suppliers.Add(new SupplierWrapper(x)));
+                    foreach (var item in Suppliers)
+                    {
+                        item.ItemSelected += Item_ItemSelected;
+                    }
+                    EditedSupplier = new Supplier();
                     rawMaterialsToOrder.Clear();
-                    OnPropertyChanged(nameof(NewSupplier));
+                    OnPropertyChanged(nameof(EditedSupplier));
                     OnPropertyChanged(nameof(Suppliers));
+                    context.SaveChanges();
                 }
             });
         }
 
-        public SupplierViewModel() 
+        public SupplierViewModel()
         {
             context = new Context();
-            Suppliers = new ObservableCollection<Supplier>(context
+
+            context
                 .Suppliers
-                .Include(x=>x.RawMaterials)
-                .ThenInclude(x=>x.Material)
-                .ToList());
-            
+                .Include(x => x.RawMaterials)
+                .ThenInclude(x => x.Material)
+                .ToList().ForEach(x => Suppliers.Add(new SupplierWrapper(x)));
+
+            foreach (var item in Suppliers)
+            {
+                item.ItemSelected += Item_ItemSelected;
+            }
             RawMaterials = new ObservableCollection<RawMaterialWrapper>();
-            context.RawMaterials.ToList().ForEach(x=> RawMaterials.Add(new RawMaterialWrapper(x)));
+            context.RawMaterials.ToList().ForEach(x => RawMaterials.Add(new RawMaterialWrapper(x)));
             RawMaterials.ToList().ForEach(x => x.ItemSelected += X_ItemSelected);
+        }
+
+        private void Item_ItemSelected(object _sender, object _sendObject)
+        {
+            EditedSupplier = (Supplier)_sendObject;
         }
 
         private void X_ItemSelected(object _sender, object _sendObject)
