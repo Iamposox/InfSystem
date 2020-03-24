@@ -12,9 +12,23 @@ namespace IS.UI.Model
         {
             rawMaterial = _rawMaterial;
         }
-
-
-        public string Name { get => rawMaterial.Name; }
+        public RawMaterial GetMaterial { get => rawMaterial; }
+        public double Amount 
+        { 
+            get => rawMaterial.Amount;
+            set 
+            {
+                rawMaterial.Amount = value;
+            }
+        }
+        public string Name 
+        { 
+            get => rawMaterial.Name; 
+            set 
+            {
+                rawMaterial.Name = value;
+            }
+        }
         public ICommand Selected
         {
             get => new Command.ActionCommand((obj) =>

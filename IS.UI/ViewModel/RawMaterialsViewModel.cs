@@ -14,18 +14,20 @@ namespace IS.UI.ViewModel
         readonly Context context;
         public ObservableCollection<RawMaterial> rawMaterials { get; set; }
         private RawMaterial m_raw = new RawMaterial();
-        private RawMaterial f_raw = new RawMaterial();
         public RawMaterialsViewModel() 
         {
             context = new Context();
             rawMaterials = new ObservableCollection<RawMaterial>(context.RawMaterials.ToList());
         }
-        public RawMaterial Raw
+        public RawMaterial EditerRawMaterial
         {
             get => m_raw;
             set 
             {
                 m_raw = value;
+                OnPropertyChanged(nameof(EditerRawMaterial));
+                OnPropertyChanged(nameof(EditerRawMaterial.Name));
+                OnPropertyChanged(nameof(EditerRawMaterial.Amount));
             }
         }
         public ICommand AddRaw { get => new Command.ActionCommand((obj) => AddRawMate(obj)); }
