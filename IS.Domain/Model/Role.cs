@@ -9,5 +9,10 @@ namespace IS.Domain.Model
         public int ID { get; set; }
         public string RoleName { get; set; }
         public List<User> Users { get; set; } = new List<User>();
+        public bool Validate() 
+        {
+            if (String.IsNullOrEmpty(RoleName)) return false;
+            return true;
+        }
     }
 }

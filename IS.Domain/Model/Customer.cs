@@ -11,5 +11,11 @@ namespace IS.Domain.Model
         public string Contact { get; set; }
         public List<Product> Purchased { get; set; }
         public List<Product> Orders { get; set; }
+        public bool Validate()
+        {
+            if (String.IsNullOrEmpty(Name)) return false;
+            if (String.IsNullOrEmpty(Contact)) return false;
+            return true;
+        }
     }
 }

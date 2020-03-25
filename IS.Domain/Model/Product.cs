@@ -12,5 +12,10 @@ namespace IS.Domain.Model
         public double PassiveCosts { get; set; }
         public TimeSpan PreparationDuration { get; set; }
         public List<RawMaterial> RequeredMaterials { get; set; }
+        public bool Validate() 
+        {
+            if (String.IsNullOrEmpty(Name)) return false;
+            return true;
+        }
     }
 }

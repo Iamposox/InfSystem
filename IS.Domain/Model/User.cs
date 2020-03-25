@@ -11,5 +11,12 @@ namespace IS.Domain.Model
         public string Password { get; set; }
         public string Email { get; set; }
         public Role Role { get; set; } 
+        public bool Validate() 
+        {
+            if (String.IsNullOrEmpty(Name)) return false;
+            if (String.IsNullOrEmpty(Password)) return false;
+            if (String.IsNullOrEmpty(Email)) return false;
+            return true;
+        }
     }
 }
