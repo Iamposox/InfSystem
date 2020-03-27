@@ -15,6 +15,14 @@ namespace IS.UI.Model
         public RawMaterial GetMaterial { get => rawMaterial; }
         public double Amount { get => rawMaterial.Amount; }
         public string Name { get => rawMaterial.Name; }
+        public bool Valid
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Name)) return false;
+                return true;
+            }
+        }
         public ICommand Selected
         {
             get => new Command.ActionCommand((obj) =>

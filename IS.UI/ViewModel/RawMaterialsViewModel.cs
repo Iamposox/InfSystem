@@ -1,5 +1,6 @@
 ﻿using IS.Domain;
 using IS.Domain.Model;
+using IS.UI.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,12 +13,12 @@ namespace IS.UI.ViewModel
     public class RawMaterialsViewModel: Abstract.BindableObject
     {
         readonly Context context;
-        public ObservableCollection<RawMaterial> rawMaterials { get; set; }
+        public ObservableCollection<RawMaterialWrapper> rawMaterials { get; set; } = new ObservableCollection<RawMaterialWrapper>();
         private RawMaterial m_raw = new RawMaterial();
         public RawMaterialsViewModel() 
         {
             context = new Context();
-            rawMaterials = new ObservableCollection<RawMaterial>(context.RawMaterials.ToList());
+            context.RawMaterials.ToList().ForEach(x => rawMaterials.Add(new RawMaterialWrapper(x)));
         }
         public RawMaterial EditerRawMaterial
         {
@@ -35,6 +36,10 @@ namespace IS.UI.ViewModel
         {
             context.RawMaterials.Add(m_raw);
             context.SaveChanges();
+        }
+        private void Item_ItemSelected(object _sender, object _sendObject)
+        {
+            EditerRawMaterial = (RawMaterial)_sendObject;
         }
     }
 }
