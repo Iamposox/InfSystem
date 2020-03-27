@@ -10,7 +10,7 @@
              xmlns:Converters="clr-namespace:IS.UI.Converters"
              mc:Ignorable="d" 
              Background="White"
-             d:DesignHeight="450" d:DesignWidth="350">
+             d:DesignHeight="500" d:DesignWidth="350">
     <UserControl.DataContext>
         <VM:RawMaterialsViewModel/>
     </UserControl.DataContext>
@@ -25,7 +25,7 @@
                                 <Setter Property="Height" Value="0"/>
                             </DataTrigger>
                         </Style.Triggers>
-                        <Setter Property="Height" Value="70"/>
+                        <Setter Property="Height" Value="120"/>
                     </Style>
                 </RowDefinition.Style>
             </RowDefinition>
@@ -69,27 +69,40 @@
                 </ItemsControl>
             </ScrollViewer>
         </Grid>
-        <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=1|2|3}" Grid.Row="1">
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="Add RawMaterials" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="Amount" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,65,0"/>
-            <TextBox x:Name="NameTextBox" Grid.Row="1" Grid.Column="1" Style="{StaticResource 20HTextBoxStyle}" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Bottom" Text="{Binding EditerRawMaterial.Name}"/>
-            <Controls:NumericBox Text="{Binding EditerRawMaterial.Amount}" Style="{StaticResource 20HTextBoxStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-            <Controls:IconButton HorizontalAlignment="Center" VerticalAlignment="Bottom" Command="{Binding AddRaw}" Icon="PlusCircle" Text="Добавить">
-                <Controls:IconButton.Style>
-                    <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
-                        <Setter Property="IsEnabled" Value="True"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=NameTextBox, Path=Text}" Value="{x:Static sys:String.Empty}">
-                                <Setter Property="IsEnabled" Value="False"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ElementName=AmountTextBox, Path=Text}" Value="{x:Static sys:String.Empty}">
-                                <Setter Property="IsEnabled" Value="False"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Controls:IconButton.Style>
-            </Controls:IconButton>
+        <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=1|2|3}" Grid.Row="1" >
+            <UniformGrid Tag="2" Style="{StaticResource UniformInputFormStyle}">
+                <DockPanel
+                    LastChildFill="True"
+                    Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1,AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
+                    Style="{StaticResource InputDockingPanelStyle}">
+                    <TextBlock Text="Name"/>
+                    <TextBox x:Name="NameTextBox" Text="{Binding EditerRawMaterial.Name}"/>
+                </DockPanel>
+                <DockPanel 
+                    Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
+                        Style="{StaticResource InputDockingPanelStyle}">
+                    <TextBlock Text="Amount"/>
+                    <Controls:NumericBox Text="{Binding EditerRawMaterial.Amount}" Style="{StaticResource NumericTextBox}" BorderBrush="Gray" BorderThickness="2"/>
+                </DockPanel>
+            </UniformGrid>
+            <DockPanel Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
+                        Style="{StaticResource InputDockingPanelStyle}">
+                <Controls:IconButton HorizontalAlignment="Center" VerticalAlignment="Bottom" Command="{Binding AddRaw}" Icon="PlusCircle" Text="Добавить">
+                    <Controls:IconButton.Style>
+                        <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=NameTextBox, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=AmountTextBox, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Controls:IconButton.Style>
+                </Controls:IconButton>
+            </DockPanel>
         </Grid>
     </Grid>
 </UserControl>
