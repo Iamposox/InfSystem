@@ -56,11 +56,6 @@ namespace IS.UI.ViewModel
                 }
             });
         }
-        public void AddRawMate(object obj)
-        {
-            context.RawMaterials.Add(m_raw);
-            context.SaveChanges();
-        }
         private void Item_ItemSelected(object _sender, object _sendObject)
         {
             EditerRawMaterial = (RawMaterial)_sendObject;

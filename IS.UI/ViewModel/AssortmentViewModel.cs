@@ -1,5 +1,6 @@
 ﻿using IS.Domain;
 using IS.Domain.Model;
+using IS.UI.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,47 +13,46 @@ namespace IS.UI.ViewModel
     public class AssortmentViewModel : Abstract.BindableObject
     {
         readonly Context context;
-        public ObservableCollection<Assortment> Assortments { get; set; }
-        public List<Product> Product { get; set; }
+        public ObservableCollection<AssortimentsWrapper> Assortments { get; set; } = new ObservableCollection<AssortimentsWrapper>();
         public AssortmentViewModel()
         {
             context = new Context();
-            Assortments = new ObservableCollection<Assortment>(context.Assortments.ToList());
-            Product = new List<Product>(context.Products.ToList());
-        }
-        private Product m_SelectedProd = new Product();
-        public Product SelectedProduct
-        {
-            get => m_SelectedProd;
-            set
-            {
-                m_SelectedProd = value;
-                Assortiments = new Assortment { Product = value, InAssortment=m_CountOfAssortiment  };
-            }
-        }
-        private int m_CountOfAssortiment;
-        public int CountAssortiment
-        {
-            get => m_CountOfAssortiment;
-            set
-            {
-                m_CountOfAssortiment = value;
-            }
+            context.Assortments.ToList().ForEach(x => Assortments.Add(new AssortimentsWrapper(x)));
+            foreach (var item in Assortments)
+                item.ItemSelected += Item_Selected;
         }
         private Assortment m_Assortiment;
-        public Assortment Assortiments
+        public Assortment EditerAssortiments
         {
             get => m_Assortiment;
             set
             {
                 m_Assortiment = value;
+                OnPropertyChanged(nameof(EditerAssortiments));
+                OnPropertyChanged(nameof(EditerAssortiments.Product));
+                OnPropertyChanged(nameof(EditerAssortiments.InAssortment));
             }
         }
-        public ICommand AddInAssortiment { get => new Command.ActionCommand((obj) => AddAssortiment(obj)); }
-        public void AddAssortiment(object obj) 
+        public ICommand AddInAssortiment { get => new Command.ActionCommand((obj) =>
         {
-            context.Assortments.Add(m_Assortiment);
-            context.SaveChanges();
+            if (EditerAssortiments.Validate())
+            {
+                if (EditerAssortiments.ID == 0)
+                    context.Add(EditerAssortiments);
+                context.SaveChanges();
+                Assortments.Clear();
+                context.Assortments.ToList().ForEach(x => Assortments.Add(new AssortimentsWrapper(x)));
+                foreach (var item in Assortments)
+                    item.ItemSelected += Item_Selected;
+                EditerAssortiments = new Assortment();
+                OnPropertyChanged(nameof(EditerAssortiments.Product));
+                OnPropertyChanged(nameof(EditerAssortiments.InAssortment));
+                context.SaveChanges();
+            }
+        }); }
+        private void Item_Selected(object _sender, object _SendObject)
+        {
+            EditerAssortiments = (Assortment)_SendObject;
         }
     }
 }

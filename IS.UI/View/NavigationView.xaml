@@ -10,7 +10,7 @@
              xmlns:Converters="clr-namespace:IS.UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" 
-             d:DesignWidth="200">
+             d:DesignWidth="250">
     <UserControl.DataContext>
         <VM:NavigationViewModel/>
     </UserControl.DataContext>

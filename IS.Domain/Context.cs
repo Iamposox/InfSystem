@@ -86,7 +86,6 @@ namespace IS.Domain
                 };
                 Product product = new Product()
                 {
-                    Amount = 20,
                     Name = $"Smells like crap {i}",
                     PassiveCosts = 99.9,
                     PreparationDuration = new TimeSpan(2, 30, 0),
@@ -110,7 +109,7 @@ namespace IS.Domain
                 };
                 Assortment As = new Assortment()
                 {
-                    InAssortment = 15000,
+                    InAssortment = 150*i,
                     Product = product
                 };
                 RawMaterialsToOrder RMTO = new RawMaterialsToOrder()

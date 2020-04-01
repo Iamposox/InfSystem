@@ -1,5 +1,6 @@
 ﻿using IS.Domain;
 using IS.Domain.Model;
+using IS.UI.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace IS.UI.ViewModel
     {
         readonly Context context;
         public ObservableCollection<Customer> Customers { get; set; }
-
+        public ObservableCollection<ProductWrapper> Products { get; set; } = new ObservableCollection<ProductWrapper>();
         public CustomerViewModel()
         {
             context = new Context();

@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IS.UI.View"
              xmlns:VM="clr-namespace:IS.UI.ViewModel"
-             xmlns:Converter="clr-namespace:IS.UI.Converters"
+             xmlns:Controls="clr-namespace:IS.UI.Control"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:Converters="clr-namespace:IS.UI.Converters"
              mc:Ignorable="d" 
              Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -14,7 +16,7 @@
     </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition MinHeight="350"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -22,45 +24,81 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid Grid.ColumnSpan="2">
-        <DataGrid Grid.Row="0" AutoGenerateColumns="False" CanUserAddRows="False" Grid.ColumnSpan="2" ItemsSource="{Binding Assortments}">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock Text="Name of Assortiments"/>
-                    </DataGridTemplateColumn.Header>
-                    <DataGridTemplateColumn.CellTemplate>
+            <ScrollViewer Grid.Column="2" Margin="0,0,0,10">
+                <ItemsControl ItemsSource="{Binding Assortments}"
+                              Background="WhiteSmoke">
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Expander Header="{Binding Product.Name}">
-                                <DockPanel>
-                                    <TextBlock Text="Amount: "/>
-                                    <TextBlock DockPanel.Dock="Left" Text="{Binding Product.Amount}"/>
-                                    <TextBlock Text=" Passive costs:"/>
-                                    <TextBlock Margin="5 0 0 0" DockPanel.Dock="Left" Text="{Binding Product.PassiveCosts}"/>
-                                    <TextBlock Text=" Preparation of duration:"/>
-                                    <TextBlock Margin="5 0 0 0" DockPanel.Dock="Left" Text="{Binding Product.PreparationDuration}"/>
-                                </DockPanel>
-                            </Expander>
+                            <Border Margin="0,8,0,0"
+                                    BorderBrush="LightGray"
+                                    BorderThickness="2">
+                                <Expander Background="AliceBlue"
+                                          ExpandDirection="Down">
+                                    <Expander.Header>
+                                        <Grid  HorizontalAlignment="{Binding Path=HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="20*"/>
+                                                <ColumnDefinition Width="25*"/>
+                                                <ColumnDefinition Width="100"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Text="Product: "/>
+                                            <TextBlock Grid.Column="1" Text="{Binding GetAssortment.Product.Name}"/>
+                                            <TextBlock Grid.Row="1" Text="Count of Assortiment: "/>
+                                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding GetAssortment.InAssortment}"/>
+                                            <Controls:IconButton 
+                                                Command="{Binding Selected}"
+                                                Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
+                                                Text="Edit"   Grid.Column="3" Grid.RowSpan="4"
+                                                Width="90" VerticalAlignment="Top"
+                                                HorizontalAlignment="Right"
+                                                Icon="PencilSquareOutline"/>
+                                        </Grid>
+                                    </Expander.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="190"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock HorizontalAlignment="Left" Margin="10 0 0 0" Grid.Column="1" Text="Passive costs: "/>
+                                        <TextBlock HorizontalAlignment="Right" Grid.Column="1" Margin="0,0,0,0" Text="{Binding GetAssortment.Product.PassiveCosts}"/>
+                                        <TextBlock Grid.Column="2" Margin="10 0 0 0" Text="Preparation of Duration: "/>
+                                        <TextBlock HorizontalAlignment="Right" Grid.Column="2" Text="{Binding GetAssortment.Product.PreparationDuration}"/>
+                                    </Grid>
+                                </Expander>
+                            </Border>
+
                         </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding InAssortment}">
-                    <DataGridTextColumn.Header>
-                        <TextBlock Text="Count of Assortments"/>
-                    </DataGridTextColumn.Header>
-                </DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </Grid>
-        <Grid Visibility="{Binding Converter={Converter:RoleToVisibilityConverter}, ConverterParameter=1}">
-        <TextBox Grid.Row="1" Text="{Binding CountAssortiment}" Grid.Column="0" Style="{StaticResource 20HTextBoxStyle}" HorizontalAlignment="Left" Margin="10 0 0 100"/>
-        <ComboBox Style="{StaticResource ComboStyle}" Grid.Row="1" Margin="100 0 0 100" ItemsSource="{Binding Product}" SelectedValue="{Binding SelectedProduct}" VerticalAlignment="Center">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <Button Grid.Column="0" Grid.Row="1" Style="{StaticResource ButtonStyle}" Content="Add" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding AddInAssortiment}" Margin="0 0 50 0"/>
+        <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}" Grid.Row="1">
+            <TextBlock Text="{Binding EditerAssortiments.Product.Name}" Margin="10 0 0 0"/>
+            <Controls:NumericBox Style="{StaticResource NumericTextBox}" Text="{Binding EditerAssortiments.InAssortment}" Width="100" HorizontalAlignment="Left" Margin="10 0 0 0"/>
+            <DockPanel Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
+                        Style="{StaticResource InputDockingPanelStyle}">
+                <Controls:IconButton HorizontalAlignment="Right" Margin="150 0 0 0" VerticalAlignment="Bottom" Command="{Binding AddInAssortiment}" Icon="PlusCircle" Text="Добавить">
+                    <Controls:IconButton.Style>
+                        <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=NameTextBox, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=AmountTextBox, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Controls:IconButton.Style>
+                </Controls:IconButton>
+            </DockPanel>
         </Grid>
     </Grid>
 </UserControl>

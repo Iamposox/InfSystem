@@ -8,7 +8,6 @@ namespace IS.Domain.Model
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public double Amount { get; set; }
         public double PassiveCosts { get; set; }
         public TimeSpan PreparationDuration { get; set; }
         public List<RawMaterial> RequeredMaterials { get; set; }
