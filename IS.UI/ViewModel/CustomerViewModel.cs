@@ -17,7 +17,15 @@ namespace IS.UI.ViewModel
             context = new Context();
             Customers = new ObservableCollection<Customer>(context.Customers.ToList());
         }
-
-
+        private Customer m_Customer = new Customer();
+        public Customer SelectedCustomer
+        {
+            get => m_Customer;
+            set
+            {
+                m_Customer = value;
+            }
+        }
+        
     }
 }

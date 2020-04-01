@@ -27,15 +27,15 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ComboBox ItemsSource="{Binding Customers}" Height="25" Width="150" MaxDropDownHeight="200">
+        <ComboBox ItemsSource="{Binding Customers}" Height="25" Width="150" SelectedItem="{Binding SelectedCustomer}" MaxDropDownHeight="200">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding }"/>
-        <TextBlock Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding }"/>
+        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding SelectedCustomer.Name}"/>
+        <TextBlock Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding SelectedCustomer.Contact}"/>
         <ItemsControl Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="2" Width="280" HorizontalAlignment="Left" ItemsSource="{Binding Products}" Background="WhiteSmoke">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
