@@ -34,17 +34,20 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding SelectedCustomer.Name}"/>
-        <TextBlock Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding SelectedCustomer.Contact}"/>
-        <ItemsControl Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="2" Width="280" HorizontalAlignment="Left" ItemsSource="{Binding Products}" Background="WhiteSmoke">
+        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Name:"/>
+        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding SelectedCustomer.Name}" Margin="40 0 0 0"/>
+        <TextBlock Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Contact:"/>
+        <TextBlock Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding SelectedCustomer.Contact}" Margin="50 0 0 0"/>
+        <ItemsControl Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="2" Width="280" HorizontalAlignment="Left" ItemsSource="{Binding SelectedCustomer.Orders}" Background="WhiteSmoke">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border>
-                        <Expander>
+                    <Border Margin="0 8 0 0" BorderBrush="LightGray" BorderThickness="2">
+                        <Expander Background="AliceBlue">
                             <Expander.Header>
-                                <Grid>
-                                    <TextBlock/>
-                                    <TextBlock/>
+                                <Grid  HorizontalAlignment="{Binding Path=HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+                                    <TextBlock Text="Name:"/>
+                                    <TextBlock Text="{Binding Name}"/>
+                                    <TextBlock Text="{Binding }"/>
                                 </Grid>
                             </Expander.Header>
                         </Expander>

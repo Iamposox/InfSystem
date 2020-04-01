@@ -24,6 +24,7 @@ namespace IS.UI.ViewModel
             set
             {
                 m_Customer = value;
+                OnPropertyChanged(nameof(SelectedCustomer));
             }
         }
         
