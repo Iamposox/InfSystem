@@ -24,6 +24,14 @@ namespace IS.UI.Model
                 m_Assortment.InAssortment = value;
             }
         }
+        public string Name
+        {
+            get => m_Assortment.Product.Name;
+            set
+            {
+                m_Assortment.Product.Name = value;
+            }
+        }
         public ICommand Selected
         {
             get => new Command.ActionCommand((obj) =>

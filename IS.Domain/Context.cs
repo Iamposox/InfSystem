@@ -94,23 +94,28 @@ namespace IS.Domain
                     Rw
                 }
                 };
-                Customer Cm = new Customer()
-                {
-                    Name = $"Dirty bakery{i}",
-                    Contact = $"890440588{i}",
-                    Purchased = new List<Product>
-                    {
-                        product
-                    },
-                    Orders = new List<Product>
-                    {
-                        product
-                    }
-                };
                 Assortment As = new Assortment()
                 {
                     InAssortment = 150*i,
                     Product = product
+                };
+                ProductForCustomer Pr = new ProductForCustomer()
+                {
+                    Price = 100 + 10 * i,
+                    Product = As
+                };
+                Customer Cm = new Customer()
+                {
+                    Name = $"Dirty bakery{i}",
+                    Contact = $"890440588{i}",
+                    Purchased = new List<ProductForCustomer>
+                    {
+                        Pr
+                    },
+                    Orders = new List<ProductForCustomer>
+                    {
+                        Pr
+                    }
                 };
                 RawMaterialsToOrder RMTO = new RawMaterialsToOrder()
                 {
@@ -145,6 +150,7 @@ namespace IS.Domain
         public DbSet<Assortment> Assortments { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Product> ProductsForCustomer { get; set; }
         public DbSet<RawMaterial> RawMaterials { get; set; }
         public DbSet<RawMaterialsToOrder> RawMaterialsToOrder { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }

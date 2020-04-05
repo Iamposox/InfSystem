@@ -95,7 +95,7 @@
                                 <ColumnDefinition Width="35"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <fa:ImageAwesome Margin="10,0,0,0" Icon="{Binding Path=Icon,RelativeSource={RelativeSource AncestorType={x:Type Controls:IconButton},Mode=FindAncestor}}">
+                            <fa:ImageAwesome Margin="10,0,0,0" Icon="{Binding Path=Icon,RelativeSource={RelativeSource AncestorType={x:Type Controls:IconButton},Mode=FindAncestor}}" Height="17">
                                 <fa:ImageAwesome.Foreground>
                                     <SolidColorBrush Color="Black" x:Name="IconForeGroundColor"/>
                                 </fa:ImageAwesome.Foreground>
@@ -104,7 +104,7 @@
                                 Width="{Binding Path=Width,RelativeSource={RelativeSource AncestorType={x:Type Controls:IconButton},Mode=FindAncestor}}"
                                 Text="{Binding Path=Text,RelativeSource={RelativeSource AncestorType={x:Type Controls:IconButton},Mode=FindAncestor}}"
                                 VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                                Margin="10,0,0,0" FontSize="16" />
+                                Margin="10,0,8,0" FontSize="16" />
                         </Grid>
                         <Border.Background>
                             <SolidColorBrush Color="AliceBlue" x:Name="SolidBackground"/>

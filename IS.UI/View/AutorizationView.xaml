@@ -25,7 +25,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <TextBlock TextAlignment="Center" Grid.ColumnSpan="2" Text="Окно авторизации"/>
-        <Controls:IconButton Command="{Binding Logic}" Icon="SignIn" Text="Войти" Grid.ColumnSpan="2" Grid.Row="2">
+        <Controls:IconButton Command="{Binding Logic}" Icon="SignIn" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Text="Войти" Grid.ColumnSpan="2" Grid.Row="2">
             <Controls:IconButton.Style>
                 <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
                     <Setter Property="IsEnabled" Value="True"/>

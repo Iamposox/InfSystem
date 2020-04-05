@@ -31,7 +31,7 @@ namespace IS.UI.Model
                 OnPropertyChanged(nameof(Contact));
             }
         }
-        public List<Product> Purchased
+        public List<ProductForCustomer> Purchased
         {
             get => new Context()
                 .Customers
@@ -39,7 +39,7 @@ namespace IS.UI.Model
                 .SelectMany(x => x.Purchased)
                 .ToList();
         }
-        public List<Product> Orders
+        public List<ProductForCustomer> Orders
         {
             get => new Context()
                 .Customers
