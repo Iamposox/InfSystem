@@ -73,7 +73,7 @@
                                      Command="{Binding AddNewCustomerOrder}"
                                      Icon="PlusCircle"
                         HorizontalContentAlignment="Stretch"
-                                     Text="Сохранить изменения"
+                                     Text="Добавить заказ"
                                      Margin="0 0 0 5">
                         <Controls:IconButton.Style>
                             <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
@@ -93,7 +93,7 @@
                                      Command="{Binding AddNewCustomerPurchases}"
                                      Icon="PlusCircle"
                         HorizontalContentAlignment="Stretch"
-                                     Text="Сохранить изменения"
+                                     Text="Добавить покупку"
                                      Margin="0 0 0 5">
                         <Controls:IconButton.Style>
                             <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
