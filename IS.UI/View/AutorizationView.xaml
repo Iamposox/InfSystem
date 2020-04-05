@@ -7,6 +7,7 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:VM="clr-namespace:IS.UI.ViewModel"
              xmlns:Controls="clr-namespace:IS.UI.Control"
+             xmlns:Converters="clr-namespace:IS.UI.Converters"
              mc:Ignorable="d" 
              Background="White"
              d:DesignHeight="150" d:DesignWidth="300">

@@ -1,5 +1,6 @@
 ﻿using IS.Domain;
 using IS.Domain.Model;
+using IS.UI.Manager;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Windows.Input;
@@ -13,12 +14,26 @@ namespace IS.UI.ViewModel
     public class LoginViewModel : Abstract.BindableObject
     {
         private User m_User = new User();
+        public event ClickDelegate Click;
         public User LoginUser 
         { 
             get => m_User;
             set
             {
                 m_User = value;
+            }
+        }
+
+        public string Password
+        {
+            get =>
+                m_User.Password;
+
+            set
+            {
+                
+                m_User.Password = value;
+                OnPropertyChanged(nameof(Password));
             }
         }
 
@@ -33,7 +48,23 @@ namespace IS.UI.ViewModel
             }
         }
 
-        public ICommand Logic { get => new Command.ActionCommand((obj) =>Login(obj)); }
+        private ICommand _logicCommand;
+
+        public ICommand Logic =>
+            _logicCommand ?? (_logicCommand = new Command.ActionCommand(LogicCommandImplementation));
+
+        private async void LogicCommandImplementation(object parameter)
+        {
+            var authorizationResult = await ApplicationManager.GetInstance.Login(new System.Tuple<string, string>(LoginUser.Name, LoginUser.Password));
+            if (!authorizationResult)
+            {
+                Status = "Combination of user and password was not found";
+            }
+            else
+            {
+                Status = $"Loged in as {LoginUser.Name}";
+            }
+        }
 
         private readonly Context context;
 
@@ -43,17 +74,6 @@ namespace IS.UI.ViewModel
         }
 
         //This should be moved to Manager class and check if any user is logged in
-        private async void Login(object obj)
-        {
-            var user = await context
-                .Users
-                .Where(x=>x.Name == LoginUser.Name)
-                .Where(x=>x.Password == LoginUser.Password)
-                .SingleOrDefaultAsync();
-            if (user is null)
-                Status = "Combination of user and password was not found";
-            else
-                Status = $"Loged in as {user.Name}";
-        }
+
     }
 }

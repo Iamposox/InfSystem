@@ -35,13 +35,21 @@ namespace IS.Domain
                 Name = $"Vlada",
                 Password = $"123qwerty456"
             };
+            User Guest = new User()
+            {
+                Email = $"two@gmail.com",
+                Name = $"Guest",
+                Password = $"Guest"
+            };
             Users.Add(user);
+            Users.Add(Guest);
             SaveChanges();
         }
 
         private void SeedRoles()
         {
-            User users = Users.Single(x => x.Name == "Vlada");
+            User users = Users.Single(x=>x.Name == "Vlada");
+            User guest = Users.Single(x => x.Name == "Guest");
             Role roles = new Role()
             {
                 ID = 5,
@@ -71,6 +79,17 @@ namespace IS.Domain
                 ID=1,
                 RoleName = "Admin",
                 Users = new List<User> { users }
+            });
+            Role rolesFive = new Role()
+            {
+                ID = 3,
+                RoleName = $"Guest"
+            };
+            Roles.Add(new Role()
+            {
+                ID = 6,
+                RoleName = $"Guest",
+                Users = new List<User> { guest}
             });
             SaveChanges();
         }

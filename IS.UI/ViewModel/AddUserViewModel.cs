@@ -42,6 +42,10 @@ namespace IS.UI.ViewModel
             SelectedRole.Users.Add(m_User);
             context.Users.Add(m_User);
             context.SaveChanges();
+            SelectedRole = new Role();
+            AddUser = new User();
+            OnPropertyChanged(nameof(SelectedRole));
+            OnPropertyChanged(nameof(AddUser));
         }
     }
 }

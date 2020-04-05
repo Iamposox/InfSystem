@@ -1,6 +1,7 @@
 ﻿using IS.Domain;
 using IS.Domain.Model;
 using IS.UI.Model;
+using IS.UI.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 namespace IS.UI.Manager
 {
     public delegate void NavigationDelegate(object _sender, NavigationModel _navigateTo);
+    public delegate void ClickDelegate(object _sender, object _sendObject);
     /// <summary>
     /// Simple Thread Safe Singleton
     /// Application Manager Stores global accessable elements in application
@@ -22,23 +24,18 @@ namespace IS.UI.Manager
         private static ApplicationManager instance;
         private static readonly object padlock = new object();
         private readonly Context context;
-
+        public LoginViewModel GetUser { get; private set; } = new LoginViewModel();
         private ApplicationManager()
         {
             context = new Context();
-#if DEBUG
             SetTestingUser();
-#endif
         }
         private void SetTestingUser()
         {
-            CurrentUser = context
-                .Users
-                .Include(x => x.Role)
-                .Where(x=>x.Role.RoleName == "Admin")
-                .SingleOrDefault();
+            CurrentUser = context.Users.Include(x => x.Role).Where(x => x.Role.RoleName == "Guest").SingleOrDefault();
+            //Login(CurrentUser);
         }
-
+        public string Status { get; set; }
         public static ApplicationManager GetInstance
         {
             get
@@ -58,24 +55,34 @@ namespace IS.UI.Manager
         }
 
         public User CurrentUser { get; private set; }
-
-        public async Task<User> Login(User _user)
+        internal async Task<bool> Login(object obj)
         {
-            if (CurrentUser is null)
+            var name = default(string);
+            var password = default(string);
+            if (!(obj is null))
             {
-                var temp = await context
-                    .Users
-                    .Include(x=>x.Role)
-                    .Where(x => x.Name == _user.Name)
-                    .Where(x => x.Password == _user.Password)
-                    .SingleOrDefaultAsync();
-
-                if (temp != null)
-                {
-                    CurrentUser = temp;
-                }
+                var param = obj as Tuple<string, string>;
+                (name, password) = (param.Item1, param.Item2);
             }
-            return CurrentUser;
+            else
+            {
+                (name, password) = (CurrentUser.Name, CurrentUser.Password);
+            }
+            var user = await context
+                .Users
+                .Where(x => x.Name == name && x.Password == password)
+                .SingleOrDefaultAsync();
+            CurrentUser = user;
+            if (user is null)
+            {
+                
+                return false;
+            }
+            else
+            {
+                Status = $"Loged in as {user.Name}";
+                return true;
+            }
         }
 
         public void LogOut()

@@ -16,14 +16,14 @@
     </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition MinHeight="350"/>
             <RowDefinition/>
+            <RowDefinition MinHeight="350"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="350"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.ColumnSpan="2">
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <ScrollViewer Grid.Column="2" Margin="0,0,0,10">
                 <ItemsControl ItemsSource="{Binding Assortments}"
                               Background="WhiteSmoke">
@@ -78,7 +78,7 @@
                 </ItemsControl>
             </ScrollViewer>
         </Grid>
-        <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}" Grid.Row="1">
+        <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}" Grid.Row="0">
             <TextBlock Text="{Binding EditerAssortiments.Product.Name}" Margin="10 0 0 0"/>
             <Controls:NumericBox Style="{StaticResource NumericTextBox}" Text="{Binding EditerAssortiments.InAssortment}" Width="100" HorizontalAlignment="Left" Margin="10 0 0 0"/>
             <DockPanel Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
