@@ -14,7 +14,6 @@ using System.Windows.Media;
 namespace IS.UI.Manager
 {
     public delegate void NavigationDelegate(object _sender, NavigationModel _navigateTo);
-    public delegate void ClickDelegate(object _sender, object _sendObject);
     /// <summary>
     /// Simple Thread Safe Singleton
     /// Application Manager Stores global accessable elements in application
@@ -32,8 +31,7 @@ namespace IS.UI.Manager
         }
         private void SetTestingUser()
         {
-            CurrentUser = context.Users.Include(x => x.Role).Where(x => x.Role.RoleName == "Guest").SingleOrDefault();
-            //Login(CurrentUser);
+            CurrentUser = context.Users.Include(x => x.Role).Where(x => x.Role.RoleName == "Admin").SingleOrDefault();
         }
         public string Status { get; set; }
         public static ApplicationManager GetInstance

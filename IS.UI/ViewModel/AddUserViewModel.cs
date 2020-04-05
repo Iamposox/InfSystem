@@ -10,8 +10,8 @@ namespace IS.UI.ViewModel
 {
     public class AddUserViewModel: Abstract.BindableObject
     {
-        private User m_User = new User();
-        private Role m_SelectedRole = new Role();
+        private User m_User;
+        private Role m_SelectedRole;
         public Role SelectedRole 
         {
             get => m_SelectedRole;
@@ -26,7 +26,6 @@ namespace IS.UI.ViewModel
             set 
             {
                 m_User = value;
-
             }
         }
         private readonly Context context;

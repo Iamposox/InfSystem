@@ -51,7 +51,7 @@
                         LastChildFill="True"
                         Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                         Style="{StaticResource InputDockingPanelStyle}">
-                        <TextBlock Text="Name :"/>
+                        <TextBlock Text="Имя :"/>
                         <TextBox 
                             x:Name="CustomerName"
                             Text="{Binding SelectedCustomer.Name}">
@@ -60,7 +60,7 @@
                     <DockPanel
                         Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                         Style="{StaticResource InputDockingPanelStyle}">
-                        <TextBlock Text="Contact :"/>
+                        <TextBlock Text="Контакт :"/>
                         <TextBox 
                             x:Name="CustomerContact"
                             Text="{Binding SelectedCustomer.Contact}"
@@ -120,7 +120,7 @@
                         </Grid.RowDefinitions>
                         <Border Grid.Row="0" BorderThickness="2"
                             BorderBrush="DarkGray">
-                            <TextBlock Text="Product for Customer:"
+                            <TextBlock Text="Продукты для клиента:"
                                 FontSize="22"
                                 Margin="5,0,0,0"
                                 FontWeight="DemiBold"
@@ -158,7 +158,7 @@
             </Grid>
             <Border Grid.Row="1" BorderThickness="2"
                     BorderBrush="DarkGray" VerticalAlignment="Bottom">
-                <TextBlock Text="Select Product :"
+                <TextBlock Text="Выбор продукта:"
                            FontSize="22"
                            Margin="5,0,0,0"
                            FontWeight="DemiBold"
@@ -203,14 +203,14 @@
                                             <RowDefinition/>
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
-                                        <TextBlock Text="Customer: "/>
+                                        <TextBlock Text="Клиент: "/>
                                         <TextBlock Grid.Column="1" Text="{Binding Name}"/>
 
-                                        <TextBlock Grid.Row="1" Text="Contact: "/>
+                                        <TextBlock Grid.Row="1" Text="Контакт: "/>
                                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Contact}"/>
                                         <Controls:IconButton Text="Изменить"
                                                              Grid.Column="2" Grid.RowSpan="2"
-                                                             Width="100" VerticalAlignment="Top"
+                                                             Width="130" VerticalAlignment="Top"
                                                              HorizontalAlignment="Right"
                                                              Icon="PencilSquareOutline"
                                                              Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=1|2|3}"
@@ -237,9 +237,9 @@
                                                             <RowDefinition/>
                                                             <RowDefinition/>
                                                         </Grid.RowDefinitions>
-                                                        <TextBlock HorizontalAlignment="Left" Text="Product: "/>
+                                                        <TextBlock HorizontalAlignment="Left" Text="Продукт: "/>
                                                         <TextBlock HorizontalAlignment="Left" Grid.Row="1" Text="{Binding Product.Product.Name}"/>
-                                                        <TextBlock Grid.Row="2" HorizontalAlignment="Left" Text="Price: "/>
+                                                        <TextBlock Grid.Row="2" HorizontalAlignment="Left" Text="Цена: "/>
                                                         <TextBlock Margin="30 0 0 0" Grid.Row="2" HorizontalAlignment="Left" Text="{Binding Price, StringFormat={}{0:C0}.00}"/>
                                                     </Grid>
                                                 </DataTemplate>
@@ -260,9 +260,9 @@
                                                             <RowDefinition/>
                                                             <RowDefinition/>
                                                         </Grid.RowDefinitions>
-                                                        <TextBlock HorizontalAlignment="Left" Text="Product: "/>
+                                                        <TextBlock HorizontalAlignment="Left" Text="Продукт: "/>
                                                         <TextBlock HorizontalAlignment="Left" Grid.Row="1" Text="{Binding Product.Product.Name}"/>
-                                                        <TextBlock Grid.Row="2" HorizontalAlignment="Left" Text="Price: "/>
+                                                        <TextBlock Grid.Row="2" HorizontalAlignment="Left" Text="Цена: "/>
                                                         <TextBlock Margin="30 0 0 0" Grid.Row="2" HorizontalAlignment="Left" Text="{Binding Price, StringFormat={}{0:C0}.00}"/>
                                                     </Grid>
                                                 </DataTemplate>

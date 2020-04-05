@@ -122,7 +122,6 @@ namespace IS.UI.ViewModel
         {
             ProductForCustomer product = new ProductForCustomer();
             Assortment assortment = new Assortment();
-            assortment.InAssortment = 1;
             assortment.Product = (Product)_sendObject;
             product.Product = assortment;
             var Order = new ProductForCustomerWrapper(product);

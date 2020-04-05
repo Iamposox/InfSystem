@@ -15,7 +15,7 @@ namespace IS.UI.ViewModel
     {
         readonly Context context;
         public ObservableCollection<RawMaterialWrapper> rawMaterials { get; set; } = new ObservableCollection<RawMaterialWrapper>();
-        private RawMaterial m_raw = new RawMaterial();
+        private RawMaterial m_raw;
         public RawMaterialsViewModel()
         {
             context = new Context();

@@ -49,7 +49,7 @@
                     LastChildFill="True"
                     Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1,AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                     Style="{StaticResource InputDockingPanelStyle}">
-                <TextBlock Text="Login"/>
+                <TextBlock Text="Логин"/>
                 <TextBox x:Name="LoginBox" Text="{Binding LoginUser.Name}"/>
             </DockPanel>
             <DockPanel 
@@ -57,7 +57,7 @@
                     Grid.Row="1"
                     Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                         Style="{StaticResource InputDockingPanelStyle}">
-                <TextBlock Text="Password"/>
+                <TextBlock Text="Пароль"/>
                 <TextBox x:Name="PasswordBox" Text="{Binding LoginUser.Password}"/>
             </DockPanel>
         </UniformGrid>

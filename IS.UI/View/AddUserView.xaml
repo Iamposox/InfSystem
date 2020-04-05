@@ -14,12 +14,6 @@
     <UserControl.DataContext>
         <VM:AddUserViewModel/>
     </UserControl.DataContext>
-    <UserControl.Resources>
-        <Style x:Key="FirstStyleExample" TargetType="TextBox">
-            <Setter Property="Width" Value="110"/>
-            <Setter Property="Height" Value="20"/>
-        </Style>
-    </UserControl.Resources>
     <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=10}">
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="25"/>
@@ -46,7 +40,7 @@
                     LastChildFill="True"
                     Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1,AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                     Style="{StaticResource InputDockingPanelStyle}">
-                <TextBlock Text="Login"/>
+                <TextBlock Text="Логин"/>
                 <TextBox x:Name="LoginBox" Text="{Binding AddUser.Name}"/>
             </DockPanel>
             <DockPanel 
@@ -54,7 +48,7 @@
                     Grid.Row="1"
                     Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                         Style="{StaticResource InputDockingPanelStyle}">
-                <TextBlock Text="Password"/>
+                <TextBlock Text="Пароль"/>
                 <TextBox x:Name="PasswordBox" Text="{Binding AddUser.Password}"/>
             </DockPanel>
             <DockPanel 
@@ -62,14 +56,14 @@
                     Grid.Row="1"
                     Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                         Style="{StaticResource InputDockingPanelStyle}">
-                <TextBlock Text="Email"/>
+                <TextBlock Text="Эл. почта"/>
                 <TextBox x:Name="EmailBox" Text="{Binding AddUser.Email}"/>
             </DockPanel>
             <DockPanel  Grid.Column="1"
                     Grid.Row="1"
                     Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                         Style="{StaticResource InputDockingPanelStyle}">
-                <TextBlock Text="Roles"/>
+                <TextBlock Text="Роль"/>
                 <ComboBox x:Name="RolesSelect" Style="{StaticResource ComboStyle}" Grid.Row="1" Grid.Column="2" ItemsSource="{Binding roles}" SelectedValue="{Binding SelectedRole}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>

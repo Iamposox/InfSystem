@@ -16,74 +16,86 @@
     </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition>
+                <RowDefinition.Style>
+                    <Style TargetType="RowDefinition">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=1|2|3}" Value="Collapsed">
+                                <Setter Property="Height" Value="0"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Height" Value="*"/>
+                    </Style>
+                </RowDefinition.Style>
+            </RowDefinition>
+            <RowDefinition MaxHeight="7"/>
             <RowDefinition MinHeight="350"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="350"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="1" Grid.ColumnSpan="2">
-            <ScrollViewer Grid.Column="2" Margin="0,0,0,10">
-                <ItemsControl ItemsSource="{Binding Assortments}"
+        <GridSplitter Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" Height="7" VerticalAlignment="Center"
+                      Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=1|2|3}"/>
+        <ScrollViewer Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,0,10">
+            <ItemsControl ItemsSource="{Binding Assortments}"
                               Background="WhiteSmoke">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Margin="0,8,0,0"
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,8,0,0"
                                     BorderBrush="LightGray"
                                     BorderThickness="2">
-                                <Expander Background="AliceBlue"
+                            <Expander Background="AliceBlue"
                                           ExpandDirection="Down">
-                                    <Expander.Header>
-                                        <Grid  HorizontalAlignment="{Binding Path=HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="20*"/>
-                                                <ColumnDefinition Width="25*"/>
-                                                <ColumnDefinition Width="100"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                                <RowDefinition/>
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Text="Product: "/>
-                                            <TextBlock Grid.Column="1" Text="{Binding GetAssortment.Product.Name}"/>
-                                            <TextBlock Grid.Row="1" Text="Count of Assortiment: "/>
-                                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding GetAssortment.InAssortment}"/>
-                                            <Controls:IconButton 
+                                <Expander.Header>
+                                    <Grid  HorizontalAlignment="{Binding Path=HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20*"/>
+                                            <ColumnDefinition Width="25*"/>
+                                            <ColumnDefinition Width="150"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="Продукт: "/>
+                                        <TextBlock Grid.Column="1" Text="{Binding GetAssortment.Product.Name}"/>
+                                        <TextBlock Grid.Row="1" Text="Количество: "/>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding GetAssortment.InAssortment}"/>
+                                        <Controls:IconButton 
                                                 Command="{Binding Selected}"
                                                 Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
-                                                Text="Edit"   Grid.Column="3" Grid.RowSpan="4"
-                                                Width="90" VerticalAlignment="Top"
+                                                Text="Изменить"   Grid.Column="3" Grid.RowSpan="4"
+                                                Width="150" VerticalAlignment="Top"
                                                 HorizontalAlignment="Right"
                                                 Icon="PencilSquareOutline"/>
-                                        </Grid>
-                                    </Expander.Header>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="50"/>
-                                            <ColumnDefinition Width="120"/>
-                                            <ColumnDefinition Width="190"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock HorizontalAlignment="Left" Margin="10 0 0 0" Grid.Column="1" Text="Passive costs: "/>
-                                        <TextBlock HorizontalAlignment="Right" Grid.Column="1" Margin="0,0,0,0" Text="{Binding GetAssortment.Product.PassiveCosts}"/>
-                                        <TextBlock Grid.Column="2" Margin="10 0 0 0" Text="Preparation of Duration: "/>
-                                        <TextBlock HorizontalAlignment="Right" Grid.Column="2" Text="{Binding GetAssortment.Product.PreparationDuration}"/>
                                     </Grid>
-                                </Expander>
-                            </Border>
+                                </Expander.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="190"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock HorizontalAlignment="Left" Margin="10 0 0 0" Grid.Column="0" Grid.ColumnSpan="2" Text="Пассивные затраты: "/>
+                                    <TextBlock HorizontalAlignment="Right" Grid.Column="1" Margin="0 0 25 0" Text="{Binding GetAssortment.Product.PassiveCosts}"/>
+                                    <TextBlock Grid.Column="2" Margin="10 0 0 0" Text="Время производства: "/>
+                                    <TextBlock HorizontalAlignment="Right" Grid.Column="2" Text="{Binding GetAssortment.Product.PreparationDuration}"/>
+                                </Grid>
+                            </Expander>
+                        </Border>
 
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
         <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}" Grid.Row="0">
             <TextBlock Text="{Binding EditerAssortiments.Product.Name}" Margin="10 0 0 0"/>
             <Controls:NumericBox Style="{StaticResource NumericTextBox}" Text="{Binding EditerAssortiments.InAssortment}" Width="100" HorizontalAlignment="Left" Margin="10 0 0 0"/>
             <DockPanel Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                         Style="{StaticResource InputDockingPanelStyle}">
-                <Controls:IconButton HorizontalAlignment="Right" Margin="150 0 0 0" VerticalAlignment="Bottom" Command="{Binding AddInAssortiment}" Icon="PlusCircle" Text="Добавить">
+                <Controls:IconButton HorizontalAlignment="Right" Margin="150 0 0 0" VerticalAlignment="Bottom" Command="{Binding AddInAssortiment}" Icon="PlusCircle" Text="Изменить">
                     <Controls:IconButton.Style>
                         <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
                             <Setter Property="IsEnabled" Value="True"/>

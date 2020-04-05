@@ -14,7 +14,6 @@ namespace IS.UI.ViewModel
     public class LoginViewModel : Abstract.BindableObject
     {
         private User m_User = new User();
-        public event ClickDelegate Click;
         public User LoginUser 
         { 
             get => m_User;
@@ -28,10 +27,8 @@ namespace IS.UI.ViewModel
         {
             get =>
                 m_User.Password;
-
             set
             {
-                
                 m_User.Password = value;
                 OnPropertyChanged(nameof(Password));
             }
@@ -72,8 +69,5 @@ namespace IS.UI.ViewModel
         {
             context = new Context();
         }
-
-        //This should be moved to Manager class and check if any user is logged in
-
     }
 }
