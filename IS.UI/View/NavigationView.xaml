@@ -23,6 +23,11 @@
                 CornerRadius="0"
                 HorizontalAlignment="Stretch"
                 >
+                <Border.Visibility>
+                    <MultiBinding Converter="{Convert:RoleToVisibilityConverter}">
+                        <Binding Path="RolesAllowed"/>
+                    </MultiBinding>
+                </Border.Visibility>
                 <Grid Height="30" Margin="5" HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="35"/>

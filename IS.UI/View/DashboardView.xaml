@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="IS.UI.View.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IS.UI.View"
+             xmlns:VM="clr-namespace:IS.UI.ViewModel"
+             mc:Ignorable="d" 
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:Controls="clr-namespace:IS.UI.Control"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <VM:DashboardViewModel/>
+    </UserControl.DataContext>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{Binding LoginVisibility}">
+            <local:AutorizationView />
+        </StackPanel>
+        <DockPanel Visibility="{Binding DashboardInfo}" DockPanel.Dock="Bottom">
+            <UniformGrid DockPanel.Dock="Top">
+                <lvc:PieChart LegendLocation="Bottom" Hoverable="False" Height="350" Width="350" Series="{Binding PieData}"/>
+
+
+            </UniformGrid>
+            
+            
+            <Controls:IconButton 
+                DockPanel.Dock="Bottom"
+                Command="{Binding LogoutCommand}" 
+                Icon="SignOut" HorizontalContentAlignment="Stretch" 
+                HorizontalAlignment="Center" 
+                Text="Logout"/>
+
+        </DockPanel>
+    </DockPanel>
+</UserControl>

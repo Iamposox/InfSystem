@@ -9,7 +9,7 @@ using System.Windows.Controls;
 
 namespace IS.UI.ViewModel
 {
-    public class NavigationViewModel
+    public class NavigationViewModel:Abstract.BindableObject
     {
         public ObservableCollection<NavigationModel> NavigationOptions { get; set; }
         private NavigationModel m_SelectedModel;
@@ -27,7 +27,13 @@ namespace IS.UI.ViewModel
         public NavigationViewModel()
         {
             NavigationOptions = new ObservableCollection<NavigationModel>(Manager.ApplicationManager.NavigationNameToUserControl.Keys.ToList());
+            Manager.ApplicationManager.GetInstance.ValuesChangedNotification += GetInstance_ValuesChangedNotification;
         }
 
+        private void GetInstance_ValuesChangedNotification(object _sender)
+        {
+            NavigationOptions = new ObservableCollection<NavigationModel>(Manager.ApplicationManager.NavigationNameToUserControl.Keys.ToList());
+            OnPropertyChanged(nameof(NavigationOptions));
+        }
     }
 }

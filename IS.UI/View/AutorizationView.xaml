@@ -10,7 +10,7 @@
              xmlns:Converters="clr-namespace:IS.UI.Converters"
              mc:Ignorable="d" 
              Background="White"
-             d:DesignHeight="150" d:DesignWidth="300">
+             d:DesignHeight="150" d:DesignWidth="500">
     <UserControl.DataContext>
         <VM:LoginViewModel/>
     </UserControl.DataContext>
@@ -26,7 +26,10 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <TextBlock TextAlignment="Center" Grid.ColumnSpan="2" Text="Окно авторизации"/>
-        <Controls:IconButton Command="{Binding Logic}" Icon="SignIn" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Text="Войти" Grid.ColumnSpan="2" Grid.Row="2">
+        <Controls:IconButton Command="{Binding Login}" 
+                             Icon="SignIn" HorizontalContentAlignment="Stretch" 
+                             HorizontalAlignment="Center" 
+                             Text="Войти" Grid.ColumnSpan="2" Grid.Row="2">
             <Controls:IconButton.Style>
                 <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
                     <Setter Property="IsEnabled" Value="True"/>
@@ -41,7 +44,6 @@
                 </Style>
             </Controls:IconButton.Style>
         </Controls:IconButton>
-        <TextBlock TextAlignment="Center" Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding Status}"/>
         <UniformGrid Tag="2" Style="{StaticResource UniformInputFormStyle}" Grid.Row="1" Grid.ColumnSpan="2">
             <DockPanel
                     Grid.Column="1"

@@ -13,23 +13,15 @@ namespace IS.UI.ViewModel
     /// </summary>
     public class LoginViewModel : Abstract.BindableObject
     {
-        private User m_User = new User();
-        public User LoginUser 
-        { 
-            get => m_User;
-            set
-            {
-                m_User = value;
-            }
-        }
+        public User LoginUser { get; set; } = new User();
 
         public string Password
         {
             get =>
-                m_User.Password;
+                LoginUser.Password;
             set
             {
-                m_User.Password = value;
+                LoginUser.Password = value;
                 OnPropertyChanged(nameof(Password));
             }
         }
@@ -45,29 +37,7 @@ namespace IS.UI.ViewModel
             }
         }
 
-        private ICommand _logicCommand;
+        public ICommand Login { get => new Command.ActionCommand((obj) => { ApplicationManager.GetInstance.TryLogin(LoginUser); }); }
 
-        public ICommand Logic =>
-            _logicCommand ?? (_logicCommand = new Command.ActionCommand(LogicCommandImplementation));
-
-        private async void LogicCommandImplementation(object parameter)
-        {
-            var authorizationResult = await ApplicationManager.GetInstance.Login(new System.Tuple<string, string>(LoginUser.Name, LoginUser.Password));
-            if (!authorizationResult)
-            {
-                Status = "Combination of user and password was not found";
-            }
-            else
-            {
-                Status = $"Loged in as {LoginUser.Name}";
-            }
-        }
-
-        private readonly Context context;
-
-        public LoginViewModel()
-        {
-            context = new Context();
-        }
     }
 }

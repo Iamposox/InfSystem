@@ -26,7 +26,7 @@
             </Grid.RowDefinitions>
             <UserControl Grid.RowSpan="2" Content="{Binding  CurrentView,Converter={StaticResource NavigationConverter}}"/>
         </Grid>
-        <local:NavigationView Visibility="{Binding Converter={converter:RoleToVisibilityConverter}, ConverterParameter=1|2|3|4|5}"/>
+        <local:NavigationView/>
 
     </Grid>
 </Window>
