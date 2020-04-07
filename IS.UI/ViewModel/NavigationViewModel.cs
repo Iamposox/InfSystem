@@ -26,13 +26,13 @@ namespace IS.UI.ViewModel
 
         public NavigationViewModel()
         {
-            NavigationOptions = new ObservableCollection<NavigationModel>(Manager.ApplicationManager.NavigationNameToUserControl.Keys.ToList());
+            NavigationOptions = new ObservableCollection<NavigationModel>(Manager.ApplicationManager.GetInstance.NavigationNameToUserControl.Keys.ToList());
             Manager.ApplicationManager.GetInstance.ValuesChangedNotification += GetInstance_ValuesChangedNotification;
         }
 
         private void GetInstance_ValuesChangedNotification(object _sender)
         {
-            NavigationOptions = new ObservableCollection<NavigationModel>(Manager.ApplicationManager.NavigationNameToUserControl.Keys.ToList());
+            NavigationOptions = new ObservableCollection<NavigationModel>(Manager.ApplicationManager.GetInstance.NavigationNameToUserControl.Keys.ToList());
             OnPropertyChanged(nameof(NavigationOptions));
         }
     }

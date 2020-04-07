@@ -27,9 +27,9 @@ namespace IS.UI.Converters
         {
             NavigationModel navigateTo = (NavigationModel)value;
             if (navigateTo is null) return null;
-            if (Manager.ApplicationManager.NavigationNameToUserControl.ContainsKey(navigateTo))
+            if (Manager.ApplicationManager.GetInstance.NavigationNameToUserControl.ContainsKey(navigateTo))
             {
-                return Manager.ApplicationManager.NavigationNameToUserControl[navigateTo];
+                return Manager.ApplicationManager.GetInstance.NavigationNameToUserControl[navigateTo].Invoke();
             }
             return null;
         }

@@ -20,6 +20,8 @@ namespace IS.UI.ViewModel
                 m_SelectedRole = value;
             }
         }
+        public List<Role> roles { get=>context.Roles.ToList();}
+        public ICommand AddUsers { get => new Command.ActionCommand((obj) => Add(obj)); }
         public User AddUser
         { 
             get=>m_User; 
@@ -33,8 +35,7 @@ namespace IS.UI.ViewModel
         {
             context = new Context();
         }
-        public List<Role> roles { get=>context.Roles.ToList();}
-        public ICommand AddUsers { get => new Command.ActionCommand((obj) => Add(obj)); }
+
         public void Add(object obj) 
         {
             m_User.Role = m_SelectedRole;

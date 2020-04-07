@@ -79,14 +79,15 @@ namespace IS.UI.Manager
         /// <summary>
         /// Mapping Navigation names to actual Views
         /// </summary>
-        public static Dictionary<NavigationModel, UserControl> NavigationNameToUserControl = new Dictionary<NavigationModel, UserControl>
+        public Dictionary<NavigationModel, Func<UserControl>> NavigationNameToUserControl =
+            new Dictionary<NavigationModel, Func<UserControl>>
         {
-            {new NavigationModel("Dashboard",FontAwesome.WPF.FontAwesomeIcon.Globe,"any"), new View.DashboardView()},
-            {new NavigationModel("Users",FontAwesome.WPF.FontAwesomeIcon.GoogleWallet,"1|2|3|4|5"), new View.AddUserView()},
-            {new NavigationModel("Customers",FontAwesome.WPF.FontAwesomeIcon.HandScissorsOutline,"1|2|3|4|5"), new View.CustomersViewTwo()},
-            {new NavigationModel("Raw Materials",FontAwesome.WPF.FontAwesomeIcon.Heart,"1|2|3|4|5"),new View.RawMaterialsVIew()},
-            {new NavigationModel("Supplier",FontAwesome.WPF.FontAwesomeIcon.HourglassEnd,"1|2|3|4|5"),new View.SupplierView()},
-            {new NavigationModel("Asortiments",FontAwesome.WPF.FontAwesomeIcon.Fire,"1|2|3|4|5"),new View.AssortmentsView()},
+            {new NavigationModel("Dashboard",FontAwesome.WPF.FontAwesomeIcon.Globe,"any"),()=> new View.DashboardView()},
+            {new NavigationModel("Users",FontAwesome.WPF.FontAwesomeIcon.GoogleWallet,"1|2|3|4|5"), ()=>new View.AddUserView()},
+            {new NavigationModel("Customers",FontAwesome.WPF.FontAwesomeIcon.HandScissorsOutline,"1|2|3|4|5"),()=> new View.CustomersViewTwo()},
+            {new NavigationModel("Raw Materials",FontAwesome.WPF.FontAwesomeIcon.Heart,"1|2|3|4|5"),()=>new View.RawMaterialsVIew()},
+            {new NavigationModel("Supplier",FontAwesome.WPF.FontAwesomeIcon.HourglassEnd,"1|2|3|4|5"),()=>new View.SupplierView()},
+            {new NavigationModel("Asortiments",FontAwesome.WPF.FontAwesomeIcon.Fire,"1|2|3|4|5"),()=>new View.AssortmentsView()},
         };
 
     }

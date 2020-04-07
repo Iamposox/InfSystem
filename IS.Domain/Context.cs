@@ -42,7 +42,7 @@ namespace IS.Domain
 
         private void SeedRoles()
         {
-            User users = Users.Single(x=>x.Name == "Vlada");
+
             Role roles = new Role()
             {
                 ID = 5,
@@ -71,13 +71,8 @@ namespace IS.Domain
             {
                 ID=1,
                 RoleName = "Admin",
-                Users = new List<User> { users }
+                Users = new List<User> { Users.Single(x => x.Name == "Vlada") }
             });
-            Role rolesFive = new Role()
-            {
-                ID = 3,
-                RoleName = $"Guest"
-            };
             SaveChanges();
         }
 
