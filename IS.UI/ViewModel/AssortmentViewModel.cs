@@ -28,9 +28,7 @@ namespace IS.UI.ViewModel
             set
             {
                 m_Assortiment = value;
-                OnPropertyChanged(nameof(EditerAssortiments));
-                OnPropertyChanged(nameof(EditerAssortiments.Product));
-                OnPropertyChanged(nameof(EditerAssortiments.InAssortment));
+                Changed();
             }
         }
         public ICommand AddInAssortiment { get => new Command.ActionCommand((obj) =>
@@ -39,20 +37,28 @@ namespace IS.UI.ViewModel
             {
                 if (EditerAssortiments.ID == 0)
                     context.Add(EditerAssortiments);
-                context.SaveChanges();
-                Assortments.Clear();
-                context.Assortments.ToList().ForEach(x => Assortments.Add(new AssortimentsWrapper(x)));
-                foreach (var item in Assortments)
-                    item.ItemSelected += Item_Selected;
-                EditerAssortiments = new Assortment();
-                OnPropertyChanged(nameof(EditerAssortiments.Product));
-                OnPropertyChanged(nameof(EditerAssortiments.InAssortment));
-                context.SaveChanges();
+                EditAssortiment();
             }
         }); }
         private void Item_Selected(object _sender, object _SendObject)
         {
             EditerAssortiments = (Assortment)_SendObject;
+        }
+        private void EditAssortiment()
+        {
+            context.SaveChanges();
+            Assortments.Clear();
+            context.Assortments.ToList().ForEach(x => Assortments.Add(new AssortimentsWrapper(x)));
+            foreach (var item in Assortments)
+                item.ItemSelected += Item_Selected;
+            EditerAssortiments = new Assortment();
+            context.SaveChanges();
+        }
+        private void Changed()
+        {
+            OnPropertyChanged(nameof(EditerAssortiments));
+            OnPropertyChanged(nameof(EditerAssortiments.Product));
+            OnPropertyChanged(nameof(EditerAssortiments.InAssortment));
         }
     }
 }

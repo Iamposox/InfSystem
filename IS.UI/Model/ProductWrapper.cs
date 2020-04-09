@@ -1,4 +1,4 @@
-﻿using IS.Domain.Model;
+﻿ using IS.Domain.Model;
 using IS.UI.ViewModel;
 using System;
 using System.Collections.Generic;

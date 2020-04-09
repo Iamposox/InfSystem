@@ -82,12 +82,12 @@ namespace IS.UI.Manager
         public Dictionary<NavigationModel, Func<UserControl>> NavigationNameToUserControl =
             new Dictionary<NavigationModel, Func<UserControl>>
         {
-            {new NavigationModel("Dashboard",FontAwesome.WPF.FontAwesomeIcon.Globe,"any"),()=> new View.DashboardView()},
-            {new NavigationModel("Users",FontAwesome.WPF.FontAwesomeIcon.GoogleWallet,"1|2|3|4|5"), ()=>new View.AddUserView()},
-            {new NavigationModel("Customers",FontAwesome.WPF.FontAwesomeIcon.HandScissorsOutline,"1|2|3|4|5"),()=> new View.CustomersViewTwo()},
-            {new NavigationModel("Raw Materials",FontAwesome.WPF.FontAwesomeIcon.Heart,"1|2|3|4|5"),()=>new View.RawMaterialsVIew()},
-            {new NavigationModel("Supplier",FontAwesome.WPF.FontAwesomeIcon.HourglassEnd,"1|2|3|4|5"),()=>new View.SupplierView()},
-            {new NavigationModel("Asortiments",FontAwesome.WPF.FontAwesomeIcon.Fire,"1|2|3|4|5"),()=>new View.AssortmentsView()},
+            {new NavigationModel("Главное",FontAwesome.WPF.FontAwesomeIcon.Globe,"any"),()=> new View.DashboardView()},
+            {new NavigationModel("Пользователи",FontAwesome.WPF.FontAwesomeIcon.GoogleWallet,"1|2|3|4|5"), ()=>new View.UsersView()},
+            {new NavigationModel("Клиенты",FontAwesome.WPF.FontAwesomeIcon.HandScissorsOutline,"1|2|3|4|5"),()=> new View.CustomersViewTwo()},
+            {new NavigationModel("Продукты",FontAwesome.WPF.FontAwesomeIcon.Heart,"1|2|3|4|5"),()=>new View.RawMaterialsVIew()},
+            {new NavigationModel("Изделия",FontAwesome.WPF.FontAwesomeIcon.HourglassEnd,"1|2|3|4|5"),()=>new View.SupplierView()},
+            {new NavigationModel("Ассортимент",FontAwesome.WPF.FontAwesomeIcon.Fire,"1|2|3|4|5"),()=>new View.AssortmentsView()},
         };
 
     }

@@ -29,10 +29,15 @@ namespace IS.UI.ViewModel
             set
             {
                 m_raw = value;
-                OnPropertyChanged(nameof(EditerRawMaterial));
-                OnPropertyChanged(nameof(EditerRawMaterial.Name));
-                OnPropertyChanged(nameof(EditerRawMaterial.Amount));
+                Changed();
             }
+        }
+        private void Changed()
+        {
+            OnPropertyChanged(nameof(EditerRawMaterial));
+            OnPropertyChanged(nameof(EditerRawMaterial.Name));
+            OnPropertyChanged(nameof(EditerRawMaterial.Amount));
+            OnPropertyChanged(nameof(rawMaterials));
         }
         public ICommand AddRaw
         {
@@ -50,8 +55,7 @@ namespace IS.UI.ViewModel
                         item.ItemSelected += Item_ItemSelected;
                     }
                     EditerRawMaterial = new RawMaterial();
-                    OnPropertyChanged(nameof(EditerRawMaterial));
-                    OnPropertyChanged(nameof(rawMaterials));
+                    Changed();
                     context.SaveChanges();
                 }
             });

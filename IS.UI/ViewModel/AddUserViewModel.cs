@@ -1,7 +1,9 @@
 ﻿using IS.Domain;
 using IS.Domain.Model;
+using IS.UI.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
@@ -12,6 +14,7 @@ namespace IS.UI.ViewModel
     {
         private User m_User;
         private Role m_SelectedRole;
+        public ObservableCollection<UsersWrapper> Users = new ObservableCollection<UsersWrapper>();
         public Role SelectedRole 
         {
             get => m_SelectedRole;
@@ -21,21 +24,32 @@ namespace IS.UI.ViewModel
             }
         }
         public List<Role> roles { get=>context.Roles.ToList();}
-        public ICommand AddUsers { get => new Command.ActionCommand((obj) => Add(obj)); }
-        public User AddUser
+        
+        public User EditerUser
         { 
             get=>m_User; 
             set 
             {
                 m_User = value;
+                OnPropertyChanged(nameof(EditerUser));
+                OnPropertyChanged(nameof(EditerUser.Email));
+                OnPropertyChanged(nameof(EditerUser.Name));
+                OnPropertyChanged(nameof(EditerUser.Role));
             }
         }
         private readonly Context context;
+        
         public AddUserViewModel()
         {
             context = new Context();
+            context.Users.ToList().ForEach(x => Users.Add(new UsersWrapper(x)));
+            foreach (var item in Users)
+                item.ItemSelected += Item_Selected;
         }
-
+        private void Item_Selected(object _sender, object _SendObject)
+        {
+            EditerUser = (User)_SendObject;
+        }
         public void Add(object obj) 
         {
             m_User.Role = m_SelectedRole;
@@ -43,9 +57,28 @@ namespace IS.UI.ViewModel
             context.Users.Add(m_User);
             context.SaveChanges();
             SelectedRole = new Role();
-            AddUser = new User();
+            EditerUser = new User();
             OnPropertyChanged(nameof(SelectedRole));
-            OnPropertyChanged(nameof(AddUser));
+            OnPropertyChanged(nameof(EditerUser));
         }
+        public ICommand AddUsers { get => new Command.ActionCommand((obj) =>
+        {
+            if (EditerUser.Validate())
+            {
+                if (EditerUser.ID == 0)
+                    context.Add(EditerUser);
+                context.SaveChanges();
+                Users.Clear();
+                context.Users.ToList().ForEach(x => Users.Add(new UsersWrapper(x)));
+                foreach (var item in Users)
+                    item.ItemSelected += Item_Selected;
+                EditerUser = new User();
+                OnPropertyChanged(nameof(EditerUser));
+                OnPropertyChanged(nameof(EditerUser.Email));
+                OnPropertyChanged(nameof(EditerUser.Name));
+                OnPropertyChanged(nameof(EditerUser.Role));
+                context.SaveChanges();
+            }
+        }); }
     }
 }

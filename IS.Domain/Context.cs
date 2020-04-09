@@ -95,15 +95,35 @@ namespace IS.Domain
                     Rw
                 }
                 };
+                Product productTwo = new Product()
+                {
+                    Name = $" crap {i}",
+                    PassiveCosts = 99.9,
+                    PreparationDuration = new TimeSpan(2, 30, 0),
+                    RequeredMaterials = new List<RawMaterial>
+                {
+                    Rw
+                }
+                };
                 Assortment As = new Assortment()
                 {
                     InAssortment = 150*i,
                     Product = product
                 };
+                Assortment AsTwo = new Assortment()
+                {
+                    InAssortment = 150 * i,
+                    Product = productTwo
+                };
                 ProductForCustomer Pr = new ProductForCustomer()
                 {
                     Price = 100 + 10 * i,
                     Product = As
+                };
+                ProductForCustomer PrTwo = new ProductForCustomer()
+                {
+                    Price = 100 + 10 * i,
+                    Product = AsTwo
                 };
                 Customer Cm = new Customer()
                 {
@@ -115,7 +135,7 @@ namespace IS.Domain
                     },
                     Orders = new List<ProductForCustomer>
                     {
-                        Pr
+                        PrTwo
                     }
                 };
                 RawMaterialsToOrder RMTO = new RawMaterialsToOrder()

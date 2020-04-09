@@ -15,6 +15,7 @@ namespace IS.UI.ViewModel
         public ObservableCollection<CustomerWrapper> Customers { get; set; } = new ObservableCollection<CustomerWrapper>();
         public ObservableCollection<ProductWrapper> Products { get; set; } = new ObservableCollection<ProductWrapper>();
         public ObservableCollection<ProductForCustomerWrapper> ProductForCustomer { get; set; } = new ObservableCollection<ProductForCustomerWrapper>();
+        private Customer m_Customer = new Customer();
         public CustomerViewModel()
         {
             context.Customers.ToList().ForEach(x => Customers.Add(new CustomerWrapper(x)));
@@ -22,33 +23,47 @@ namespace IS.UI.ViewModel
             foreach (var item in Customers)
                 item.ItemSelected += Item_Selected;
             Products.ToList().ForEach(x => x.ItemSelected += product_ItemSelected);
-            ProductForCustomer.ToList().ForEach(x => x.ItemSelected += product_ItemSelected);
         }
-        private Customer m_Customer = new Customer();
         public Customer SelectedCustomer
         {
             get => m_Customer;
             set
             {
-                ProductForCustomer.ToList().ForEach(x => x.ItemSelected -= OutOrder_ItemSelected);
                 ProductForCustomer.Clear();
                 m_Customer = value;
-                OnPropertyChanged(nameof(SelectedCustomer));
-                OnPropertyChanged(nameof(SelectedCustomer.Name));
-                OnPropertyChanged(nameof(SelectedCustomer.Contact));
                 SelectedCustomer.Orders.ForEach(x =>
                 {
                     var Order = new ProductForCustomerWrapper(x);
-                    Order.ItemSelected += product_ItemSelected;
+                    Order.ItemSelected += OutOrder_ItemSelected;
                     ProductForCustomer.Add(Order);
                 });
                 SelectedCustomer.Purchased.ForEach(x =>
                 {
                     var Order = new ProductForCustomerWrapper(x);
-                    Order.ItemSelected += product_ItemSelected;
+                    Order.ItemSelected += OutOrder_ItemSelected;
                     ProductForCustomer.Add(Order);
                 });
+                Changed();
             }
+        }
+        private void Changed()
+        {
+            OnPropertyChanged(nameof(SelectedCustomer));
+            OnPropertyChanged(nameof(Customers));
+            OnPropertyChanged(nameof(SelectedCustomer.Name));
+            OnPropertyChanged(nameof(SelectedCustomer.Contact));
+        }
+        private void XZ()
+        {
+            context.SaveChanges();
+            Customers.Clear();
+            context.Customers
+                        .ToList()
+                        .ForEach(x => Customers.Add(new CustomerWrapper(x)));
+            foreach (var item in Customers)
+                item.ItemSelected += Item_Selected;
+            SelectedCustomer = new Customer();
+            ProductForCustomer.Clear();
         }
         public ICommand AddNewCustomerOrder
         {
@@ -67,17 +82,8 @@ namespace IS.UI.ViewModel
                     context.SaveChanges();
                     foreach (var item in ProductForCustomer)
                         SelectedCustomer.Orders.Add(item.GetProductForCustomer);
-                    context.SaveChanges();
-                    Customers.Clear();
-                    context.Customers
-                                .ToList()
-                                .ForEach(x => Customers.Add(new CustomerWrapper(x)));
-                    foreach (var item in Customers)
-                        item.ItemSelected += Item_Selected;
-                    SelectedCustomer = new Customer();
-                    ProductForCustomer.Clear();
-                    OnPropertyChanged(nameof(SelectedCustomer));
-                    OnPropertyChanged(nameof(Customers));
+                    XZ();
+                    Changed();
                     context.SaveChanges();
                 }
             });
@@ -99,17 +105,8 @@ namespace IS.UI.ViewModel
                     context.SaveChanges();
                     foreach (var item in ProductForCustomer)
                         SelectedCustomer.Purchased.Add(item.GetProductForCustomer);
-                    context.SaveChanges();
-                    Customers.Clear();
-                    context.Customers
-                                .ToList()
-                                .ForEach(x => Customers.Add(new CustomerWrapper(x)));
-                    foreach (var item in Customers)
-                        item.ItemSelected += Item_Selected;
-                    SelectedCustomer = new Customer();
-                    ProductForCustomer.Clear();
-                    OnPropertyChanged(nameof(SelectedCustomer));
-                    OnPropertyChanged(nameof(Customers));
+                    XZ();
+                    Changed();
                     context.SaveChanges();
                 }
             });
