@@ -51,9 +51,7 @@ namespace IS.UI.ViewModel
                     rawMaterials.Clear();
                     context.RawMaterials.ToList().ForEach(x => rawMaterials.Add(new RawMaterialWrapper(x)));
                     foreach (var item in rawMaterials)
-                    {
                         item.ItemSelected += Item_ItemSelected;
-                    }
                     EditerRawMaterial = new RawMaterial();
                     Changed();
                     context.SaveChanges();
