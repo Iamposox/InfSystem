@@ -11,6 +11,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="White">
+    <UserControl.DataContext>
+        <VM:AddUserViewModel/>
+    </UserControl.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition >
@@ -57,7 +60,7 @@
                     Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1,AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                     Style="{StaticResource InputDockingPanelStyle}">
                     <TextBlock Text="Логин"/>
-                    <TextBox x:Name="LoginBox" Text="{Binding AddUser.Name}"/>
+                    <TextBox x:Name="LoginBox" Text="{Binding EditerUser.Name}"/>
                 </DockPanel>
                 <DockPanel 
                     Grid.Column="0"
@@ -65,7 +68,7 @@
                     Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                         Style="{StaticResource InputDockingPanelStyle}">
                     <TextBlock Text="Пароль"/>
-                    <TextBox x:Name="PasswordBox" Text="{Binding AddUser.Password}"/>
+                    <TextBox x:Name="PasswordBox" Text="{Binding EditerUser.Password}"/>
                 </DockPanel>
                 <DockPanel 
                     Grid.Column="1"
@@ -73,7 +76,7 @@
                     Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                         Style="{StaticResource InputDockingPanelStyle}">
                     <TextBlock Text="Эл. почта"/>
-                    <TextBox x:Name="EmailBox" Text="{Binding AddUser.Email}"/>
+                    <TextBox x:Name="EmailBox" Text="{Binding EditerUser.Email}"/>
                 </DockPanel>
                 <DockPanel  Grid.Column="1"
                     Grid.Row="1"
@@ -83,7 +86,7 @@
             </UniformGrid>
             <Grid Grid.Row="2" Grid.ColumnSpan="4">
                 <TextBlock Text="Роль"/>
-                <ComboBox x:Name="RolesSelect" Style="{StaticResource ComboStyle}" Grid.Row="1" Grid.Column="2" ItemsSource="{Binding roles}" SelectedValue="{Binding SelectedRole}">
+                <ComboBox x:Name="RolesSelect" Style="{StaticResource ComboStyle}" Grid.Row="1" Grid.Column="2" ItemsSource="{Binding ListRoles}" SelectedValue="{Binding SelectedRole}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding RoleName}" />
@@ -91,7 +94,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </Grid>
-            <Controls:IconButton Command="{Binding AddUsers}" Icon="UserPlus" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Text="Создать" Grid.ColumnSpan="3" Grid.Row="3">
+            <Controls:IconButton Command="{Binding AddUsers}" Icon="UserPlus" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Text="Создать" Grid.ColumnSpan="3" Grid.Row="3">
                 <Controls:IconButton.Style>
                     <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
                         <Setter Property="IsEnabled" Value="True"/>
@@ -110,7 +113,56 @@
                 </Controls:IconButton.Style>
             </Controls:IconButton>
         </Grid>
-        <GridSplitter/>
-        <ScrollViewer></ScrollViewer>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="5"/>
+        <ScrollViewer Grid.Column="2" Margin="0 0 0 10">
+            <ItemsControl ItemsSource="{Binding Roles}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="LightGray" Margin="0 5 0 0">
+                            <Expander Background="AliceBlue">
+                                <Expander.Header>
+                                    <Grid HorizontalAlignment="{Binding Path=HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="150"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Name}" Grid.Column="0"/>
+                                        <Controls:IconButton 
+                                                Command="{Binding Selected}"
+                                                Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
+                                                Text="Изменить"   Grid.Column="1"
+                                                Width="150" VerticalAlignment="Top"
+                                                HorizontalAlignment="Right"
+                                                Icon="PencilSquareOutline"/>
+                                    </Grid>
+                                </Expander.Header>
+                                <ListView ItemsSource="{Binding Users}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{Binding Name}" Grid.Column="0"/>
+                                                <TextBlock Text="{Binding Email}" Grid.Column="1" Margin="5 0 0 0"/>
+                                                <TextBlock Text="{Binding Password}" Grid.Column="2" Margin="5 0 0 0"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Expander>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>
