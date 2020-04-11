@@ -123,21 +123,23 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border>
-                            <Expander>
+                        <Border Background="LightGray" Margin="0 5 0 0">
+                            <Expander Background="AliceBlue">
                                 <Expander.Header>
-
-                                    <DockPanel>
-                                        <TextBlock Text="{Binding Name}"/>
+                                    <Grid HorizontalAlignment="{Binding Path=HorizontalAlignment, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentPresenter}}, Mode=OneWayToSource}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="150"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Name}" Grid.Column="0"/>
                                         <Controls:IconButton 
                                                 Command="{Binding Selected}"
                                                 Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
-                                                Text="Изменить"   Grid.Column="3" Grid.RowSpan="4"
+                                                Text="Изменить"   Grid.Column="1"
                                                 Width="150" VerticalAlignment="Top"
                                                 HorizontalAlignment="Right"
                                                 Icon="PencilSquareOutline"/>
-                                    </DockPanel>
-                                    
+                                    </Grid>
                                 </Expander.Header>
                                 <ListView ItemsSource="{Binding Users}">
                                     <ListView.ItemTemplate>
