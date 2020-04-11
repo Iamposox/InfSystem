@@ -68,16 +68,9 @@ namespace IS.UI.ViewModel
         private void RePopulateSuppliersList()
         {
             Suppliers.Clear();
-            context
-            .Suppliers
-            .Include(x => x.RawMaterials)
-            .ThenInclude(x => x.Material)
-            .ToList()
-            .ForEach(x => Suppliers.Add(new SupplierWrapper(x)));
+            context.Suppliers.Include(x => x.RawMaterials).ThenInclude(x => x.Material).ToList().ForEach(x => Suppliers.Add(new SupplierWrapper(x)));
             foreach (var item in Suppliers)
-            {
                 item.ItemSelected += SupplierItemSelected;
-            }
         }
 
         private async void SupplierItemSelected(object _sender, object _sendObject)
@@ -97,19 +90,9 @@ namespace IS.UI.ViewModel
             RawMaterialsToOrder temp = new RawMaterialsToOrder();
             temp.Material = (RawMaterial)_sendObject;
             var toOrder = new RawMaterialsToOrderWrapper(temp);
-            //toOrder.ItemSelected += ToOrder_ItemSelected;
             EditedSupplier.AddMaterialToOrder(toOrder.GetRawMaterialsToOrder);
             OnPropertyChanged(nameof(EditedSupplier));
         }
-
-        //private void ToOrder_ItemSelected(object _sender, object _sendObject)
-        //{
-        //    var ToOrder = (RawMaterialsToOrderWrapper)_sender;
-        //    ToOrder.ItemSelected -= ToOrder_ItemSelected;
-        //    EditedSupplier.RemoveMaterialToORder(ToOrder.GetRawMaterialsToOrder.ID);
-        //    OnPropertyChanged(nameof(EditedSupplier));
-        //}
-
 
     }
 }
