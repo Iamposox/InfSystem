@@ -18,7 +18,6 @@ namespace IS.Domain
         {
             Database.EnsureDeleted();
             Database.EnsureCreated();
-
             SeedUser();
             SeedRoles();
            
@@ -33,7 +32,7 @@ namespace IS.Domain
             {
                 Email = $"one@gmail.com",
                 Name = $"Vlada",
-                Password = $"123qwerty456"
+                Password = $"1"
             };
            
             Users.Add(user);

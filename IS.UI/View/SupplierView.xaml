@@ -57,8 +57,7 @@
                     <RowDefinition MaxHeight="70"/>
                 </Grid.RowDefinitions>
 
-                <UniformGrid Tag="3" 
-                             Style="{StaticResource UniformInputFormStyle}">
+                <UniformGrid Tag="3" Style="{StaticResource UniformInputFormStyle}">
                     <DockPanel 
                         LastChildFill="True"
                         Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
@@ -130,31 +129,32 @@
                             <TextBlock Text="Сырье поставщика:"
                                 FontSize="22"
                                 Margin="5,0,0,0"
-                                FontWeight="DemiBold"
-                           />
+                                FontWeight="DemiBold"/>
                         </Border>
                         <ScrollViewer Grid.Row="1">
                             <ItemsControl 
-                    Grid.Row="1"
-                          ItemsSource="{Binding rawMaterialsToOrder}"
+                            Grid.Row="1"
+                          ItemsSource="{Binding EditedSupplier.rawMaterialsToOrder,IsAsync=True,BindsDirectlyToSource=True}"
                           Margin="1,0,1,0">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
+                                            <Grid.Resources>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="FontSize" Value="18"/>
+                                                </Style>
+                                            </Grid.Resources>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="30*"/>
                                                 <ColumnDefinition Width="40*"/>
                                                 <ColumnDefinition Width="50"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="{Binding Name}"
-                                               FontSize="18"
+                                            <TextBlock Text="{Binding Material.Name}"
                                            VerticalAlignment="Center"/>
-                                            <Controls:NumericBox Grid.Column="1" 
-                                        HorizontalAlignment="Stretch" Style="{StaticResource NumericTextBox}"
-                                   FontSize="18"
-                                                         Text="{Binding Price}"/>
-                                            <Controls:IconButton Command="{Binding Selected}" Height="20"
-                                    Grid.Column="2" Icon="Remove"/>
+                                            <Controls:NumericBox Grid.Column="1" HorizontalAlignment="Stretch" Style="{StaticResource NumericTextBox}" Text="{Binding Price}"/>
+                                            <Controls:IconButton Click="RemoveRawMaterialClicked" Tag="{Binding ID}" 
+                                                                 Command="{Binding AddNewSupplierCommand}"
+                                                                 Height="20" Grid.Column="2" Icon="Remove"/>
                                         </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -206,6 +206,7 @@
                                             <ColumnDefinition Width="20*"/>
                                             <ColumnDefinition Width="25*"/>
                                             <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="50"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
@@ -218,20 +219,28 @@
                                         <TextBlock Grid.Row="1" Text="Транспорт: "/>
                                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Transport}"/>
 
-
                                         <TextBlock Grid.Row="2" Text="Контакт: "/>
                                         <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Contact}"/>
 
                                         <Controls:IconButton 
                                                 Command="{Binding Selected}"
+                                                CommandParameter="Edit"
                                                 Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
-                                                Text="Изменить"   Grid.Column="2" Grid.RowSpan="4"
+                                                Text="Изменить"   Grid.Column="2" 
                                                 Width="150" VerticalAlignment="Top"
                                                 HorizontalAlignment="Right"
                                                 Icon="PencilSquareOutline"/>
+                                        <Controls:IconButton 
+                                            Command="{Binding Selected}"
+                                            CommandParameter="Remove"
+                                            Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
+                                            Text="Remove"  Grid.Column="3" 
+                                            Width="50" VerticalAlignment="Top"
+                                            HorizontalAlignment="Right"
+                                            Icon="Remove"/>
                                     </Grid>
                                 </Expander.Header>
-                                <ItemsControl ItemsSource="{Binding GetModel.RawMaterials}">
+                                <ItemsControl ItemsSource="{Binding rawMaterialsToOrder,BindsDirectlyToSource=True}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>
@@ -244,7 +253,7 @@
                                                 <TextBlock HorizontalAlignment="Left" Text="Сырьё: "/>
                                                 <TextBlock HorizontalAlignment="Left" Grid.Column="1" Text="{Binding Material.Name}"/>
                                                 <TextBlock HorizontalAlignment="Right" Grid.Column="2" Text="Цена: "/>
-                                                <TextBlock HorizontalAlignment="Left" Grid.Column="3" Margin="10,0,0,0" Text="{Binding Price,  StringFormat={}{0:C0}.00}"/>
+                                                <TextBlock HorizontalAlignment="Left" Grid.Column="3" Margin="10,0,0,0" Text="{Binding Price, ConverterCulture='ru-RU', StringFormat={}{0:C}}"/>
                                             </Grid>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
