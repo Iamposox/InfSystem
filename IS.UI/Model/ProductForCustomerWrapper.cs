@@ -34,6 +34,7 @@ namespace IS.UI.Model
                 productForCustomer.Price = value;
             }
         }
+        public int ID { get => productForCustomer.ID; }
         public ICommand Selected
         {
             get => new Command.ActionCommand((obj) =>

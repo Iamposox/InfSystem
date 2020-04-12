@@ -73,7 +73,8 @@
                 <UniformGrid Tag="2" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                                       Style="{StaticResource UniformInputFormStyle}">
                     <Controls:IconButton
-                                     Command="{Binding AddNewCustomerOrder}"
+                                     Command="{Binding AddNewCustomer}"
+                                     CommandParameter="AddToOrders"
                                      Icon="PlusCircle"
                         HorizontalContentAlignment="Stretch"
                                      Text="Добавить заказ"
@@ -93,7 +94,8 @@
                         </Controls:IconButton.Style>
                     </Controls:IconButton>
                     <Controls:IconButton 
-                                     Command="{Binding AddNewCustomerPurchases}"
+                                     Command="{Binding AddNewCustomer}"
+                        CommandParameter="AddToPurchases"
                                      Icon="PlusCircle"
                         HorizontalContentAlignment="Stretch"
                                      Text="Добавить покупку"
@@ -132,7 +134,7 @@
                         <ScrollViewer Grid.Row="1">
                             <ItemsControl 
                     Grid.Row="1"
-                          ItemsSource="{Binding ProductForCustomer}"
+                          ItemsSource="{Binding SelectedCustomer.Product}"
                           Margin="1,0,1,0">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
@@ -175,7 +177,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Controls:IconButton 
-                                    Icon="Plus" Text="{Binding Name}"
+                                    Icon="Plus" Text="{Binding GetProduct.Name}"
                                     Command="{Binding Selected}"
                                     Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}, Path=ActualWidth}"
                                     />
@@ -201,6 +203,7 @@
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
+                                            <ColumnDefinition Width="50"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
@@ -211,7 +214,7 @@
 
                                         <TextBlock Grid.Row="1" Text="Контакт: "/>
                                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Contact}"/>
-                                        <Controls:IconButton Text="Изменить"
+                                        <Controls:IconButton Text="Изменить" CommandParameter="Edit"
                                                              Grid.Column="2" Grid.RowSpan="2"
                                                              Width="130" VerticalAlignment="Top"
                                                              HorizontalAlignment="Right"
@@ -219,6 +222,10 @@
                                                              Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=1|2|3}"
                                                              Command="{Binding Selected}"
                                                              />
+                                        <Controls:IconButton Icon="Remove" Grid.Column="3" Grid.RowSpan="2" CommandParameter="Remove" Width="50"
+                                                             HorizontalAlignment="Right" VerticalAlignment="Top"
+                                                             Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=1|2|3}"
+                                                             Command="{Binding Selected}"/>
                                     </Grid>
                                 </Expander.Header>
                                 <Grid>

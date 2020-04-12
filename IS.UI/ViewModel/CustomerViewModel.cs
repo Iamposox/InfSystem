@@ -5,131 +5,115 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace IS.UI.ViewModel
 {
     public class CustomerViewModel : Abstract.BindableObject
     {
-        readonly Context context = new Context();
+        readonly Context context;
         public ObservableCollection<CustomerWrapper> Customers { get; set; } = new ObservableCollection<CustomerWrapper>();
         public ObservableCollection<ProductWrapper> Products { get; set; } = new ObservableCollection<ProductWrapper>();
         public ObservableCollection<ProductForCustomerWrapper> ProductForCustomer { get; set; } = new ObservableCollection<ProductForCustomerWrapper>();
-        private Customer m_Customer = new Customer();
+        private CustomerWrapper m_Customer = new CustomerWrapper(new Customer());
         public CustomerViewModel()
         {
-            context.Customers.ToList().ForEach(x => Customers.Add(new CustomerWrapper(x)));
-            context.Products.ToList().ForEach(x => Products.Add(new ProductWrapper(x)));
-            foreach (var item in Customers)
-                item.ItemSelected += Item_Selected;
-            Products.ToList().ForEach(x => x.ItemSelected += product_ItemSelected);
+            context = new Context();
+            ReRecordCustomerList();
+            new Service.ProductService(context).GetProducts().GetAwaiter().GetResult().ToList().ForEach(x =>
+            {
+                var temp = new ProductWrapper(x);
+                temp.ItemSelected += product_ItemSelected;
+                Products.Add(temp);
+            });
         }
-        public Customer SelectedCustomer
+        private async void ReRecordCustomerList()
+        {
+            Customers.Clear();
+            var CustomersList = await new Service.CustomerService(context).GetCustomers();
+            CustomersList.ToList().ForEach(x =>
+            {
+                var temp = new CustomerWrapper(x);
+                temp.ItemSelected += Item_Selected;
+                Customers.Add(temp);
+            });
+            OnPropertyChanged(nameof(Customers));
+        }
+        private void AddToOrdersOrPurchases(ProductForCustomer x)
+        {
+            var Order = new ProductForCustomerWrapper(x);
+            Order.ItemSelected += OutOrder_ItemSelected;
+            ProductForCustomer.Add(Order);
+        }
+        public CustomerWrapper SelectedCustomer
         {
             get => m_Customer;
             set
             {
-                ProductForCustomer.Clear();
                 m_Customer = value;
-                SelectedCustomer.Orders.ForEach(x =>
-                {
-                    var Order = new ProductForCustomerWrapper(x);
-                    Order.ItemSelected += OutOrder_ItemSelected;
-                    ProductForCustomer.Add(Order);
-                });
-                SelectedCustomer.Purchased.ForEach(x =>
-                {
-                    var Order = new ProductForCustomerWrapper(x);
-                    Order.ItemSelected += OutOrder_ItemSelected;
-                    ProductForCustomer.Add(Order);
-                });
-                Changed();
+                foreach (var item in SelectedCustomer.Product)
+                    item.ItemSelected += OutOrder_ItemSelected;
+                OnPropertyChanged(nameof(SelectedCustomer));
             }
         }
-        private void Changed()
-        {
-            OnPropertyChanged(nameof(SelectedCustomer));
-            OnPropertyChanged(nameof(Customers));
-            OnPropertyChanged(nameof(SelectedCustomer.Name));
-            OnPropertyChanged(nameof(SelectedCustomer.Contact));
-        }
-        private void XZ()
+        private void ClearCustomer()
         {
             context.SaveChanges();
             Customers.Clear();
-            context.Customers
-                        .ToList()
-                        .ForEach(x => Customers.Add(new CustomerWrapper(x)));
-            foreach (var item in Customers)
-                item.ItemSelected += Item_Selected;
-            SelectedCustomer = new Customer();
+            ReRecordCustomerList();
+            SelectedCustomer = new CustomerWrapper(new Customer());
             ProductForCustomer.Clear();
         }
-        public ICommand AddNewCustomerOrder
+        public ICommand AddNewCustomer
         {
-            get => new Command.ActionCommand((obj) =>
+            get => new Command.ActionCommand(async (obj) => await AddCustomer(obj));
+        }
+        private async Task AddCustomer(object obj)
+        {
+            if (obj.ToString() == "AddToPurchases")
+                SelectedCustomer.AddToPurchased();
+            else
+                SelectedCustomer.AddToOrders();
+            if (!await new Service.CustomerService(context).AddOrUpdate(SelectedCustomer.GetCustomer))
+                MessageBox.Show("Something went wrong during the Process. Please try again later...");
+            ClearCustomer();
+            OnPropertyChanged(nameof(SelectedCustomer));
+            OnPropertyChanged(nameof(Customers));
+            context.SaveChanges();
+
+        }
+        private async void Item_Selected(object _sender, object _sendObject)
+        {
+            if (_sendObject.ToString() == "Remove")
             {
-                if (SelectedCustomer.Validate())
-                {
-                    ProductForCustomer.ToList().ForEach(x =>
-                    {
-                        SelectedCustomer.Orders.Add(x.GetProductForCustomer);
-                        x.ItemSelected -= OutOrder_ItemSelected;
-                    });
-                    if (SelectedCustomer.ID == 0)
-                        context.Add(SelectedCustomer);
-                    SelectedCustomer.Orders.Clear();
-                    context.SaveChanges();
-                    foreach (var item in ProductForCustomer)
-                        SelectedCustomer.Orders.Add(item.GetProductForCustomer);
-                    XZ();
-                    Changed();
-                    context.SaveChanges();
-                }
-            });
+                if (!await new Service.CustomerService(context).RemoveCustomers((_sender as CustomerWrapper).GetCustomer))
+                    MessageBox.Show("Something went wrong during the Process. Please try again later...");
+                ReRecordCustomerList();
+            }
+            else
+                SelectedCustomer = (CustomerWrapper)_sender;
+
         }
-        public ICommand AddNewCustomerPurchases
-        {
-            get => new Command.ActionCommand((obj) =>
-            {
-                if (SelectedCustomer.Validate())
-                {
-                    ProductForCustomer.ToList().ForEach(x =>
-                    {
-                        SelectedCustomer.Purchased.Add(x.GetProductForCustomer);
-                        x.ItemSelected -= OutOrder_ItemSelected;
-                    });
-                    if (SelectedCustomer.ID == 0)
-                        context.Add(SelectedCustomer);
-                    SelectedCustomer.Purchased.Clear();
-                    context.SaveChanges();
-                    foreach (var item in ProductForCustomer)
-                        SelectedCustomer.Purchased.Add(item.GetProductForCustomer);
-                    XZ();
-                    Changed();
-                    context.SaveChanges();
-                }
-            });
-        }
-        private void Item_Selected(object _sender, object _sendObject)
-        {
-            SelectedCustomer = (Customer)_sendObject;
-        }
-        private void product_ItemSelected(object _sender, object _sendObject) 
+        private void product_ItemSelected(object _sender, object _sendObject)
         {
             ProductForCustomer product = new ProductForCustomer();
             Assortment assortment = new Assortment();
             assortment.Product = (Product)_sendObject;
             product.Product = assortment;
             var Order = new ProductForCustomerWrapper(product);
-            Order.ItemSelected += OutOrder_ItemSelected;
-            ProductForCustomer.Add(Order);
+            SelectedCustomer.AddToProduct(Order.GetProductForCustomer);
+            foreach (var item in SelectedCustomer.Product)
+                item.ItemSelected += OutOrder_ItemSelected;
+            OnPropertyChanged(nameof(SelectedCustomer));
         }
-        private void OutOrder_ItemSelected(object _sender, object _sendObject)
+        public void OutOrder_ItemSelected(object _sender, object _sendObject)
         {
             var Order = (ProductForCustomerWrapper)_sender;
             Order.ItemSelected -= OutOrder_ItemSelected;
-            ProductForCustomer.Remove(Order);
+            SelectedCustomer.RemoveProduct(Order);
+            OnPropertyChanged(nameof(SelectedCustomer));
         }
     }
 }
