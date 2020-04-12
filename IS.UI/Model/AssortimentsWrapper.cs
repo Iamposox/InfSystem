@@ -24,6 +24,7 @@ namespace IS.UI.Model
                 m_Assortment.InAssortment = value;
             }
         }
+        public Product product { get => m_Assortment.Product; set => m_Assortment.Product = value; }
         public string Name
         {
             get => m_Assortment.Product.Name;
