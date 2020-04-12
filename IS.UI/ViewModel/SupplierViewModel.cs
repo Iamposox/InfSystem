@@ -35,50 +35,61 @@ namespace IS.UI.ViewModel
             }
         }
 
-        public ICommand AddNewSupplierCommand
+        public ICommand ModifySelectedSupplierCommand
         {
-            get => new Command.ActionCommand(async (obj) =>
-            {
-                if (EditedSupplier.GetModel.Validate())
-                {
-                    if (!await new Service.SupplierService(context).AddORUpdateSupplierRecord(EditedSupplier.GetModel))
-                        MessageBox.Show("Something went wrong during the Process. Please try again later...");
-                    RePopulateSuppliersList();
-                    OnPropertyChanged(nameof(EditedSupplier));
-                    OnPropertyChanged(nameof(Suppliers));
-                }
-            });
+            get => new Command.ActionCommand(async (obj) => await ModifySelectedSupplier());
         }
+
 
         public SupplierViewModel()
         {
             context = new Context();
             RePopulateSuppliersList();
-            RawMaterials = new ObservableCollection<RawMaterialWrapper>();
-            context.RawMaterials.ToList().ForEach(x => RawMaterials.Add(new RawMaterialWrapper(x)));
-            RawMaterials.ToList().ForEach(x => x.ItemSelected += SelectedRawMaterialOrderToBeAddedToTheSelectedSupplier);
+            new Service.RawMaterialService(context).GetRawMaterials().GetAwaiter().GetResult().ToList().ForEach(x=> 
+            {
+                var temp = new RawMaterialWrapper(x);
+                temp.ItemSelected += SelectedRawMaterialOrderToBeAddedToTheSelectedSupplier;
+                RawMaterials.Add(temp);
+            });
         }
 
-        public void RemoveOrderableMaterialFromSelectedSupplier(int ID)
+        private async Task ModifySelectedSupplier()
+        {
+            if (EditedSupplier.GetModel.Validate())
+            {
+                if (!await new Service.SupplierService(context).AddORUpdateSupplierRecord(EditedSupplier.GetModel))
+                    MessageBox.Show("Something went wrong during the Process. Please try again later...");
+                RePopulateSuppliersList();
+                OnPropertyChanged(nameof(EditedSupplier));
+            }
+        }
+
+        public async void RemoveOrderableMaterialFromSelectedSupplier(int ID)
         {
             EditedSupplier.RemoveMaterialToORder(ID);
+            await ModifySelectedSupplier();
             OnPropertyChanged(nameof(EditedSupplier));
         }
 
-        private void RePopulateSuppliersList()
+        private async void RePopulateSuppliersList()
         {
             Suppliers.Clear();
-            context.Suppliers.Include(x => x.RawMaterials).ThenInclude(x => x.Material).ToList().ForEach(x => Suppliers.Add(new SupplierWrapper(x)));
-            foreach (var item in Suppliers)
-                item.ItemSelected += SupplierItemSelected;
+            var SuppliersList = await new Service.SupplierService(context).GetSuppliersAsync();
+            SuppliersList.ToList().ForEach(x =>
+            {
+                var temp = new SupplierWrapper(x);
+                temp.ItemSelected += SupplierItemSelected;
+                Suppliers.Add(temp);
+            });
+            OnPropertyChanged(nameof(Suppliers));
         }
 
         private async void SupplierItemSelected(object _sender, object _sendObject)
         {
             if (_sendObject.ToString() == "Remove")
             {
-                context.Remove((_sender as SupplierWrapper).GetModel);
-                await context.SaveChangesAsync();
+                if(!await new Service.SupplierService(context).RemoveSupplierAsync((_sender as SupplierWrapper).GetModel))
+                    MessageBox.Show("Something went wrong during the Process. Please try again later...");
                 RePopulateSuppliersList();
             }
             else

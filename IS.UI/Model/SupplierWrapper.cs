@@ -24,7 +24,7 @@ namespace IS.UI.Model
 
         public void AddMaterialToOrder(RawMaterialsToOrder _materialToORder)
         {
-            if (rawMaterialsToOrder.Any(x => x.ID == _materialToORder.ID))
+            if (rawMaterialsToOrder.Any(x => x.Material.ID == _materialToORder.Material.ID))
                 return;
             rawMaterialsToOrder.Add(_materialToORder);
             OnPropertyChanged(nameof(rawMaterialsToOrder));

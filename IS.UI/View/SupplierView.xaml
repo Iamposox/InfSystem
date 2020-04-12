@@ -92,7 +92,7 @@
                 <Controls:IconButton  
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
-                    Command="{Binding AddNewSupplierCommand}"
+                    Command="{Binding ModifySelectedSupplier,IsAsync=True}"
                     VerticalAlignment="Top"
                     Grid.Row="2" 
                     Icon="PlusCircle" Text="Сохранить изменения">
