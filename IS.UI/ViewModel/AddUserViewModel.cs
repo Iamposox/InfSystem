@@ -12,6 +12,8 @@ namespace IS.UI.ViewModel
 {
     public class AddUserViewModel: Abstract.BindableObject
     {
+
+        private readonly Context context;
         private User m_User = new User();
         private Role m_SelectedRole;
         public ObservableCollection<UsersWrapper> Users { get; set; } = new ObservableCollection<UsersWrapper>();
@@ -35,7 +37,6 @@ namespace IS.UI.ViewModel
                 Change();
             }
         }
-        private readonly Context context;
         
         public AddUserViewModel()
         {

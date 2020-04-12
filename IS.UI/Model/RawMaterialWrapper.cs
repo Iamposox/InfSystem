@@ -13,8 +13,8 @@ namespace IS.UI.Model
             rawMaterial = _rawMaterial;
         }
         public RawMaterial GetMaterial { get => rawMaterial; }
-        public double Amount { get => rawMaterial.Amount; }
-        public string Name { get => rawMaterial.Name; }
+        public double Amount { get => rawMaterial.Amount; set => rawMaterial.Amount = value; }
+        public string Name { get => rawMaterial.Name; set => rawMaterial.Name = value; }
         public bool Valid
         {
             get
@@ -27,7 +27,7 @@ namespace IS.UI.Model
         {
             get => new Command.ActionCommand((obj) =>
             {
-                ItemSelected?.Invoke(this, rawMaterial);
+                ItemSelected?.Invoke(this, obj);
             });
         }
     }

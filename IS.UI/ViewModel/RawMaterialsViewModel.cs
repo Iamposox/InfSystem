@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace IS.UI.ViewModel
@@ -14,53 +16,56 @@ namespace IS.UI.ViewModel
     public class RawMaterialsViewModel : Abstract.BindableObject
     {
         readonly Context context;
-        public ObservableCollection<RawMaterialWrapper> rawMaterials { get; set; } = new ObservableCollection<RawMaterialWrapper>();
-        private RawMaterial m_raw;
-        public RawMaterialsViewModel()
-        {
-            context = new Context();
-            context.RawMaterials.ToList().ForEach(x => rawMaterials.Add(new RawMaterialWrapper(x)));
-            foreach (var item in rawMaterials)
-                item.ItemSelected += Item_ItemSelected;
-        }
-        public RawMaterial EditerRawMaterial
+        public ObservableCollection<RawMaterialWrapper> RawMaterials { get; set; } = new ObservableCollection<RawMaterialWrapper>();
+        private RawMaterialWrapper m_raw = new RawMaterialWrapper(new RawMaterial());
+        public RawMaterialWrapper EditerRawMaterial
         {
             get => m_raw;
             set
             {
                 m_raw = value;
-                Changed();
+                OnPropertyChanged(nameof(EditerRawMaterial));
             }
         }
-        private void Changed()
+        public RawMaterialsViewModel()
         {
-            OnPropertyChanged(nameof(EditerRawMaterial));
-            OnPropertyChanged(nameof(EditerRawMaterial.Name));
-            OnPropertyChanged(nameof(EditerRawMaterial.Amount));
-            OnPropertyChanged(nameof(rawMaterials));
+            context = new Context();
+            ReFreshRawMaterials();
         }
-        public ICommand AddRaw
+        private async void ReFreshRawMaterials()
         {
-            get => new Command.ActionCommand((obj) =>
+            RawMaterials.Clear();
+            var RawMaterialsList = await new Service.RawMaterialService(context).GetRawMaterials();
+            RawMaterialsList.ToList().ForEach(x =>
             {
-                if (EditerRawMaterial.Validate())
-                {
-                    if (EditerRawMaterial.ID == 0)
-                        context.Add(EditerRawMaterial);
-                    context.SaveChanges();
-                    rawMaterials.Clear();
-                    context.RawMaterials.ToList().ForEach(x => rawMaterials.Add(new RawMaterialWrapper(x)));
-                    foreach (var item in rawMaterials)
-                        item.ItemSelected += Item_ItemSelected;
-                    EditerRawMaterial = new RawMaterial();
-                    Changed();
-                    context.SaveChanges();
-                }
+                var temp = new RawMaterialWrapper(x);
+                temp.ItemSelected += RawMaterialItem_ItemSelected;
+                RawMaterials.Add(temp);
             });
         }
-        private void Item_ItemSelected(object _sender, object _sendObject)
+
+        public ICommand AddRaw
         {
-            EditerRawMaterial = (RawMaterial)_sendObject;
+            get => new Command.ActionCommand(async (obj) => await AddRawMaterials());
+
+        }
+        private async Task AddRawMaterials()
+        {
+            ReFreshRawMaterials();
+            if(!await new Service.RawMaterialService(context).AddOrUpdateRawMaterials(EditerRawMaterial.GetMaterial))
+                MessageBox.Show("Something went wrong during the Process. Please try again later...");
+
+        }
+        private async void RawMaterialItem_ItemSelected(object _sender, object _sendObject)
+        {
+            if (_sendObject.ToString() == "Remove")
+            {
+                if (!await new Service.RawMaterialService(context).RemoveRawMaterial((_sender as RawMaterialWrapper).GetMaterial))
+                    MessageBox.Show("Something went wrong during the Process. Please try again later...");
+                ReFreshRawMaterials();
+            }
+            else
+                EditerRawMaterial= (RawMaterialWrapper)_sender;
         }
     }
 }

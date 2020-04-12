@@ -34,7 +34,7 @@
         <Grid Grid.Row="2">
             <TextBlock Text="Сырьё" Margin="25,0,0,0"/>
             <ScrollViewer Margin="25 25 0 0">
-                <ItemsControl ItemsSource="{Binding rawMaterials}">
+                <ItemsControl ItemsSource="{Binding RawMaterials}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Margin="0,8,0,0"
@@ -46,6 +46,7 @@
                                         <ColumnDefinition Width="50"/>
                                         <ColumnDefinition Width="50*"/>
                                         <ColumnDefinition Width="130"/>
+                                        <ColumnDefinition Width="50"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
@@ -57,12 +58,16 @@
                                     <TextBlock Grid.Row="1" Text="Сумма: "/>
                                     <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Amount}"/>
                                     <Controls:IconButton 
-                                                Command="{Binding Selected}"
+                                                Command="{Binding Selected}" CommandParameter="Edit"
                                                 Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
                                                 Text="Изменить"   Grid.Column="2" Grid.RowSpan="4"
                                                 Width="130" VerticalAlignment="Top"
                                                 HorizontalAlignment="Right"
                                                 Icon="PencilSquareOutline"/>
+                                    <Controls:IconButton Command="{Binding Selected}" CommandParameter="Remove"
+                                                         Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=1|2|3}"
+                                                         Icon="Remove" Grid.Column="3" Grid.ColumnSpan="4" Width="50" VerticalAlignment="Top"
+                                                         HorizontalAlignment="Right"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>
