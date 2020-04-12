@@ -94,7 +94,7 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </Grid>
-            <Controls:IconButton Command="{Binding AddUsers}" Icon="UserPlus" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Text="Создать" Grid.ColumnSpan="3" Grid.Row="3">
+            <Controls:IconButton Command="{Binding AddUsers}" Icon="UserPlus" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Text="Изменить" Grid.ColumnSpan="3" Grid.Row="3">
                 <Controls:IconButton.Style>
                     <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
                         <Setter Property="IsEnabled" Value="True"/>
@@ -115,7 +115,7 @@
         </Grid>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="5"/>
         <ScrollViewer Grid.Column="2" Margin="0 0 0 10">
-            <ItemsControl ItemsSource="{Binding Roles}">
+            <ItemsControl ItemsSource="{Binding Users}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Vertical" />
@@ -141,23 +141,14 @@
                                                 Icon="PencilSquareOutline"/>
                                     </Grid>
                                 </Expander.Header>
-                                <ListView ItemsSource="{Binding Users}">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Text="{Binding Name}" Grid.Column="0"/>
-                                                <TextBlock Text="{Binding Email}" Grid.Column="1" Margin="5 0 0 0"/>
-                                                <TextBlock Text="{Binding Password}" Grid.Column="2" Margin="5 0 0 0"/>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Email}" Grid.Column="0"/>
+                                    <TextBlock Text="{Binding Role.RoleName}" Grid.Column="1" Margin="5 0 0 0"/>
+                                </Grid>
                             </Expander>
                         </Border>
                     </DataTemplate>

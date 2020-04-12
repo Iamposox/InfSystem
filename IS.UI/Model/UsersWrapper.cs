@@ -32,6 +32,14 @@ namespace IS.UI.Model
                 m_User.Email = value;
             }
         }
+        public string Password
+        {
+            get => m_User.Password;
+            set
+            {
+                m_User.Password = value;
+            }
+        }
         public ICommand Selected
         {
             get => new Command.ActionCommand((obj) =>
