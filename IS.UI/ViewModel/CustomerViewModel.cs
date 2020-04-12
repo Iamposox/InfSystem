@@ -13,33 +13,10 @@ namespace IS.UI.ViewModel
 {
     public class CustomerViewModel : Abstract.BindableObject
     {
-        readonly Context context;
+        private readonly Context context;
         public ObservableCollection<CustomerWrapper> Customers { get; set; } = new ObservableCollection<CustomerWrapper>();
         public ObservableCollection<ProductWrapper> Products { get; set; } = new ObservableCollection<ProductWrapper>();
         private CustomerWrapper m_Customer = new CustomerWrapper(new Customer());
-        public CustomerViewModel()
-        {
-            context = new Context();
-            ReRecordCustomerList();
-            new Service.ProductService(context).GetProducts().GetAwaiter().GetResult().ToList().ForEach(x =>
-            {
-                var temp = new ProductWrapper(x);
-                temp.ItemSelected += product_ItemSelected;
-                Products.Add(temp);
-            });
-        }
-        private async void ReRecordCustomerList()
-        {
-            Customers.Clear();
-            var CustomersList = await new Service.CustomerService(context).GetCustomers();
-            CustomersList.ToList().ForEach(x =>
-            {
-                var temp = new CustomerWrapper(x);
-                temp.ItemSelected += Item_Selected;
-                Customers.Add(temp);
-            });
-            OnPropertyChanged(nameof(Customers));
-        }
         public CustomerWrapper SelectedCustomer
         {
             get => m_Customer;
@@ -51,13 +28,30 @@ namespace IS.UI.ViewModel
                 OnPropertyChanged(nameof(SelectedCustomer));
             }
         }
-        private void ClearCustomer()
+        public CustomerViewModel()
         {
-            context.SaveChanges();
-            Customers.Clear();
-            ReRecordCustomerList();
-            SelectedCustomer = new CustomerWrapper(new Customer());
+            context = new Context();
+            ReFreshCustomerList();
+            new Service.ProductService(context).GetProducts().GetAwaiter().GetResult().ToList().ForEach(x =>
+            {
+                var temp = new ProductWrapper(x);
+                temp.ItemSelected += product_ItemSelected;
+                Products.Add(temp);
+            });
         }
+        private async void ReFreshCustomerList()
+        {
+            Customers.Clear();
+            var CustomersList = await new Service.CustomerService(context).GetCustomers();
+            CustomersList.ToList().ForEach(x =>
+            {
+                var temp = new CustomerWrapper(x);
+                temp.ItemSelected += CustomerItem_Selected;
+                Customers.Add(temp);
+            });
+            OnPropertyChanged(nameof(Customers));
+        }
+        
         public ICommand AddNewCustomer
         {
             get => new Command.ActionCommand(async (obj) => await AddCustomer(obj));
@@ -70,19 +64,19 @@ namespace IS.UI.ViewModel
                 SelectedCustomer.AddToOrders();
             if (!await new Service.CustomerService(context).AddOrUpdate(SelectedCustomer.GetCustomer))
                 MessageBox.Show("Something went wrong during the Process. Please try again later...");
-            ClearCustomer();
+            Customers.Clear();
+            ReFreshCustomerList();
+            SelectedCustomer = new CustomerWrapper(new Customer());
             OnPropertyChanged(nameof(SelectedCustomer));
             OnPropertyChanged(nameof(Customers));
-            context.SaveChanges();
-
         }
-        private async void Item_Selected(object _sender, object _sendObject)
+        private async void CustomerItem_Selected(object _sender, object _sendObject)
         {
             if (_sendObject.ToString() == "Remove")
             {
                 if (!await new Service.CustomerService(context).RemoveCustomers((_sender as CustomerWrapper).GetCustomer))
                     MessageBox.Show("Something went wrong during the Process. Please try again later...");
-                ReRecordCustomerList();
+                ReFreshCustomerList();
             }
             else
                 SelectedCustomer = (CustomerWrapper)_sender;

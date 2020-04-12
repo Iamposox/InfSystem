@@ -26,8 +26,6 @@ namespace IS.UI.Service
         }
         public async Task<bool> AddOrUpdate(Customer customer)
         {
-            if (!CustomerValid(customer))
-                return false;
             if (customer.ID == 0)
                 return await AddNewCustomer(customer);
             context.Update(customer);
@@ -46,6 +44,5 @@ namespace IS.UI.Service
             }
             return true;
         }
-        private bool CustomerValid(Customer customer) => customer.Validate();
     }
 }
