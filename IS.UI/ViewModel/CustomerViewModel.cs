@@ -16,7 +16,6 @@ namespace IS.UI.ViewModel
         readonly Context context;
         public ObservableCollection<CustomerWrapper> Customers { get; set; } = new ObservableCollection<CustomerWrapper>();
         public ObservableCollection<ProductWrapper> Products { get; set; } = new ObservableCollection<ProductWrapper>();
-        public ObservableCollection<ProductForCustomerWrapper> ProductForCustomer { get; set; } = new ObservableCollection<ProductForCustomerWrapper>();
         private CustomerWrapper m_Customer = new CustomerWrapper(new Customer());
         public CustomerViewModel()
         {
@@ -41,12 +40,6 @@ namespace IS.UI.ViewModel
             });
             OnPropertyChanged(nameof(Customers));
         }
-        private void AddToOrdersOrPurchases(ProductForCustomer x)
-        {
-            var Order = new ProductForCustomerWrapper(x);
-            Order.ItemSelected += OutOrder_ItemSelected;
-            ProductForCustomer.Add(Order);
-        }
         public CustomerWrapper SelectedCustomer
         {
             get => m_Customer;
@@ -64,7 +57,6 @@ namespace IS.UI.ViewModel
             Customers.Clear();
             ReRecordCustomerList();
             SelectedCustomer = new CustomerWrapper(new Customer());
-            ProductForCustomer.Clear();
         }
         public ICommand AddNewCustomer
         {
