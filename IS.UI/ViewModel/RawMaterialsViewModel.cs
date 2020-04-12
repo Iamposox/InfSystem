@@ -24,7 +24,6 @@ namespace IS.UI.ViewModel
             set
             {
                 m_raw = value;
-                OnPropertyChanged(nameof(EditerRawMaterial));
             }
         }
         public RawMaterialsViewModel()
@@ -54,6 +53,8 @@ namespace IS.UI.ViewModel
             ReFreshRawMaterials();
             if(!await new Service.RawMaterialService(context).AddOrUpdateRawMaterials(EditerRawMaterial.GetMaterial))
                 MessageBox.Show("Something went wrong during the Process. Please try again later...");
+            EditerRawMaterial = new RawMaterialWrapper(new RawMaterial());
+            OnPropertyChanged(nameof(EditerRawMaterial));
 
         }
         private async void RawMaterialItem_ItemSelected(object _sender, object _sendObject)
@@ -65,7 +66,10 @@ namespace IS.UI.ViewModel
                 ReFreshRawMaterials();
             }
             else
-                EditerRawMaterial= (RawMaterialWrapper)_sender;
+            {
+                EditerRawMaterial = (RawMaterialWrapper)_sender;
+                OnPropertyChanged(nameof(EditerRawMaterial));
+            }
         }
     }
 }
