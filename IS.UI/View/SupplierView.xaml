@@ -65,8 +65,7 @@
                         <TextBlock Text="Имя:"/>
                         <TextBox 
                             x:Name="SupplierName"
-                            Text="{Binding EditedSupplier.Name}">
-                        </TextBox>
+                            Text="{Binding EditedSupplier.Name}"/>
                     </DockPanel>
 
                     <DockPanel

@@ -41,12 +41,20 @@ namespace IS.UI.ViewModel
                 temp.ItemSelected += AssortimentItem_Selected;
                 Assortments.Add(temp);
             });
+            OnPropertyChanged(nameof(EditerAssortiments));
         }
 
-        public ICommand AddInAssortiment { get => new Command.ActionCommand(async(obj) => await EditAssortiment()); }
-        private void AssortimentItem_Selected(object _sender, object _SendObject)
+        public ICommand AddInAssortiment { get => new Command.ActionCommand(async (obj) => await EditAssortiment()); }
+        private async void AssortimentItem_Selected(object _sender, object _SendObject)
         {
-            EditerAssortiments = (AssortimentsWrapper)_sender;
+            if (_SendObject.ToString() == "Remove")
+            {
+                if (!await new Service.AssortimentService(context).RemoveAssortment((_sender as AssortimentsWrapper).GetAssortment))
+                    MessageBox.Show("Ошибка");
+                ReFreshAssortiments();
+            }
+            else
+                EditerAssortiments = (AssortimentsWrapper)_sender;
         }
         private async Task EditAssortiment()
         {

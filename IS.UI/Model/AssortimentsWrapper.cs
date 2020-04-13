@@ -9,7 +9,7 @@ namespace IS.UI.Model
 {
     public class AssortimentsWrapper
     {
-        private Assortment m_Assortment;
+        private Assortment m_Assortment = new Assortment();
         public event SelectedItemDelegate ItemSelected;
         public AssortimentsWrapper(Assortment _assortment)
         {
@@ -25,19 +25,12 @@ namespace IS.UI.Model
             }
         }
         public Product product { get => m_Assortment.Product; set => m_Assortment.Product = value; }
-        public string Name
-        {
-            get => m_Assortment.Product.Name;
-            set
-            {
-                m_Assortment.Product.Name = value;
-            }
-        }
+        //public string Name { get => m_Assortment.Product.Name; set => m_Assortment.Product.Name = value; }
         public ICommand Selected
         {
             get => new Command.ActionCommand((obj) =>
               {
-                  ItemSelected?.Invoke(this, m_Assortment);
+                  ItemSelected?.Invoke(this, obj);
               });
         }
     }

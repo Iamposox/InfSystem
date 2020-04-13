@@ -18,7 +18,6 @@ namespace IS.UI.Model
             customer = _customer;
             Orders.ForEach(x => Product.Add(new ProductForCustomerWrapper(x)));
             Purchased.ForEach(x => Product.Add(new ProductForCustomerWrapper(x)));
-            //foreach (var item in )
         }
         public Customer GetCustomer { get => customer; }
         public string Name { get => customer.Name; set => customer.Name = value; }
