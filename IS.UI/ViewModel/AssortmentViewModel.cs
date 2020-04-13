@@ -29,37 +29,37 @@ namespace IS.UI.ViewModel
         public AssortmentViewModel()
         {
             context = new Context();
-            ReFreshAssortiments();
+            ReFreshAssortimentsAsync();
         }
-        private async void ReFreshAssortiments()
+        private async void ReFreshAssortimentsAsync()
         {
             Assortments.Clear();
-            var AssortList = await new Service.AssortimentService(context).GetAssortments();
+            var AssortList = await new Service.AssortimentService(context).GetItemsAsync();
             AssortList.ToList().ForEach(x =>
             {
                 var temp = new AssortimentsWrapper(x);
-                temp.ItemSelected += AssortimentItem_Selected;
+                temp.ItemSelected += AssortimentItem_SelectedAsync;
                 Assortments.Add(temp);
             });
             OnPropertyChanged(nameof(EditerAssortiments));
         }
 
         public ICommand AddInAssortiment { get => new Command.ActionCommand(async (obj) => await EditAssortiment()); }
-        private async void AssortimentItem_Selected(object _sender, object _SendObject)
+        private async void AssortimentItem_SelectedAsync(object _sender, object _SendObject)
         {
             if (_SendObject.ToString() == "Remove")
             {
                 if (!await new Service.AssortimentService(context).RemoveAssortment((_sender as AssortimentsWrapper).GetAssortment))
                     MessageBox.Show("Ошибка");
-                ReFreshAssortiments();
+                ReFreshAssortimentsAsync();
             }
             else
                 EditerAssortiments = (AssortimentsWrapper)_sender;
         }
         private async Task EditAssortiment()
         {
-            ReFreshAssortiments();
-            if (!await new Service.AssortimentService(context).AddOrUpdateAssortment(EditerAssortiments.GetAssortment))
+            ReFreshAssortimentsAsync();
+            if (!await new Service.AssortimentService(context).AddOrUpdateItemAsync(EditerAssortiments.GetAssortment))
                 MessageBox.Show("Ошибка");
             EditerAssortiments = new AssortimentsWrapper(new Assortment());
             OnPropertyChanged(nameof(EditerAssortiments));

@@ -49,7 +49,7 @@ namespace IS.UI.ViewModel
             dataStore = new Service.SupplierService(context);
 
             RePopulateSuppliersList();
-            new Service.RawMaterialService(context).GetRawMaterials().GetAwaiter().GetResult().ToList().ForEach(x=> 
+            new Service.RawMaterialService(context).GetItemsAsync().GetAwaiter().GetResult().ToList().ForEach(x=> 
             {
                 var temp = new RawMaterialWrapper(x);
                 temp.ItemSelected += SelectedRawMaterialOrderToBeAddedToTheSelectedSupplier;

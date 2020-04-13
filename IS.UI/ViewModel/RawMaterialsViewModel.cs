@@ -29,41 +29,41 @@ namespace IS.UI.ViewModel
         public RawMaterialsViewModel()
         {
             context = new Context();
-            ReFreshRawMaterials();
+            ReFreshRawMaterialsAsync();
         }
-        private async void ReFreshRawMaterials()
+        private async void ReFreshRawMaterialsAsync()
         {
             RawMaterials.Clear();
-            var RawMaterialsList = await new Service.RawMaterialService(context).GetRawMaterials();
+            var RawMaterialsList = await new Service.RawMaterialService(context).GetItemsAsync();
             RawMaterialsList.ToList().ForEach(x =>
             {
                 var temp = new RawMaterialWrapper(x);
-                temp.ItemSelected += RawMaterialItem_ItemSelected;
+                temp.ItemSelected += RawMaterialItem_ItemSelectedAsync;
                 RawMaterials.Add(temp);
             });
         }
 
         public ICommand AddRaw
         {
-            get => new Command.ActionCommand(async (obj) => await AddRawMaterials());
+            get => new Command.ActionCommand(async (obj) => await AddRawMaterialsAsync());
 
         }
-        private async Task AddRawMaterials()
+        private async Task AddRawMaterialsAsync()
         {
-            ReFreshRawMaterials();
-            if(!await new Service.RawMaterialService(context).AddOrUpdateRawMaterials(EditerRawMaterial.GetMaterial))
+            ReFreshRawMaterialsAsync();
+            if(!await new Service.RawMaterialService(context).AddOrUpdateItemAsync(EditerRawMaterial.GetMaterial))
                 MessageBox.Show("Something went wrong during the Process. Please try again later...");
             EditerRawMaterial = new RawMaterialWrapper(new RawMaterial());
             OnPropertyChanged(nameof(EditerRawMaterial));
 
         }
-        private async void RawMaterialItem_ItemSelected(object _sender, object _sendObject)
+        private async void RawMaterialItem_ItemSelectedAsync(object _sender, object _sendObject)
         {
             if (_sendObject.ToString() == "Remove")
             {
-                if (!await new Service.RawMaterialService(context).RemoveRawMaterial((_sender as RawMaterialWrapper).GetMaterial))
+                if (!await new Service.RawMaterialService(context).DeleteItemAsync((_sender as RawMaterialWrapper).GetMaterial))
                     MessageBox.Show("Something went wrong during the Process. Please try again later...");
-                ReFreshRawMaterials();
+                ReFreshRawMaterialsAsync();
             }
             else
             {
