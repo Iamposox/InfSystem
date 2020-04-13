@@ -11,7 +11,7 @@ namespace IS.UI.Service
 {
     public class AssortimentService:IDataStore<Assortment>
     {
-        private readonly Context context;
+        readonly Context context;
         public AssortimentService(Context _context)
         {
             context = _context;
@@ -45,9 +45,11 @@ namespace IS.UI.Service
             }
             return true;
         }
-        public async Task<bool> DeleteItemAsync(Assortment assortment)
+        public async Task<bool> DeleteItemAsync(int _id)
         {
-            context.Remove(assortment);
+            var item = await context.Assortments.SingleOrDefaultAsync(x => x.ID == _id);
+            context.Entry<Assortment>(item).State = EntityState.Detached;
+            context.Remove(item);
             return await context.SaveChangesAsync() > 0;
         }
     }

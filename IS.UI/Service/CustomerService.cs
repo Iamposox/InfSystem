@@ -20,9 +20,11 @@ namespace IS.UI.Service
         {
             return await context.Customers.ToListAsync(); 
         }
-        public async Task<bool> DeleteItemAsync(Customer customer)
+        public async Task<bool> DeleteItemAsync(int _id)
         {
-            context.Remove(customer);
+            var item = await context.Customers.SingleAsync(x => x.ID == _id);
+            context.Entry<Customer>(item).State = EntityState.Detached;
+            context.Customers.Remove(item);
             return await context.SaveChangesAsync() > 0;
         }
         public async Task<bool> AddOrUpdateItemAsync(Customer _item)

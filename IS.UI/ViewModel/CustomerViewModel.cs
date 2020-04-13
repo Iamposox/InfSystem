@@ -77,7 +77,7 @@ namespace IS.UI.ViewModel
         {
             if (_sendObject.ToString() == "Remove")
             {
-                if (!await new Service.CustomerService(context).DeleteItemAsync((_sender as CustomerWrapper).GetCustomer))
+                if (!await new Service.CustomerService(context).DeleteItemAsync((_sender as CustomerWrapper).GetCustomer.ID))
                     MessageBox.Show("Something went wrong during the Process. Please try again later...");
                 ReFreshCustomerListAsync();
             }

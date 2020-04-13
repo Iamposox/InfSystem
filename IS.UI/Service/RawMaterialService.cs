@@ -22,8 +22,10 @@ namespace IS.UI.Service
                 return await AddItemAsync(raw);
             return await UpdateItemAsync(raw);
         }
-        public async Task<bool> DeleteItemAsync(RawMaterial raw)
+        public async Task<bool> DeleteItemAsync(int id)
         {
+            var raw = await context.RawMaterials.SingleOrDefaultAsync(x => x.ID == id);
+            context.Entry<RawMaterial>(raw).State = EntityState.Detached;
             context.Remove(raw);
             return await context.SaveChangesAsync() > 0;
         }

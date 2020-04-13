@@ -49,7 +49,7 @@ namespace IS.UI.ViewModel
         {
             if (_SendObject.ToString() == "Remove")
             {
-                if (!await new Service.AssortimentService(context).RemoveAssortment((_sender as AssortimentsWrapper).GetAssortment))
+                if (!await new Service.AssortimentService(context).DeleteItemAsync((_sender as AssortimentsWrapper).GetAssortment.ID))
                     MessageBox.Show("Ошибка");
                 ReFreshAssortimentsAsync();
             }
