@@ -1,5 +1,6 @@
 ﻿using IS.Domain;
 using IS.Domain.Model;
+using IS.UI.Interface;
 using IS.UI.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,6 +19,7 @@ namespace IS.UI.ViewModel
     public class SupplierViewModel : Abstract.BindableObject
     {
         readonly Context context;
+        readonly IDataStore<Supplier> dataStore;
 
         public ObservableCollection<SupplierWrapper> Suppliers { get; set; } = new ObservableCollection<SupplierWrapper>();
 
@@ -44,6 +46,8 @@ namespace IS.UI.ViewModel
         public SupplierViewModel()
         {
             context = new Context();
+            dataStore = new Service.SupplierService(context);
+
             RePopulateSuppliersList();
             new Service.RawMaterialService(context).GetRawMaterials().GetAwaiter().GetResult().ToList().ForEach(x=> 
             {
@@ -57,7 +61,7 @@ namespace IS.UI.ViewModel
         {
             if (EditedSupplier.GetModel.Validate())
             {
-                if (!await new Service.SupplierService(context).AddORUpdateSupplierRecord(EditedSupplier.GetModel))
+                if (!await dataStore.AddOrUpdateItemAsync(EditedSupplier.GetModel))
                     MessageBox.Show("Something went wrong during the Process. Please try again later...");
                 RePopulateSuppliersList();
                 OnPropertyChanged(nameof(EditedSupplier));
@@ -74,7 +78,7 @@ namespace IS.UI.ViewModel
         private async void RePopulateSuppliersList()
         {
             Suppliers.Clear();
-            var SuppliersList = await new Service.SupplierService(context).GetSuppliersAsync();
+            var SuppliersList = await dataStore.GetItemsAsync();
             SuppliersList.ToList().ForEach(x =>
             {
                 var temp = new SupplierWrapper(x);
@@ -88,7 +92,7 @@ namespace IS.UI.ViewModel
         {
             if (_sendObject.ToString() == "Remove")
             {
-                if(!await new Service.SupplierService(context).RemoveSupplierAsync((_sender as SupplierWrapper).GetModel))
+                if(!await dataStore.DeleteItemAsync((_sender as SupplierWrapper).GetModel.ID))
                     MessageBox.Show("Something went wrong during the Process. Please try again later...");
                 RePopulateSuppliersList();
             }

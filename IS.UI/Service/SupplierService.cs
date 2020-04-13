@@ -6,10 +6,11 @@ using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using IS.UI.Interface;
 
 namespace IS.UI.Service
 {
-    public class SupplierService
+    public class SupplierService: IDataStore<Supplier>
     {
         private readonly Context context;
 
@@ -18,28 +19,33 @@ namespace IS.UI.Service
             context = _context;
         }
 
-        public async Task<IEnumerable<Supplier>> GetSuppliersAsync()
+        public async Task<IEnumerable<Supplier>> GetItemsAsync(bool forceRefresh = false)
         {
             return await context.Suppliers.Include(x => x.RawMaterials).ThenInclude(x => x.Material).ToListAsync();
         }
 
-        public async Task<bool> RemoveSupplierAsync(Supplier _record)
+        public async Task<bool> DeleteItemAsync(int _id)
         {
-            context.Remove(_record);
+            context.Suppliers.Remove(new Supplier() { ID = _id });
             return await context.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> AddORUpdateSupplierRecord(Supplier _record)
+        public async Task<bool> AddOrUpdateItemAsync(Supplier _item)
         {
-            if (!IsSupplierRecordValid(_record))
+            if (!IsSupplierRecordValid(_item))
                 return false;
-            if (_record.ID == 0)
-                return await AddNewSupplierRecord(_record);
-            context.Update(_record);
+            if (_item.ID == 0)
+                return await AddItemAsync(_item);
+            return await UpdateItemAsync(_item);
+        }
+
+        public async Task<bool> UpdateItemAsync(Supplier _item)
+        {
+            context.Update(_item);
             return await context.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> AddNewSupplierRecord(Supplier _record)
+        public async Task<bool> AddItemAsync(Supplier _record)
         {
             try
             {
@@ -51,6 +57,11 @@ namespace IS.UI.Service
                 return false;
             }
             return true;
+        }
+
+        public  async Task<Supplier> GetItemAsync(int _id)
+        {
+           return await context.Suppliers.SingleOrDefaultAsync(x => x.ID == _id);
         }
 
         private bool IsSupplierRecordValid(Supplier _record) => _record.Validate();
