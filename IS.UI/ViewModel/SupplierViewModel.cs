@@ -42,6 +42,7 @@ namespace IS.UI.ViewModel
             get => new Command.ActionCommand(async (obj) => await ModifySelectedSupplier());
         }
 
+        public ICommand CancleCommand { get => new Command.ActionCommand((obj) => ResetEditableSupplier(obj)); }
 
         public SupplierViewModel()
         {
@@ -55,6 +56,12 @@ namespace IS.UI.ViewModel
                 temp.ItemSelected += SelectedRawMaterialOrderToBeAddedToTheSelectedSupplier;
                 RawMaterials.Add(temp);
             });
+        }
+
+        private void ResetEditableSupplier(object para)
+        {
+            m_EditedSupplier = new SupplierWrapper(new Supplier());
+            OnPropertyChanged(nameof(EditedSupplier));
         }
 
         private async Task ModifySelectedSupplier()
@@ -103,7 +110,7 @@ namespace IS.UI.ViewModel
         private void SelectedRawMaterialOrderToBeAddedToTheSelectedSupplier(object _sender, object _sendObject)
         {
             RawMaterialsToOrder temp = new RawMaterialsToOrder();
-            temp.Material = (RawMaterial)_sendObject;
+            temp.Material = ((RawMaterialWrapper)_sender).GetMaterial;
             var toOrder = new RawMaterialsToOrderWrapper(temp);
             EditedSupplier.AddMaterialToOrder(toOrder.GetRawMaterialsToOrder);
             OnPropertyChanged(nameof(EditedSupplier));

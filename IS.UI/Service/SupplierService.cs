@@ -26,7 +26,9 @@ namespace IS.UI.Service
 
         public async Task<bool> DeleteItemAsync(int _id)
         {
-            context.Suppliers.Remove(new Supplier() { ID = _id });
+            var item = await context.Suppliers.SingleAsync(x => x.ID == _id);
+            context.Entry<Supplier>(item).State = EntityState.Detached;
+            context.Suppliers.Remove(item);
             return await context.SaveChangesAsync() > 0;
         }
 
