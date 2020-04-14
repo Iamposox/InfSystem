@@ -30,6 +30,11 @@ namespace IS.UI.ViewModel
                 OnPropertyChanged(nameof(SelectedCustomer));
             }
         }
+        public ICommand AddNewCustomer
+        {
+            get => new Command.ActionCommand(async (obj) => await AddCustomerAsync(obj));
+        }
+        public ICommand CancelCommand { get => new Command.ActionCommand((obj) => ResetEditableSupplier(obj)); }
         public CustomerViewModel()
         {
             context = new Context();
@@ -45,7 +50,7 @@ namespace IS.UI.ViewModel
         private async void ReFreshCustomerListAsync()
         {
             Customers.Clear();
-            var CustomersList = await new Service.CustomerService(context).GetItemsAsync();
+            var CustomersList = await dataStore.GetItemsAsync();
             CustomersList.ToList().ForEach(x =>
             {
                 var temp = new CustomerWrapper(x);
@@ -54,10 +59,10 @@ namespace IS.UI.ViewModel
             });
             OnPropertyChanged(nameof(Customers));
         }
-        
-        public ICommand AddNewCustomer
+        private void ResetEditableSupplier(object para)
         {
-            get => new Command.ActionCommand(async (obj) => await AddCustomerAsync(obj));
+            m_Customer = new CustomerWrapper(new Customer());
+            OnPropertyChanged(nameof(SelectedCustomer));
         }
         private async Task AddCustomerAsync(object obj)
         {
@@ -65,7 +70,7 @@ namespace IS.UI.ViewModel
                 SelectedCustomer.AddToPurchased();
             else
                 SelectedCustomer.AddToOrders();
-            if (!await new Service.CustomerService(context).AddOrUpdateItemAsync(SelectedCustomer.GetCustomer))
+            if (!await dataStore.AddOrUpdateItemAsync(SelectedCustomer.GetCustomer))
                 MessageBox.Show("Something went wrong during the Process. Please try again later...");
             Customers.Clear();
             ReFreshCustomerListAsync();
@@ -77,7 +82,7 @@ namespace IS.UI.ViewModel
         {
             if (_sendObject.ToString() == "Remove")
             {
-                if (!await new Service.CustomerService(context).DeleteItemAsync((_sender as CustomerWrapper).GetCustomer.ID))
+                if (!await dataStore.DeleteItemAsync((_sender as CustomerWrapper).GetCustomer.ID))
                     MessageBox.Show("Something went wrong during the Process. Please try again later...");
                 ReFreshCustomerListAsync();
             }

@@ -1,5 +1,6 @@
 ﻿using IS.Domain;
 using IS.Domain.Model;
+using IS.UI.Interface;
 using IS.UI.Model;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace IS.UI.ViewModel
     public class AssortmentViewModel : Abstract.BindableObject
     {
         readonly Context context;
+        readonly IDataStore<Assortment> dataStore;
         public ObservableCollection<AssortimentsWrapper> Assortments { get; set; } = new ObservableCollection<AssortimentsWrapper>();
         private AssortimentsWrapper m_Assortiment = new AssortimentsWrapper(new Assortment());
         public AssortimentsWrapper EditerAssortiments
@@ -26,15 +28,17 @@ namespace IS.UI.ViewModel
                 OnPropertyChanged(nameof(EditerAssortiments));
             }
         }
+        public ICommand AddInAssortiment { get => new Command.ActionCommand(async (obj) => await EditAssortiment()); }
         public AssortmentViewModel()
         {
             context = new Context();
+            dataStore = new Service.AssortimentService(context);
             ReFreshAssortimentsAsync();
         }
         private async void ReFreshAssortimentsAsync()
         {
             Assortments.Clear();
-            var AssortList = await new Service.AssortimentService(context).GetItemsAsync();
+            var AssortList = await dataStore.GetItemsAsync();
             AssortList.ToList().ForEach(x =>
             {
                 var temp = new AssortimentsWrapper(x);
@@ -43,13 +47,11 @@ namespace IS.UI.ViewModel
             });
             OnPropertyChanged(nameof(EditerAssortiments));
         }
-
-        public ICommand AddInAssortiment { get => new Command.ActionCommand(async (obj) => await EditAssortiment()); }
         private async void AssortimentItem_SelectedAsync(object _sender, object _SendObject)
         {
             if (_SendObject.ToString() == "Remove")
             {
-                if (!await new Service.AssortimentService(context).DeleteItemAsync((_sender as AssortimentsWrapper).GetAssortment.ID))
+                if (!await dataStore.DeleteItemAsync((_sender as AssortimentsWrapper).GetAssortment.ID))
                     MessageBox.Show("Ошибка");
                 ReFreshAssortimentsAsync();
             }
@@ -59,7 +61,7 @@ namespace IS.UI.ViewModel
         private async Task EditAssortiment()
         {
             ReFreshAssortimentsAsync();
-            if (!await new Service.AssortimentService(context).AddOrUpdateItemAsync(EditerAssortiments.GetAssortment))
+            if (!await dataStore.AddOrUpdateItemAsync(EditerAssortiments.GetAssortment))
                 MessageBox.Show("Ошибка");
             EditerAssortiments = new AssortimentsWrapper(new Assortment());
             OnPropertyChanged(nameof(EditerAssortiments));

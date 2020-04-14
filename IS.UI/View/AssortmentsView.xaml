@@ -95,8 +95,8 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition MaxHeight="40"/>
+                <RowDefinition MaxHeight="40"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <UniformGrid Grid.Row="0" Tag="2" Style="{StaticResource UniformInputFormStyle}">
@@ -113,7 +113,26 @@
                     <TextBox Text="{Binding EditerAssortiments.InAssortimnet}" x:Name="Amount"/>
                 </DockPanel>
             </UniformGrid>
-            <Controls:IconButton Command="{Binding AddInAssortiment}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Icon="PencilSquareOutline" Text="Сохранить изменения"></Controls:IconButton>
+            <Controls:IconButton Command="{Binding AddInAssortiment}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Icon="PencilSquareOutline" Text="Сохранить изменения">
+                <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
+                    <Setter Property="IsEnabled" Value="True"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=NameOfProduct, Path=Text}" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Controls:IconButton>
+            <Controls:IconButton Command="{Binding AddInAssortiment}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Icon="PencilSquareOutline" Text="Отменить">
+                <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
+                    <Setter Property="IsEnabled" Value="True"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=NameOfProduct, Path=Text}" Value="{x:Static sys:String.Empty}">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Controls:IconButton>
         </Grid>
     </Grid>
 </UserControl>
