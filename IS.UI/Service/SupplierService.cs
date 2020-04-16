@@ -43,6 +43,8 @@ namespace IS.UI.Service
 
         public async Task<bool> UpdateItemAsync(Supplier _item)
         {
+            var item = await context.Suppliers.SingleAsync(x => x.ID == _item.ID);
+            context.Entry<Supplier>(item).State = EntityState.Detached;
             context.Update(_item);
             return await context.SaveChangesAsync() > 0;
         }

@@ -32,7 +32,7 @@ namespace IS.UI.ViewModel
             get => m_EditedSupplier;
             set
             {
-                m_EditedSupplier = value;
+                m_EditedSupplier = new SupplierWrapper((Supplier)value.GetModel.Clone());
                 OnPropertyChanged(nameof(EditedSupplier));
             }
         }
