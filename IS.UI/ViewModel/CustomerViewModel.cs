@@ -1,5 +1,6 @@
 ﻿using IS.Domain;
 using IS.Domain.Model;
+using IS.UI.Interface;
 using IS.UI.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace IS.UI.ViewModel
     public class CustomerViewModel : Abstract.BindableObject
     {
         private readonly Context context;
+        readonly IDataStore<Customer> dataStore;
         public ObservableCollection<CustomerWrapper> Customers { get; set; } = new ObservableCollection<CustomerWrapper>();
         public ObservableCollection<ProductWrapper> Products { get; set; } = new ObservableCollection<ProductWrapper>();
         private CustomerWrapper m_Customer = new CustomerWrapper(new Customer());
@@ -28,61 +30,67 @@ namespace IS.UI.ViewModel
                 OnPropertyChanged(nameof(SelectedCustomer));
             }
         }
+        public ICommand AddNewCustomer
+        {
+            get => new Command.ActionCommand(async (obj) => await AddCustomerAsync(obj));
+        }
+        public ICommand CancelCommand { get => new Command.ActionCommand((obj) => ResetEditableSupplier(obj)); }
         public CustomerViewModel()
         {
             context = new Context();
-            ReFreshCustomerList();
+            dataStore = new Service.CustomerService(context);
+            ReFreshCustomerListAsync();
             new Service.ProductService(context).GetProducts().GetAwaiter().GetResult().ToList().ForEach(x =>
             {
                 var temp = new ProductWrapper(x);
-                temp.ItemSelected += product_ItemSelected;
+                temp.ItemSelected += Product_ItemSelected;
                 Products.Add(temp);
             });
         }
-        private async void ReFreshCustomerList()
+        private async void ReFreshCustomerListAsync()
         {
             Customers.Clear();
-            var CustomersList = await new Service.CustomerService(context).GetCustomers();
+            var CustomersList = await dataStore.GetItemsAsync();
             CustomersList.ToList().ForEach(x =>
             {
                 var temp = new CustomerWrapper(x);
-                temp.ItemSelected += CustomerItem_Selected;
+                temp.ItemSelected += CustomerItem_SelectedAsync;
                 Customers.Add(temp);
             });
             OnPropertyChanged(nameof(Customers));
         }
-        
-        public ICommand AddNewCustomer
+        private void ResetEditableSupplier(object para)
         {
-            get => new Command.ActionCommand(async (obj) => await AddCustomer(obj));
+            m_Customer = new CustomerWrapper(new Customer());
+            OnPropertyChanged(nameof(SelectedCustomer));
         }
-        private async Task AddCustomer(object obj)
+        private async Task AddCustomerAsync(object obj)
         {
             if (obj.ToString() == "AddToPurchases")
                 SelectedCustomer.AddToPurchased();
             else
                 SelectedCustomer.AddToOrders();
-            if (!await new Service.CustomerService(context).AddOrUpdate(SelectedCustomer.GetCustomer))
+            if (!await dataStore.AddOrUpdateItemAsync(SelectedCustomer.GetCustomer))
                 MessageBox.Show("Something went wrong during the Process. Please try again later...");
             Customers.Clear();
-            ReFreshCustomerList();
+            ReFreshCustomerListAsync();
             SelectedCustomer = new CustomerWrapper(new Customer());
             OnPropertyChanged(nameof(SelectedCustomer));
             OnPropertyChanged(nameof(Customers));
         }
-        private async void CustomerItem_Selected(object _sender, object _sendObject)
+        private async void CustomerItem_SelectedAsync(object _sender, object _sendObject)
         {
             if (_sendObject.ToString() == "Remove")
             {
-                if (!await new Service.CustomerService(context).RemoveCustomers((_sender as CustomerWrapper).GetCustomer))
+                if (!await dataStore.DeleteItemAsync((_sender as CustomerWrapper).GetCustomer.ID))
                     MessageBox.Show("Something went wrong during the Process. Please try again later...");
-                ReFreshCustomerList();
+                ReFreshCustomerListAsync();
             }
             else
                 SelectedCustomer = (CustomerWrapper)_sender;
 
         }
-        private void product_ItemSelected(object _sender, object _sendObject)
+        private void Product_ItemSelected(object _sender, object _sendObject)
         {
             ProductForCustomer product = new ProductForCustomer();
             Assortment assortment = new Assortment();

@@ -103,9 +103,12 @@
                             />
                 </DockPanel>
             </UniformGrid>
-            <DockPanel VerticalAlignment="Top" Margin="80 110 0 0" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
-                        Style="{StaticResource InputDockingPanelStyle}">
-                <Controls:IconButton HorizontalAlignment="Center" VerticalAlignment="Bottom" Command="{Binding AddRaw}" Icon="PlusCircle"  Text="Сохранить изменения">
+            <Grid VerticalAlignment="Top" Margin="80 110 0 0" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Controls:IconButton HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Bottom" Command="{Binding AddRaw}" Icon="PlusCircle"  Text="Сохранить изменения">
                     <Controls:IconButton.Style>
                         <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
                             <Setter Property="IsEnabled" Value="True"/>
@@ -120,7 +123,13 @@
                         </Style>
                     </Controls:IconButton.Style>
                 </Controls:IconButton>
-            </DockPanel>
+                <Controls:IconButton  
+                    HorizontalAlignment="Center"
+                    Command="{Binding CancelCommand,IsAsync=True}"
+                    VerticalAlignment="Top"
+                    Grid.Row="0"
+                    Icon="Refresh" Text="Отменить"/>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

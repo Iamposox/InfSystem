@@ -1,5 +1,6 @@
 ﻿using IS.Domain;
 using IS.Domain.Model;
+using IS.UI.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,26 +9,34 @@ using System.Threading.Tasks;
 
 namespace IS.UI.Service
 {
-    public class AssortimentService
+    public class AssortimentService:IDataStore<Assortment>
     {
-        private readonly Context context;
+        readonly Context context;
         public AssortimentService(Context _context)
         {
             context = _context;
         }
-        public async Task<IEnumerable<Assortment>> GetAssortments() => await context.Assortments.ToListAsync();
-        public async Task<bool> AddOrUpdateAssortment(Assortment assortment)
+        public async Task<IEnumerable<Assortment>> GetItemsAsync(bool forceRefresh = false) => await context.Assortments.ToListAsync();
+        public async Task<bool> AddOrUpdateItemAsync(Assortment _item)
         {
-            if (assortment.ID == 0)
-                return await AddNewAssortment(assortment);
-            context.Update(assortment);
+            if (_item.ID == 0)
+                return await AddItemAsync(_item);
+            return await UpdateItemAsync(_item);
+        }
+        public async Task<bool> UpdateItemAsync(Assortment _item)
+        {
+            context.Update(_item);
             return await context.SaveChangesAsync() > 0;
         }
-        public async Task<bool> AddNewAssortment(Assortment assortment)
+        public async Task<Assortment> GetItemAsync(int _id)
+        {
+            return await context.Assortments.SingleOrDefaultAsync(x => x.ID == _id);
+        }
+        public async Task<bool> AddItemAsync(Assortment _item)
         {
             try
             {
-                await context.AddAsync(assortment);
+                await context.AddAsync(_item);
                 await context.SaveChangesAsync();
             }
             catch(Exception e)
@@ -36,9 +45,11 @@ namespace IS.UI.Service
             }
             return true;
         }
-        public async Task<bool> RemoveAssortment(Assortment assortment)
+        public async Task<bool> DeleteItemAsync(int _id)
         {
-            context.Remove(assortment);
+            var item = await context.Assortments.SingleOrDefaultAsync(x => x.ID == _id);
+            context.Entry<Assortment>(item).State = EntityState.Detached;
+            context.Remove(item);
             return await context.SaveChangesAsync() > 0;
         }
     }

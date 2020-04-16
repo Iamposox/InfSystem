@@ -32,7 +32,7 @@ namespace IS.Domain
             {
                 Email = $"one@gmail.com",
                 Name = $"Vlada",
-                Password = $"1"
+                Password = $"1",
             };
            
             Users.Add(user);

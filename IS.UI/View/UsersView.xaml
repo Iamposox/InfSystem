@@ -35,10 +35,11 @@
         <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=1|2}">
             <Grid.RowDefinitions>
                 <RowDefinition MaxHeight="25"/>
-                <RowDefinition MinHeight="75"/>
+                <RowDefinition/>
                 <RowDefinition MaxHeight="25"/>
-                <RowDefinition MaxHeight="25"/>
-                <RowDefinition MaxHeight="25"/>
+                <RowDefinition MaxHeight="35"/>
+                <RowDefinition MaxHeight="35"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -60,7 +61,7 @@
                     Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1,AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                     Style="{StaticResource InputDockingPanelStyle}">
                     <TextBlock Text="Логин"/>
-                    <TextBox x:Name="LoginBox" Text="{Binding EditerUser.Name}"/>
+                    <TextBox x:Name="LoginBox" Text="{Binding EditerUser.GetUser.Name}"/>
                 </DockPanel>
                 <DockPanel 
                     Grid.Column="0"
@@ -68,7 +69,7 @@
                     Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                         Style="{StaticResource InputDockingPanelStyle}">
                     <TextBlock Text="Пароль"/>
-                    <TextBox x:Name="PasswordBox" Text="{Binding EditerUser.Password}"/>
+                    <TextBox x:Name="PasswordBox" Text="{Binding EditerUser.GetUser.Password}"/>
                 </DockPanel>
                 <DockPanel 
                     Grid.Column="1"
@@ -76,7 +77,7 @@
                     Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                         Style="{StaticResource InputDockingPanelStyle}">
                     <TextBlock Text="Эл. почта"/>
-                    <TextBox x:Name="EmailBox" Text="{Binding EditerUser.Email}"/>
+                    <TextBox x:Name="EmailBox" Text="{Binding EditerUser.GetUser.Email}"/>
                 </DockPanel>
                 <DockPanel  Grid.Column="1"
                     Grid.Row="1"
@@ -94,7 +95,25 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </Grid>
-            <Controls:IconButton Command="{Binding AddUsers}" Icon="UserPlus" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Text="Изменить" Grid.ColumnSpan="3" Grid.Row="3">
+            <Controls:IconButton Command="{Binding AddUsersCommand}" Icon="UserPlus" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Text="Изменить" Grid.ColumnSpan="3" Grid.Row="4">
+                <Controls:IconButton.Style>
+                    <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
+                        <Setter Property="IsEnabled" Value="True"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=LoginBox, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=EmailBox, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=PasswordBox, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Controls:IconButton.Style>
+            </Controls:IconButton>
+            <Controls:IconButton Command="{Binding CancelCommand}" Icon="Refresh" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Text="Отменить" Grid.ColumnSpan="3" Grid.Row="3">
                 <Controls:IconButton.Style>
                     <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
                         <Setter Property="IsEnabled" Value="True"/>
@@ -130,15 +149,19 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="50"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding Name}" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding GetUser.Name}" Grid.Column="0"/>
                                         <Controls:IconButton 
-                                                Command="{Binding Selected}"
+                                                Command="{Binding Selected}" CommandParameter="Edit"
                                                 Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
                                                 Text="Изменить"   Grid.Column="1"
                                                 Width="150" VerticalAlignment="Top"
                                                 HorizontalAlignment="Right"
                                                 Icon="PencilSquareOutline"/>
+                                        <Controls:IconButton Command="{Binding Selected}" CommandParameter="Remove" Width="50"
+                                                             VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="2" Icon="Remove"
+                                                             Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=1|2|3}"/>
                                     </Grid>
                                 </Expander.Header>
                                 <Grid>
@@ -146,7 +169,7 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding Email}" Grid.Column="0"/>
+                                    <TextBlock Text="{Binding GetUser.Email}" Grid.Column="0"/>
                                     <TextBlock Text="{Binding Role.RoleName}" Grid.Column="1" Margin="5 0 0 0"/>
                                 </Grid>
                             </Expander>

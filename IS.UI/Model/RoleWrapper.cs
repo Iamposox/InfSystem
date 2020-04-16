@@ -15,7 +15,7 @@ namespace IS.UI.Model
         {
             m_Role= _role;
         }
-        public Role Role => m_Role;
+        public Role Role { get => m_Role; set => m_Role = value; }
         public string Name
         {
             get => m_Role.RoleName;

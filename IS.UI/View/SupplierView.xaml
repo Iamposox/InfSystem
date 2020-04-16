@@ -119,7 +119,7 @@
                     Command="{Binding CancleCommand,IsAsync=True}"
                     VerticalAlignment="Top"
                     Grid.Row="3" 
-                    Icon="Refresh" Text="Cancle"/>
+                    Icon="Refresh" Text="Отменить"/>
                 <!--Selected Raw Materials-->
                 <Border Grid.Row="1"
                         BorderBrush="DimGray"

@@ -4,29 +4,41 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System;
+using IS.UI.Interface;
 
 namespace IS.UI.Service
 {
-    public class RawMaterialService
+    public class RawMaterialService:IDataStore<RawMaterial>
     {
         private readonly Context context;
         public RawMaterialService(Context _context)
         {
             context = _context;
         }
-        public async Task<bool> AddOrUpdateRawMaterials(RawMaterial raw)
+        public async Task<IEnumerable<RawMaterial>> GetItemsAsync(bool forceRefresh = false) => await context.RawMaterials.ToListAsync();
+        public async Task<bool> AddOrUpdateItemAsync(RawMaterial raw)
         {
             if (raw.ID == 0)
-                return await AddNewRawMaterials(raw);
-            context.Update(raw);
-            return await context.SaveChangesAsync() > 0;
+                return await AddItemAsync(raw);
+            return await UpdateItemAsync(raw);
         }
-        public async Task<bool> RemoveRawMaterial(RawMaterial raw)
+        public async Task<bool> DeleteItemAsync(int id)
         {
+            var raw = await context.RawMaterials.SingleOrDefaultAsync(x => x.ID == id);
+            context.Entry<RawMaterial>(raw).State = EntityState.Detached;
             context.Remove(raw);
             return await context.SaveChangesAsync() > 0;
         }
-        public async Task<bool> AddNewRawMaterials(RawMaterial raw)
+        public async Task<bool> UpdateItemAsync(RawMaterial _item)
+        {
+            context.Update(_item);
+            return await context.SaveChangesAsync() > 0;
+        }
+        public async Task<RawMaterial> GetItemAsync(int _id)
+        {
+            return await context.RawMaterials.SingleOrDefaultAsync(x => x.ID == _id);
+        }
+        public async Task<bool> AddItemAsync(RawMaterial raw)
         {
             try
             {
@@ -39,6 +51,5 @@ namespace IS.UI.Service
             }
             return true;
         }
-        public async Task<IEnumerable<RawMaterial>> GetRawMaterials() => await context.RawMaterials.ToListAsync();
     }
 }

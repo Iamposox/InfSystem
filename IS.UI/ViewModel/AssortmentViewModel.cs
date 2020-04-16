@@ -1,5 +1,6 @@
 ﻿using IS.Domain;
 using IS.Domain.Model;
+using IS.UI.Interface;
 using IS.UI.Model;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace IS.UI.ViewModel
     public class AssortmentViewModel : Abstract.BindableObject
     {
         readonly Context context;
+        readonly IDataStore<Assortment> dataStore;
         public ObservableCollection<AssortimentsWrapper> Assortments { get; set; } = new ObservableCollection<AssortimentsWrapper>();
         private AssortimentsWrapper m_Assortiment = new AssortimentsWrapper(new Assortment());
         public AssortimentsWrapper EditerAssortiments
@@ -26,40 +28,40 @@ namespace IS.UI.ViewModel
                 OnPropertyChanged(nameof(EditerAssortiments));
             }
         }
+        public ICommand AddInAssortiment { get => new Command.ActionCommand(async (obj) => await EditAssortiment()); }
         public AssortmentViewModel()
         {
             context = new Context();
-            ReFreshAssortiments();
+            dataStore = new Service.AssortimentService(context);
+            ReFreshAssortimentsAsync();
         }
-        private async void ReFreshAssortiments()
+        private async void ReFreshAssortimentsAsync()
         {
             Assortments.Clear();
-            var AssortList = await new Service.AssortimentService(context).GetAssortments();
+            var AssortList = await dataStore.GetItemsAsync();
             AssortList.ToList().ForEach(x =>
             {
                 var temp = new AssortimentsWrapper(x);
-                temp.ItemSelected += AssortimentItem_Selected;
+                temp.ItemSelected += AssortimentItem_SelectedAsync;
                 Assortments.Add(temp);
             });
             OnPropertyChanged(nameof(EditerAssortiments));
         }
-
-        public ICommand AddInAssortiment { get => new Command.ActionCommand(async (obj) => await EditAssortiment()); }
-        private async void AssortimentItem_Selected(object _sender, object _SendObject)
+        private async void AssortimentItem_SelectedAsync(object _sender, object _SendObject)
         {
             if (_SendObject.ToString() == "Remove")
             {
-                if (!await new Service.AssortimentService(context).RemoveAssortment((_sender as AssortimentsWrapper).GetAssortment))
+                if (!await dataStore.DeleteItemAsync((_sender as AssortimentsWrapper).GetAssortment.ID))
                     MessageBox.Show("Ошибка");
-                ReFreshAssortiments();
+                ReFreshAssortimentsAsync();
             }
             else
                 EditerAssortiments = (AssortimentsWrapper)_sender;
         }
         private async Task EditAssortiment()
         {
-            ReFreshAssortiments();
-            if (!await new Service.AssortimentService(context).AddOrUpdateAssortment(EditerAssortiments.GetAssortment))
+            ReFreshAssortimentsAsync();
+            if (!await dataStore.AddOrUpdateItemAsync(EditerAssortiments.GetAssortment))
                 MessageBox.Show("Ошибка");
             EditerAssortiments = new AssortimentsWrapper(new Assortment());
             OnPropertyChanged(nameof(EditerAssortiments));
