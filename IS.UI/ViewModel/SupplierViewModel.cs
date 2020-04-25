@@ -33,6 +33,8 @@ namespace IS.UI.ViewModel
             set
             {
                 m_EditedSupplier = new SupplierWrapper((Supplier)value.GetModel.Clone());
+                foreach (var item in EditedSupplier.RawMaterials)
+                    item.ItemSelected += RemoveOrderableMaterialFromSelectedSupplier;
                 OnPropertyChanged(nameof(EditedSupplier));
             }
         }
@@ -74,10 +76,10 @@ namespace IS.UI.ViewModel
                 OnPropertyChanged(nameof(EditedSupplier));
             }
         }
-
-        public async void RemoveOrderableMaterialFromSelectedSupplier(int ID)
+        public async void RemoveOrderableMaterialFromSelectedSupplier(object sender, object SendObject)
         {
-            EditedSupplier.RemoveMaterialToORder(ID);
+            var raw = sender as RawMaterialsToOrderWrapper;
+            EditedSupplier.RemoveMaterialToORder(raw);
             await ModifySelectedSupplier();
             OnPropertyChanged(nameof(EditedSupplier));
         }
@@ -112,7 +114,7 @@ namespace IS.UI.ViewModel
             RawMaterialsToOrder temp = new RawMaterialsToOrder();
             temp.Material = ((RawMaterialWrapper)_sender).GetMaterial;
             var toOrder = new RawMaterialsToOrderWrapper(temp);
-            EditedSupplier.AddMaterialToOrder(toOrder.GetRawMaterialsToOrder);
+            EditedSupplier.AddMaterialToOrder(toOrder);
             OnPropertyChanged(nameof(EditedSupplier));
         }
 

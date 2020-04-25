@@ -99,19 +99,27 @@ namespace IS.UI.ViewModel
         {
             m_User = new UsersWrapper(new User());
             m_SelectedRole = new Role();
-            OnPropertyChanged(nameof(EditerUser.Name));
-            OnPropertyChanged(nameof(SelectedRole));
+            OnPropertyChanged(nameof(EditerUser));
         }
         private async Task AddUsers()
         {
-            var Roles = await dataStoreRole.GetItemAsync(SelectedRole.ID);
-            Roles.Users.Add(EditerUser.GetUser);
-            if (!await dataStore.AddOrUpdateItemAsync(EditerUser.GetUser))
-                MessageBox.Show("Ошибка");
-            RefreshUserList();
-            EditerUser = new UsersWrapper(new User());
-            RefreshUserList();
-            OnPropertyChanged(nameof(Users));
+            if (SelectedRole.RoleName != null)
+            {
+                var Roles = await dataStoreRole.GetItemAsync(SelectedRole.ID);
+                Roles.Users.Add(EditerUser.GetUser);
+                if (!await dataStore.AddOrUpdateItemAsync(EditerUser.GetUser))
+                    MessageBox.Show("Ошибка");
+                RefreshUserList();
+                EditerUser = new UsersWrapper(new User());
+                RefreshUserList();
+                OnPropertyChanged(nameof(Users));
+            }
+            else
+            {
+                MessageBox.Show($"Вы не выбрали роль для пользователя", "Ошибка");
+                EditerUser = new UsersWrapper(new User());
+                OnPropertyChanged(nameof(EditerUser));
+            }
         }
     }
 }

@@ -11,28 +11,29 @@ namespace IS.UI.Model
     {
         private readonly Supplier m_Model;
         public event SelectedItemDelegate ItemSelected;
-        public List<RawMaterialsToOrder> rawMaterialsToOrder 
+        public ObservableCollection<RawMaterialsToOrderWrapper> RawMaterials{ get; set; } = new ObservableCollection<RawMaterialsToOrderWrapper>();
+        public List<RawMaterialsToOrder> RawMaterialsToOrders
         {
-            get => m_Model.RawMaterials; 
+            get => m_Model.RawMaterials;
         }
-            
         public SupplierWrapper(Supplier _model)
         {
             m_Model = _model;
+            RawMaterialsToOrders.ForEach(x => RawMaterials.Add(new RawMaterialsToOrderWrapper(x)));
         }
         public Supplier GetModel { get => m_Model; }
 
-        public void AddMaterialToOrder(RawMaterialsToOrder _materialToORder)
+        public void AddMaterialToOrder(RawMaterialsToOrderWrapper _materialToORder)
         {
-            if (rawMaterialsToOrder.Any(x => x.Material.ID == _materialToORder.Material.ID))
+            if (RawMaterials.Any(x => x.GetRawMaterialsToOrder.ID == _materialToORder.GetRawMaterialsToOrder.ID))
                 return;
-            rawMaterialsToOrder.Add(_materialToORder);
-            OnPropertyChanged(nameof(rawMaterialsToOrder));
+            RawMaterials.Add(_materialToORder);
+            OnPropertyChanged(nameof(RawMaterials));
         }
-        public void RemoveMaterialToORder(int ID)
+        public void RemoveMaterialToORder(RawMaterialsToOrderWrapper item)
         {
-            rawMaterialsToOrder.Remove(rawMaterialsToOrder.Single(x => x.ID == ID));
-            OnPropertyChanged(nameof(rawMaterialsToOrder));
+            RawMaterials.Remove(item);
+            OnPropertyChanged(nameof(RawMaterials));
         }
 
 

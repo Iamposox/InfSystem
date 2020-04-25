@@ -22,10 +22,5 @@ namespace IS.UI.View
         {
             InitializeComponent();
         }
-        private void RemoveRawMaterialClicked(object sender, RoutedEventArgs e)
-        {
-            var er = (sender as Button).Tag;
-            (DataContext as ViewModel.SupplierViewModel).RemoveOrderableMaterialFromSelectedSupplier((int)er);
-        }
     }
 }

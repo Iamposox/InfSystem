@@ -37,7 +37,7 @@ namespace IS.UI.Model
         {
             get => new Command.ActionCommand((obj) =>
             {
-                ItemSelected?.Invoke(this, rawMaterial);
+                ItemSelected?.Invoke(this, obj);
             });
         }
     }
