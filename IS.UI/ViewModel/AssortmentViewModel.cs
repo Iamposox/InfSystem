@@ -2,6 +2,7 @@
 using IS.Domain.Model;
 using IS.UI.Interface;
 using IS.UI.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,16 +25,23 @@ namespace IS.UI.ViewModel
             get => m_Assortiment;
             set
             {
-                m_Assortiment = value;
+                m_Assortiment = new AssortimentsWrapper((Assortment)value.GetAssortment.Clone());
+                m_Assortiment.Name = (Product)value.GetAssortment.Product.Clone();
                 OnPropertyChanged(nameof(EditerAssortiments));
             }
         }
+        public ICommand CancelCommand { get => new Command.ActionCommand((obj) => ResetEditableAssort(obj)); }
         public ICommand AddInAssortiment { get => new Command.ActionCommand(async (obj) => await EditAssortiment()); }
         public AssortmentViewModel()
         {
             context = new Context();
             dataStore = new Service.AssortimentService(context);
             ReFreshAssortimentsAsync();
+        }
+        private void ResetEditableAssort(object para)
+        {
+            EditerAssortiments = new AssortimentsWrapper(new Assortment());
+            OnPropertyChanged(nameof(EditerAssortiments));
         }
         private async void ReFreshAssortimentsAsync()
         {
@@ -62,10 +70,12 @@ namespace IS.UI.ViewModel
         {
             ReFreshAssortimentsAsync();
             if (!await dataStore.AddOrUpdateItemAsync(EditerAssortiments.GetAssortment))
-                MessageBox.Show("Ошибка");
+            { }
             EditerAssortiments = new AssortimentsWrapper(new Assortment());
+            ReFreshAssortimentsAsync();
             OnPropertyChanged(nameof(EditerAssortiments));
             OnPropertyChanged(nameof(Assortments));
+
         }
     }
 }

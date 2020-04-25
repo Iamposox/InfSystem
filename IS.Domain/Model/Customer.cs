@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IS.Domain.Model
 {
-    public class Customer
+    public class Customer:ICloneable
     {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -16,6 +16,10 @@ namespace IS.Domain.Model
             if (String.IsNullOrEmpty(Name)) return false;
             if (String.IsNullOrEmpty(Contact)) return false;
             return true;
+        }
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

@@ -4,15 +4,19 @@ using System.Text;
 
 namespace IS.Domain.Model
 {
-    public class Assortment
+    public class Assortment:ICloneable
     {
         public int ID { get; set; }
         public double InAssortment { get; set; }
         public Product Product { get; set; }
         public bool Validate() 
         {
-            if (Product == null) return false;
+            if (Product.Name == null) return false;
             return true;
+        }
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

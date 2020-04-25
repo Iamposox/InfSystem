@@ -36,8 +36,8 @@ namespace IS.UI.ViewModel
             get => m_User;
             set
             {
-                m_User = value;
-                m_SelectedRole = value.Role;
+                m_User = new UsersWrapper((User)value.GetUser.Clone());
+                m_SelectedRole = EditerUser.Role;
             }
         }
         public ICommand AddUsersCommand
@@ -80,12 +80,16 @@ namespace IS.UI.ViewModel
                     MessageBox.Show("Ошибка");
                 RefreshUserList();
                 OnPropertyChanged(nameof(Users));
-                OnPropertyChanged(nameof(EditerUser));
+                OnPropertyChanged(nameof(EditerUser.Name));
+                OnPropertyChanged(nameof(EditerUser.Password));
+                OnPropertyChanged(nameof(EditerUser.Email));
                 OnPropertyChanged(nameof(SelectedRole));
             }
             else
             {
-                EditerUser = (UsersWrapper)_sender;
+                var temp = _sender as UsersWrapper;
+                EditerUser = (UsersWrapper)temp.Clone();
+
                 SelectedRole = EditerUser.Role;
                 OnPropertyChanged(nameof(SelectedRole));
                 OnPropertyChanged(nameof(EditerUser));
@@ -95,7 +99,7 @@ namespace IS.UI.ViewModel
         {
             m_User = new UsersWrapper(new User());
             m_SelectedRole = new Role();
-            OnPropertyChanged(nameof(EditerUser));
+            OnPropertyChanged(nameof(EditerUser.Name));
             OnPropertyChanged(nameof(SelectedRole));
         }
         private async Task AddUsers()

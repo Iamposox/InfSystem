@@ -58,7 +58,7 @@
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
                                         <TextBlock Text="Продукт: "/>
-                                        <TextBlock Grid.Column="1" Text="{Binding GetAssortment.Product.Name}"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding Name.Name}"/>
                                         <TextBlock Grid.Row="1" Text="Количество: "/>
                                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding InAssortimnet}"/>
                                         <Controls:IconButton 
@@ -104,7 +104,7 @@
                            Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UniformGrid}, AncestorLevel=1,Mode=FindAncestor}, Path=ActualWidth}"
                            Style="{StaticResource InputDockingPanelStyle}">
                     <TextBlock Text="Name:"/>
-                    <TextBox Text="{Binding EditerAssortiments.GetAssortment.Product.Name, BindsDirectlyToSource=True}" x:Name="NameOfProduct"/>
+                    <TextBox Text="{Binding EditerAssortiments.Name.Name, BindsDirectlyToSource=True}" x:Name="NameOfProduct"/>
                 </DockPanel>
                 <DockPanel LastChildFill="True"
                            Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UniformGrid}, AncestorLevel=1,Mode=FindAncestor}, Path=ActualWidth}"
@@ -113,17 +113,19 @@
                     <TextBox Text="{Binding EditerAssortiments.InAssortimnet}" x:Name="Amount"/>
                 </DockPanel>
             </UniformGrid>
-            <Controls:IconButton Command="{Binding AddInAssortiment}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Icon="PencilSquareOutline" Text="Сохранить изменения">
-                <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
-                    <Setter Property="IsEnabled" Value="True"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=NameOfProduct, Path=Text}" Value="{x:Static sys:String.Empty}">
-                            <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
+            <Controls:IconButton HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Bottom" Command="{Binding AddInAssortiment}" Icon="PlusCircle"  Text="Сохранить изменения">
+                <Controls:IconButton.Style>
+                    <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
+                        <Setter Property="IsEnabled" Value="True"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=NameOfProduct, Path=Text}" Value="{x:Static sys:String.Empty}">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Controls:IconButton.Style>
             </Controls:IconButton>
-            <Controls:IconButton Command="{Binding AddInAssortiment}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Icon="PencilSquareOutline" Text="Отменить">
+            <Controls:IconButton Command="{Binding CancelCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Icon="Refresh" Text="Отменить">
                 <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
                     <Setter Property="IsEnabled" Value="True"/>
                     <Style.Triggers>

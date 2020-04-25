@@ -9,11 +9,17 @@ namespace IS.UI.Model
 {
     public class AssortimentsWrapper
     {
-        private Assortment m_Assortment = new Assortment();
+        private Assortment m_Assortment ;
         public event SelectedItemDelegate ItemSelected;
         public AssortimentsWrapper(Assortment _assortment)
         {
-            m_Assortment = _assortment;
+            if (_assortment == null) { }
+            else
+            {
+                m_Assortment = _assortment;
+                if (_assortment.Product == null)
+                    _assortment.Product = new Product();
+            }
         }
         public Assortment GetAssortment { get => m_Assortment; }
         public double InAssortimnet 
@@ -24,8 +30,7 @@ namespace IS.UI.Model
                 m_Assortment.InAssortment = value;
             }
         }
-        public Product product { get => m_Assortment.Product; set => m_Assortment.Product = value; }
-        //public string Name { get => m_Assortment.Product.Name; set => m_Assortment.Product.Name = value; }
+        public Product Name { get =>  m_Assortment.Product; set => m_Assortment.Product = value; }
         public ICommand Selected
         {
             get => new Command.ActionCommand((obj) =>

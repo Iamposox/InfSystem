@@ -25,14 +25,14 @@ namespace IS.UI.ViewModel
             get => m_raw;
             set
             {
-                m_raw = value;
+                m_raw = new RawMaterialWrapper((RawMaterial)value.GetMaterial.Clone());
             }
         }
         public ICommand AddRaw
         {
             get => new Command.ActionCommand(async (obj) => await AddRawMaterialsAsync());
         }
-        public ICommand CancelCommand { get => new Command.ActionCommand((obj) => ResetEditableSupplier(obj)); }
+        public ICommand CancelCommand { get => new Command.ActionCommand((obj) => ResetEditableRaw(obj)); }
         public RawMaterialsViewModel()
         {
             context = new Context();
@@ -50,7 +50,7 @@ namespace IS.UI.ViewModel
                 RawMaterials.Add(temp);
             });
         }
-        private void ResetEditableSupplier(object para)
+        private void ResetEditableRaw(object para)
         {
             m_raw = new RawMaterialWrapper(new RawMaterial());
             OnPropertyChanged(nameof(EditerRawMaterial));
@@ -75,7 +75,6 @@ namespace IS.UI.ViewModel
             else
             {
                 EditerRawMaterial = (RawMaterialWrapper)_sender;
-                OnPropertyChanged(nameof(EditerRawMaterial));
             }
         }
     }

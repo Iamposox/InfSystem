@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IS.Domain.Model
 {
-    public class RawMaterial
+    public class RawMaterial:ICloneable
     {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -13,6 +13,10 @@ namespace IS.Domain.Model
         {
             if (String.IsNullOrEmpty(Name)) return false;
             return true;
+        }
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

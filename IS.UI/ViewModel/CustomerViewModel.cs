@@ -24,7 +24,7 @@ namespace IS.UI.ViewModel
             get => m_Customer;
             set
             {
-                m_Customer = value;
+                m_Customer = new CustomerWrapper((Customer)value.GetCustomer.Clone());
                 foreach (var item in SelectedCustomer.Product)
                     item.ItemSelected += OutOrder_ItemSelected;
                 OnPropertyChanged(nameof(SelectedCustomer));
@@ -34,7 +34,7 @@ namespace IS.UI.ViewModel
         {
             get => new Command.ActionCommand(async (obj) => await AddCustomerAsync(obj));
         }
-        public ICommand CancelCommand { get => new Command.ActionCommand((obj) => ResetEditableSupplier(obj)); }
+        public ICommand CancelCommand { get => new Command.ActionCommand((obj) => ResetEditableCustomer(obj)); }
         public CustomerViewModel()
         {
             context = new Context();
@@ -59,7 +59,7 @@ namespace IS.UI.ViewModel
             });
             OnPropertyChanged(nameof(Customers));
         }
-        private void ResetEditableSupplier(object para)
+        private void ResetEditableCustomer(object para)
         {
             m_Customer = new CustomerWrapper(new Customer());
             OnPropertyChanged(nameof(SelectedCustomer));

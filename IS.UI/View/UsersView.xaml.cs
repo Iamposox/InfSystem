@@ -22,5 +22,12 @@ namespace IS.UI.View
         {
             InitializeComponent();
         }
+
+        private void IconButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoginBox.Text = string.Empty;
+            PasswordBox.Text = string.Empty;
+            EmailBox.Text = string.Empty;
+        }
     }
 }
