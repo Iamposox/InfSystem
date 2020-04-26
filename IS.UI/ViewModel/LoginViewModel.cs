@@ -3,6 +3,7 @@ using IS.Domain.Model;
 using IS.UI.Manager;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace IS.UI.ViewModel
@@ -38,6 +39,7 @@ namespace IS.UI.ViewModel
         }
 
         public ICommand Login { get => new Command.ActionCommand((obj) => { ApplicationManager.GetInstance.TryLogin(LoginUser); }); }
+        public async Task Logining() { }
 
     }
 }

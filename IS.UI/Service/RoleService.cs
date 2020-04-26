@@ -4,6 +4,7 @@ using IS.UI.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,7 +31,16 @@ namespace IS.UI.Service
         }
         public async Task<bool> UpdateItemAsync(Role role)
         {
+            var local = context.Set<Role>()
+                         .Local
+                         .FirstOrDefault(f => f.ID == role.ID);
+            if (local != null)
+            {
+                context.Entry(local).State = EntityState.Detached;
+            }
+            context.Entry(role).State = EntityState.Modified;
             context.Update(role);
+            context.Roles.Update(role);
             return await context.SaveChangesAsync() > 0;
         }
         public async Task<bool> DeleteItemAsync(int id)

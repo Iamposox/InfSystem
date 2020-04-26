@@ -105,14 +105,23 @@ namespace IS.UI.ViewModel
         {
             if (SelectedRole.RoleName != null)
             {
-                var Roles = await dataStoreRole.GetItemAsync(SelectedRole.ID);
-                Roles.Users.Add(EditerUser.GetUser);
+                if (EditerUser.Role != null)
+                {
+                    var Roles = await dataStoreRole.GetItemAsync(EditerUser.Role.ID);
+                    Roles.Users.Remove(Roles.Users.FirstOrDefault(x => x.ID == EditerUser.GetUser.ID));
+                    if (!await dataStoreRole.AddOrUpdateItemAsync(Roles))
+                        MessageBox.Show("Ошибка");
+                }
+                EditerUser.Role = SelectedRole;
                 if (!await dataStore.AddOrUpdateItemAsync(EditerUser.GetUser))
                     MessageBox.Show("Ошибка");
+                
                 RefreshUserList();
                 EditerUser = new UsersWrapper(new User());
                 RefreshUserList();
                 OnPropertyChanged(nameof(Users));
+                OnPropertyChanged(nameof(EditerUser));
+                OnPropertyChanged(nameof(SelectedRole));
             }
             else
             {

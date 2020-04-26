@@ -49,6 +49,7 @@ namespace IS.UI.ViewModel
                 temp.ItemSelected += RawMaterialItem_ItemSelectedAsync;
                 RawMaterials.Add(temp);
             });
+            OnPropertyChanged(nameof(RawMaterials));
         }
         private void ResetEditableRaw(object para)
         {
@@ -62,6 +63,7 @@ namespace IS.UI.ViewModel
                 MessageBox.Show("Something went wrong during the Process. Please try again later...");
             EditerRawMaterial = new RawMaterialWrapper(new RawMaterial());
             OnPropertyChanged(nameof(EditerRawMaterial));
+            ReFreshRawMaterialsAsync();
 
         }
         private async void RawMaterialItem_ItemSelectedAsync(object _sender, object _sendObject)
@@ -75,6 +77,7 @@ namespace IS.UI.ViewModel
             else
             {
                 EditerRawMaterial = (RawMaterialWrapper)_sender;
+                OnPropertyChanged(nameof(EditerRawMaterial));
             }
         }
     }

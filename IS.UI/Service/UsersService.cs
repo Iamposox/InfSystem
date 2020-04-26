@@ -31,6 +31,14 @@ namespace IS.UI.Service
         }
         public async Task<bool> UpdateItemAsync(User user)
         {
+            var local = context.Set<User>()
+                         .Local
+                         .FirstOrDefault(f => f.ID == user.ID);
+            if (local != null)
+            {
+                context.Entry(local).State = EntityState.Detached;
+            }
+            context.Entry(user).State = EntityState.Modified;
             context.Update(user);
             return await context.SaveChangesAsync() > 0;
         }

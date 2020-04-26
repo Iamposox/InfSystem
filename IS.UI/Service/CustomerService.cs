@@ -4,6 +4,7 @@ using IS.UI.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,6 +36,14 @@ namespace IS.UI.Service
         }
         public async Task<bool> UpdateItemAsync(Customer _item)
         {
+            var local = context.Set<Customer>()
+                         .Local
+                         .FirstOrDefault(f => f.ID == _item.ID);
+            if (local != null)
+            {
+                context.Entry(local).State = EntityState.Detached;
+            }
+            context.Entry(_item).State = EntityState.Modified;
             context.Update(_item);
             return await context.SaveChangesAsync() > 0;
         }

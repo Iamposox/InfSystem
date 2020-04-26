@@ -73,14 +73,14 @@ namespace IS.UI.ViewModel
                 if (!await dataStore.AddOrUpdateItemAsync(EditedSupplier.GetModel))
                     MessageBox.Show("Something went wrong during the Process. Please try again later...");
                 RePopulateSuppliersList();
+                EditedSupplier = new SupplierWrapper(new Supplier());
                 OnPropertyChanged(nameof(EditedSupplier));
             }
         }
-        public async void RemoveOrderableMaterialFromSelectedSupplier(object sender, object SendObject)
+        public void RemoveOrderableMaterialFromSelectedSupplier(object sender, object SendObject)
         {
             var raw = sender as RawMaterialsToOrderWrapper;
             EditedSupplier.RemoveMaterialToORder(raw);
-            await ModifySelectedSupplier();
             OnPropertyChanged(nameof(EditedSupplier));
         }
 
@@ -114,6 +114,7 @@ namespace IS.UI.ViewModel
             RawMaterialsToOrder temp = new RawMaterialsToOrder();
             temp.Material = ((RawMaterialWrapper)_sender).GetMaterial;
             var toOrder = new RawMaterialsToOrderWrapper(temp);
+            toOrder.ItemSelected += RemoveOrderableMaterialFromSelectedSupplier;
             EditedSupplier.AddMaterialToOrder(toOrder);
             OnPropertyChanged(nameof(EditedSupplier));
         }

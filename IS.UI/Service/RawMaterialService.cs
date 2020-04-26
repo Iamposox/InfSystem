@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System;
 using IS.UI.Interface;
+using System.Linq;
 
 namespace IS.UI.Service
 {
@@ -31,6 +32,14 @@ namespace IS.UI.Service
         }
         public async Task<bool> UpdateItemAsync(RawMaterial _item)
         {
+            var local = context.Set<RawMaterial>()
+                         .Local
+                         .FirstOrDefault(f => f.ID == _item.ID);
+            if (local != null)
+            {
+                context.Entry(local).State = EntityState.Detached;
+            }
+            context.Entry(_item).State = EntityState.Modified;
             context.Update(_item);
             return await context.SaveChangesAsync() > 0;
         }
