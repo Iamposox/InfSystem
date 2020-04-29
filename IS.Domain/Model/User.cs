@@ -11,6 +11,7 @@ namespace IS.Domain.Model
         public string Password { get; set; }
         public string Email { get; set; }
         public Role Role { get; set; } 
+        public int RoleID { get; set; }
         public bool Validate() 
         {
             if (String.IsNullOrEmpty(Name)) return false;

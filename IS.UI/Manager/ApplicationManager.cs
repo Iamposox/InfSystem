@@ -55,7 +55,8 @@ namespace IS.UI.Manager
             var user = context.Users
                 .Where(x => x.Name == _loginData.Name)
                 .Where(x => x.Password == _loginData.Password)
-                .SingleOrDefault();
+                .Include(x=>x.Role)
+                .FirstOrDefault();
             if (user is null)
                 return false;
             CurrentUser = user;

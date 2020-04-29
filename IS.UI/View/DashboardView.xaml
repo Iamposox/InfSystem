@@ -17,8 +17,8 @@
             <local:AutorizationView />
         </StackPanel>
         <DockPanel Visibility="{Binding DashboardInfo}" DockPanel.Dock="Bottom">
-            <UniformGrid DockPanel.Dock="Top">
-                <lvc:PieChart LegendLocation="Bottom" Hoverable="False" Height="350" Width="350" Series="{Binding PieData}"/>
+            <UniformGrid DockPanel.Dock="Bottom">
+                <lvc:PieChart LegendLocation="Bottom" HorizontalAlignment="Left" Hoverable="False" Height="250" Width="250" Series="{Binding PieData}"/>
 
 
             </UniformGrid>

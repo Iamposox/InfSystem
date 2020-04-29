@@ -16,10 +16,7 @@ namespace IS.Domain
 
         public Context()
         {
-            Database.EnsureDeleted();
             Database.EnsureCreated();
-            SeedUser();
-            SeedRoles();
            
             if (this.Customers.Count() < 1)
             {
@@ -65,13 +62,14 @@ namespace IS.Domain
                 ID = 3,
                 RoleName = $"Accountant"
             };
-            Roles.Add(rolesFour);
-            Roles.Add(new Role
+            Role rolesFive = new Role()
             {
-                ID=1,
+                ID = 1,
                 RoleName = "Admin",
                 Users = new List<User> { Users.Single(x => x.Name == "Vlada") }
-            });
+            };
+            Roles.Add(rolesFour);
+            Roles.Add(rolesFive);
             SaveChanges();
         }
 
@@ -166,7 +164,25 @@ namespace IS.Domain
         {
             optionsBuilder.UseSqlite(ConnectionString);
         }
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Role>().HasData(
+                new Role() { ID = 5, RoleName = $"Кассир" },
+                new Role() { ID = 4, RoleName = $"Пекарь" },
+                new Role() { ID = 3, RoleName = $"Бухгалтер" },
+                new Role() { ID = 2, RoleName = $"Директор" },
+                new Role() { ID = 1, RoleName = $"Админ" });
+            modelBuilder.Entity<User>().HasData(
+                new User()
+                {
+                    ID = 1,
+                    Email = $"one@gmail.com",
+                    Name = $"Влада",
+                    Password = $"1",
+                    RoleID = 1
+                });
+            
+        }
         public DbSet<Assortment> Assortments { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Product> Products { get; set; }
