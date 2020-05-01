@@ -17,7 +17,6 @@ namespace IS.Domain
         public Context()
         {
             Database.EnsureCreated();
-           
             if (this.Customers.Count() < 1)
             {
                 Seed();
@@ -31,7 +30,7 @@ namespace IS.Domain
                 Name = $"Vlada",
                 Password = $"1",
             };
-           
+
             Users.Add(user);
             SaveChanges();
         }
@@ -104,7 +103,7 @@ namespace IS.Domain
                 };
                 Assortment As = new Assortment()
                 {
-                    InAssortment = 150*i,
+                    InAssortment = 150 * i,
                     Product = product
                 };
                 Assortment AsTwo = new Assortment()
@@ -181,6 +180,21 @@ namespace IS.Domain
                     Password = $"1",
                     RoleID = 1
                 });
+            //for (int i = 1; i < 11; i++)
+            
+            //    modelBuilder.Entity<RawMaterial>().HasData(new RawMaterial() { Name = $"Eggs {i}", Amount = 10+i, ID = i, ProductID = i});
+            //for (int i = 1; i < 11; i++)
+            //    modelBuilder.Entity<Product>().HasData
+            //        (
+            //        new Product() { Name = $"Sells like crap {i}", ID=i, PassiveCosts = 99.9, PreparationDuration = new TimeSpan(2, 30,0)},
+            //        new Product() { Name = $"Crap {i}", ID = i, PassiveCosts = 99.9, PreparationDuration = new TimeSpan(2, 30, 0) }
+            //        );
+            //for (int i = 1; i < 11; i++)
+            //    modelBuilder.Entity<Assortment>().HasData
+            //        (
+            //        new Assortment() { ID = i, InAssortment = 150*i, ProductID = i},
+            //        new Assortment() { ID = i, InAssortment = 150 * i, ProductID = i }
+            //        );
             
         }
         public DbSet<Assortment> Assortments { get; set; }

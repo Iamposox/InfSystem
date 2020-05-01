@@ -68,7 +68,6 @@ namespace IS.UI.ViewModel
         }
         private async Task EditAssortiment()
         {
-            ReFreshAssortimentsAsync();
             if (!await dataStore.AddOrUpdateItemAsync(EditerAssortiments.GetAssortment))
             { }
             EditerAssortiments = new AssortimentsWrapper(new Assortment());

@@ -38,9 +38,16 @@ namespace IS.UI.Service
         }
         public async Task<bool> UpdateItemAsync(Supplier _item)
         {
-            var item = await context.Suppliers.SingleAsync(x => x.ID == _item.ID);
-            context.Entry<Supplier>(item).State = EntityState.Detached;
+            var local = context.Set<Supplier>()
+                .Local
+                .FirstOrDefault(f => f.ID == _item.ID);
+            if (local != null)
+                context.Entry(local).State = EntityState.Detached;
+            context.Entry(_item).State = EntityState.Modified;
             context.Update(_item);
+//            var item = await context.Suppliers.Include(x=>x.RawMaterials).ThenInclude(x=>x.Material).SingleAsync(x => x.ID == _item.ID);
+//            context.Entry<Supplier>(item).State = EntityState.Detached;
+//            context.Update(_item);
             return await context.SaveChangesAsync() > 0;
         }
         public async Task<bool> AddItemAsync(Supplier _record)
@@ -58,7 +65,7 @@ namespace IS.UI.Service
         }
         public  async Task<Supplier> GetItemAsync(int _id)
         {
-           return await context.Suppliers.SingleOrDefaultAsync(x => x.ID == _id);
+           return await context.Suppliers.Include(x => x.RawMaterials).ThenInclude(x => x.Material).SingleOrDefaultAsync(x => x.ID == _id);
         }
         private bool IsSupplierRecordValid(Supplier _record) => _record.Validate();
     }

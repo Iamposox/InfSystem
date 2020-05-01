@@ -10,20 +10,30 @@ using System.Threading.Tasks;
 
 namespace IS.UI.Service
 {
-    public class CustomerService:IDataStore<Customer>
+    public class CustomerService : IDataStore<Customer>
     {
         private readonly Context context;
         public CustomerService(Context _context)
         {
             context = _context;
         }
-        public async Task<IEnumerable<Customer>> GetItemsAsync(bool forceRefresh = false) 
+        public async Task<IEnumerable<Customer>> GetItemsAsync(bool forceRefresh = false)
         {
-            return await context.Customers.ToListAsync(); 
+            return await context.Customers.Include(x => x.Orders)
+                .ThenInclude(x => x.Product)
+                .ThenInclude(x => x.Product)
+                .Include(x => x.Purchased)
+                .ThenInclude(x => x.Product)
+                .ThenInclude(x => x.Product).ToListAsync();
         }
         public async Task<bool> DeleteItemAsync(int _id)
         {
-            var item = await context.Customers.SingleAsync(x => x.ID == _id);
+            var item = await context.Customers.Include(x => x.Orders)
+                .ThenInclude(x => x.Product)
+                .ThenInclude(x => x.Product)
+                .Include(x => x.Purchased)
+                .ThenInclude(x => x.Product)
+                .ThenInclude(x => x.Product).SingleAsync(x => x.ID == _id);
             context.Entry<Customer>(item).State = EntityState.Detached;
             context.Customers.Remove(item);
             return await context.SaveChangesAsync() > 0;
@@ -44,12 +54,28 @@ namespace IS.UI.Service
                 context.Entry(local).State = EntityState.Detached;
             }
             context.Entry(_item).State = EntityState.Modified;
+            //UpdateInsides(_item);
             context.Update(_item);
             return await context.SaveChangesAsync() > 0;
         }
+        public void UpdateInsides(Customer _item)
+        {
+            //var id = _item.Orders;
+            //var local = context.Set<ProductForCustomer>()
+            //    .Local
+            //    .FirstOrDefault(f => f.ID == _item.Orders.SingleOrDefault(x=>x.ID==_));
+            //if (local != null)
+            //    context.Entry(local).State = EntityState.Detached;
+            //context.Entry(_item).State = EntityState.Modified;
+        }
         public async Task<Customer> GetItemAsync(int _id)
         {
-            return await context.Customers.SingleOrDefaultAsync(x => x.ID == _id);
+            return await context.Customers.Include(x => x.Orders)
+                .ThenInclude(x => x.Product)
+                .ThenInclude(x => x.Product)
+                .Include(x => x.Purchased)
+                .ThenInclude(x => x.Product)
+                .ThenInclude(x => x.Product).SingleOrDefaultAsync(x => x.ID == _id);
         }
         public async Task<bool> AddItemAsync(Customer customer)
         {

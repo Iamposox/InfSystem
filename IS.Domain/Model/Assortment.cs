@@ -9,6 +9,7 @@ namespace IS.Domain.Model
         public int ID { get; set; }
         public double InAssortment { get; set; }
         public Product Product { get; set; }
+        public int ProductID { get; set; }
         public bool Validate() 
         {
             if (Product.Name == null) return false;

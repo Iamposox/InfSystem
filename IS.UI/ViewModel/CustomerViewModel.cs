@@ -40,7 +40,7 @@ namespace IS.UI.ViewModel
             context = new Context();
             dataStore = new Service.CustomerService(context);
             ReFreshCustomerListAsync();
-            new Service.ProductService(context).GetProducts().GetAwaiter().GetResult().ToList().ForEach(x =>
+            new Service.ProductService(context).GetItemsAsync().GetAwaiter().GetResult().ToList().ForEach(x =>
             {
                 var temp = new ProductWrapper(x);
                 temp.ItemSelected += Product_ItemSelected;

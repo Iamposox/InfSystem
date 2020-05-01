@@ -21,7 +21,7 @@
                     <Style TargetType="ColumnDefinition">
                         <Setter Property="Width" Value="*"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding VisibilityConverter,ConverterParameter=1|2|3}"
+                            <DataTrigger Binding="{Binding VisibilityConverter,ConverterParameter=1|2}"
                                          Value="Collapsed">
                                 <Setter Property="Width" Value="0"/>
                             </DataTrigger>
@@ -132,7 +132,7 @@
                 </Controls:IconButton.Style>
             </Controls:IconButton>
         </Grid>
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="5"/>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="5" Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=1|2}"/>
         <ScrollViewer Grid.Column="2" Margin="0 0 0 10">
             <ItemsControl ItemsSource="{Binding Users}">
                 <ItemsControl.ItemsPanel>

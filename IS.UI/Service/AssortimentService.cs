@@ -17,7 +17,7 @@ namespace IS.UI.Service
         {
             context = _context;
         }
-        public async Task<IEnumerable<Assortment>> GetItemsAsync(bool forceRefresh = false) => await context.Assortments.ToListAsync();
+        public async Task<IEnumerable<Assortment>> GetItemsAsync(bool forceRefresh = false) => await context.Assortments.Include(x=>x.Product).ToListAsync();
         public async Task<bool> AddOrUpdateItemAsync(Assortment _item)
         {
             if (_item.Validate())
@@ -38,12 +38,24 @@ namespace IS.UI.Service
                 context.Entry(local).State = EntityState.Detached;
             }
             context.Entry(_item).State = EntityState.Modified;
-            context.Update(_item);
+            UpdateInsides(_item);
+            context.UpdateRange(_item, _item.Product);
             return await context.SaveChangesAsync() > 0;
+        }
+        public void UpdateInsides(Assortment _item)
+        {
+            var entry = context.Set<Product>()
+             .Local
+             .FirstOrDefault(f => f.ID == _item.Product.ID);
+            if (entry != null)
+            {
+                context.Entry(entry).State = EntityState.Detached;
+            }
+            context.Entry(_item.Product).State = EntityState.Modified;
         }
         public async Task<Assortment> GetItemAsync(int _id)
         {
-            return await context.Assortments.SingleOrDefaultAsync(x => x.ID == _id);
+            return await context.Assortments.Include(x=>x.Product).SingleOrDefaultAsync(x => x.ID == _id);
         }
         public async Task<bool> AddItemAsync(Assortment _item)
         {
@@ -60,7 +72,7 @@ namespace IS.UI.Service
         }
         public async Task<bool> DeleteItemAsync(int _id)
         {
-            var item = await context.Assortments.SingleOrDefaultAsync(x => x.ID == _id);
+            var item = await context.Assortments.Include(x=>x.Product).SingleOrDefaultAsync(x => x.ID == _id);
             var local = context.Set<Assortment>()
                         .Local
                         .FirstOrDefault(f => f.ID == item.ID);
