@@ -35,7 +35,12 @@ namespace IS.UI.Model
             RawMaterials.Remove(item);
             OnPropertyChanged(nameof(RawMaterials));
         }
-
+        public void AddToList()
+        {
+            RawMaterialsToOrders.Clear();
+            foreach (var item in RawMaterials)
+                RawMaterialsToOrders.Add(item.GetRawMaterialsToOrder);
+        }
 
         public bool Valid
         {

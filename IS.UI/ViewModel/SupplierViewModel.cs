@@ -15,18 +15,13 @@ using System.Windows.Input;
 namespace IS.UI.ViewModel
 {
     public delegate void SelectedItemDelegate(object _sender, object _sendObject);
-
     public class SupplierViewModel : Abstract.BindableObject
     {
         readonly Context context;
         readonly IDataStore<Supplier> dataStore;
-
         public ObservableCollection<SupplierWrapper> Suppliers { get; set; } = new ObservableCollection<SupplierWrapper>();
-
         public ObservableCollection<RawMaterialWrapper> RawMaterials { get; set; } = new ObservableCollection<RawMaterialWrapper>();
-
         private SupplierWrapper m_EditedSupplier = new SupplierWrapper(new Supplier());
-
         public SupplierWrapper EditedSupplier
         {
             get => m_EditedSupplier;
@@ -38,19 +33,15 @@ namespace IS.UI.ViewModel
                 OnPropertyChanged(nameof(EditedSupplier));
             }
         }
-
         public ICommand ModifySelectedSupplierCommand
         {
             get => new Command.ActionCommand(async (obj) => await ModifySelectedSupplier());
         }
-
         public ICommand CancleCommand { get => new Command.ActionCommand((obj) => ResetEditableSupplier(obj)); }
-
         public SupplierViewModel()
         {
             context = new Context();
             dataStore = new Service.SupplierService(context);
-
             RePopulateSuppliersList();
             new Service.RawMaterialService(context).GetItemsAsync().GetAwaiter().GetResult().ToList().ForEach(x=> 
             {
@@ -70,6 +61,7 @@ namespace IS.UI.ViewModel
         {
             if (EditedSupplier.GetModel.Validate())
             {
+                EditedSupplier.AddToList();
                 if (!await dataStore.AddOrUpdateItemAsync(EditedSupplier.GetModel))
                     MessageBox.Show("Something went wrong during the Process. Please try again later...");
                 RePopulateSuppliersList();

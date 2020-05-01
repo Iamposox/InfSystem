@@ -20,7 +20,7 @@
                 <ColumnDefinition.Style>
                     <Style TargetType="ColumnDefinition">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}" Value="Collapsed">
+                            <DataTrigger Binding="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3|4}" Value="Collapsed">
                                 <Setter Property="Width" Value="0"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -58,13 +58,13 @@
                                     <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Amount}"/>
                                     <Controls:IconButton 
                                                 Command="{Binding Selected}" CommandParameter="Edit"
-                                                Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
+                                                Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3|4}"
                                                 Text="Изменить"   Grid.Column="2" Grid.RowSpan="4"
                                                 Width="130" VerticalAlignment="Top"
                                                 HorizontalAlignment="Right"
                                                 Icon="PencilSquareOutline"/>
                                     <Controls:IconButton Command="{Binding Selected}" CommandParameter="Remove"
-                                                         Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=1|2|3}"
+                                                         Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=1|2|3|4}"
                                                          Icon="Remove" Grid.Column="3" Grid.ColumnSpan="4" Width="50" VerticalAlignment="Top"
                                                          HorizontalAlignment="Right"/>
                                 </Grid>
@@ -76,9 +76,9 @@
         </Grid>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Center" Width="5"
                       VerticalAlignment="Stretch"   
-                      Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
+                      Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3|4}"
                       Background="Silver"/>
-        <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=1|2|3}" Grid.Row="0"  Margin="10 5 0 0">
+        <Grid Visibility="{Binding Converter={Converters:RoleToVisibilityConverter}, ConverterParameter=1|2|3|4}" Grid.Row="0"  Margin="10 5 0 0">
             <UniformGrid Tag="2" 
                              Style="{StaticResource UniformInputFormStyle}" Height="100" VerticalAlignment="Top">
                 <DockPanel VerticalAlignment="Top" 

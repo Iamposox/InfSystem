@@ -52,13 +52,12 @@ namespace IS.UI.Service
             try
             {
                 await context.AddAsync(raw);
-                await context.SaveChangesAsync();
+                return await context.SaveChangesAsync()>0;
             }
             catch(Exception e)
             {
                 return false;
             }
-            return true;
         }
     }
 }
