@@ -8,6 +8,7 @@
              mc:Ignorable="d" 
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:Controls="clr-namespace:IS.UI.Control"
+             Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
         <VM:DashboardViewModel/>
@@ -16,21 +17,24 @@
         <StackPanel DockPanel.Dock="Top" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Visibility="{Binding LoginVisibility}">
             <local:AutorizationView />
         </StackPanel>
-        <DockPanel Visibility="{Binding DashboardInfo}" DockPanel.Dock="Bottom">
-            <UniformGrid DockPanel.Dock="Bottom">
+        <Grid Visibility="{Binding DashboardInfo}" DockPanel.Dock="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="ООО ''Русспродукт''" Grid.Row="0" HorizontalAlignment="Center"/>
+            <Grid Grid.Row="1">
                 <lvc:PieChart LegendLocation="Bottom" HorizontalAlignment="Left" Hoverable="False" Height="250" Width="250" Series="{Binding PieData}"/>
-
-
-            </UniformGrid>
-            
-            
-            <Controls:IconButton 
-                DockPanel.Dock="Bottom"
+                <lvc:PieChart LegendLocation="Bottom" HorizontalAlignment="Right" Hoverable="False" Height="250" Width="250" Series="{Binding PieDataTwo}"/>
+                <TextBlock TextWrapping="Wrap" Width="150" TextAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Center">Наша кондитерская фабрика была создана тогда-то.<LineBreak/> Мы производим разные кондитерские изделия. От обычных печенюшек, до высококачественного зефира</TextBlock>
+            </Grid>
+            <Controls:IconButton
+                Grid.Row="2"
                 Command="{Binding LogoutCommand}" 
                 Icon="SignOut" HorizontalContentAlignment="Stretch" 
                 HorizontalAlignment="Center" 
                 Text="Logout"/>
-
-        </DockPanel>
+        </Grid>
     </DockPanel>
 </UserControl>

@@ -109,7 +109,8 @@
                            Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UniformGrid}, AncestorLevel=1,Mode=FindAncestor}, Path=ActualWidth}"
                            Style="{StaticResource InputDockingPanelStyle}">
                     <TextBlock Text="Amount:"/>
-                    <TextBox Text="{Binding EditerAssortiments.InAssortimnet}" x:Name="Amount"/>
+                    <!--<TextBox Text="{Binding EditerAssortiments.InAssortimnet}" x:Name="Amount"/>-->
+                    <Controls:NumericBox x:Name="Amount" HorizontalAlignment="Stretch" BorderBrush="Gray" BorderThickness="2" Style="{StaticResource NumericTextBox}" Text="{Binding EditerAssortiments.InAssortimnet}"/>
                 </DockPanel>
             </UniformGrid>
             <Controls:IconButton HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Bottom" Command="{Binding AddInAssortiment}" Icon="PlusCircle"  Text="Сохранить изменения">

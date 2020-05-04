@@ -76,20 +76,25 @@ namespace IS.UI.ViewModel
         {
             if (_SendObject.ToString() == "Remove")
             {
-                if (!await dataStore.DeleteItemAsync((_sender as UsersWrapper).GetUser.ID))
-                    MessageBox.Show("Ошибка");
-                RefreshUserList();
-                OnPropertyChanged(nameof(Users));
-                OnPropertyChanged(nameof(EditerUser.Name));
-                OnPropertyChanged(nameof(EditerUser.Password));
-                OnPropertyChanged(nameof(EditerUser.Email));
-                OnPropertyChanged(nameof(SelectedRole));
+                var User = _sender as UsersWrapper;
+                if (User.GetUser.ID == 1)
+                    MessageBox.Show("Нельзя удалить первоначального администратора");
+                else
+                {
+                    if (!await dataStore.DeleteItemAsync(User.GetUser.ID))
+                        MessageBox.Show("Ошибка");
+                    RefreshUserList();
+                    OnPropertyChanged(nameof(Users));
+                    OnPropertyChanged(nameof(EditerUser.Name));
+                    OnPropertyChanged(nameof(EditerUser.Password));
+                    OnPropertyChanged(nameof(EditerUser.Email));
+                    OnPropertyChanged(nameof(SelectedRole));
+                }
             }
             else
             {
                 var temp = _sender as UsersWrapper;
                 EditerUser = (UsersWrapper)temp.Clone();
-
                 SelectedRole = EditerUser.Role;
                 OnPropertyChanged(nameof(SelectedRole));
                 OnPropertyChanged(nameof(EditerUser));
@@ -107,18 +112,23 @@ namespace IS.UI.ViewModel
             {
                 if (EditerUser.Role != null)
                 {
-                    var Roles = await dataStoreRole.GetItemAsync(EditerUser.Role.ID);
-                    Roles.Users.Remove(Roles.Users.FirstOrDefault(x => x.ID == EditerUser.GetUser.ID));
-                    if (!await dataStoreRole.AddOrUpdateItemAsync(Roles))
-                        MessageBox.Show("Ошибка");
+                    if (EditerUser.GetUser.ID == 1)
+                        MessageBox.Show("Нельзя изменить первоначального администратора");
+                    else
+                    {
+                        var Roles = await dataStoreRole.GetItemAsync(EditerUser.Role.ID);
+                        Roles.Users.Remove(Roles.Users.FirstOrDefault(x => x.ID == EditerUser.GetUser.ID));
+                        if (!await dataStoreRole.AddOrUpdateItemAsync(Roles))
+                            MessageBox.Show("Ошибка");
+                    }
                 }
                 EditerUser.Role = SelectedRole;
                 if (!await dataStore.AddOrUpdateItemAsync(EditerUser.GetUser))
                     MessageBox.Show("Ошибка");
                 
                 RefreshUserList();
+                RefreshRoleListAsync();
                 EditerUser = new UsersWrapper(new User());
-                RefreshUserList();
                 OnPropertyChanged(nameof(Users));
                 OnPropertyChanged(nameof(EditerUser));
                 OnPropertyChanged(nameof(SelectedRole));

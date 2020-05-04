@@ -96,10 +96,7 @@
                         Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}"
                         Style="{StaticResource InputDockingPanelStyle}">
                     <TextBlock Text="Сумма:"/>
-                    <TextBox 
-                            x:Name="RawMaterialAmount"
-                            Text="{Binding EditerRawMaterial.Amount}"
-                            />
+                    <Controls:NumericBox x:Name="RawMaterialAmount" HorizontalAlignment="Stretch" BorderBrush="Gray" BorderThickness="2" Style="{StaticResource NumericTextBox}" Text="{Binding EditerRawMaterial.Amount}"/>
                 </DockPanel>
             </UniformGrid>
             <Grid VerticalAlignment="Top" Margin="0 110 0 0" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UniformGrid}},Path=ActualWidth}">

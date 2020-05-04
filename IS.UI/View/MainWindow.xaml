@@ -21,7 +21,7 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition MaxHeight="150"></RowDefinition>
+                <RowDefinition></RowDefinition>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <UserControl Grid.RowSpan="2" Content="{Binding  CurrentView,Converter={StaticResource NavigationConverter}}"/>

@@ -1,4 +1,5 @@
 ﻿using IS.Domain;
+using IS.UI.Manager;
 using LiveCharts;
 using LiveCharts.Wpf;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ namespace IS.UI.ViewModel
 {
     public class DashboardViewModel : Abstract.BindableObject
     {
-        private Visibility m_LoginVisibility = Visibility.Visible;
+        private Visibility m_LoginVisibility = ApplicationManager.GetInstance.CurrentUser == null ? Visibility.Visible :Visibility.Collapsed;
         public Visibility LoginVisibility 
         { 
             get => m_LoginVisibility;
@@ -24,6 +25,7 @@ namespace IS.UI.ViewModel
         }
 
         public SeriesCollection PieData { get;private set; }
+        public SeriesCollection PieDataTwo { get; private set; }
 
         public Visibility DashboardInfo { get => m_LoginVisibility == Visibility.Visible ? Visibility.Collapsed:Visibility.Visible; }
 
@@ -32,6 +34,8 @@ namespace IS.UI.ViewModel
         public DashboardViewModel()
         {
             Manager.ApplicationManager.GetInstance.ValuesChangedNotification += GetInstance_ValuesChangedNotification;
+            PointLabel = chartPoint => string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
+
             PointLabel = chartPoint => string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
             SetData();
         }
@@ -43,7 +47,7 @@ namespace IS.UI.ViewModel
             var leastInAssortiment = context
                 .Assortments
                 .Include(x=>x.Product)
-                .OrderBy(x => x.InAssortment).Take(5).ToList();
+                .OrderByDescending(x => x.InAssortment).Take(5).ToList();
             foreach (var item in leastInAssortiment)
             {
                 PieData.Add(new PieSeries()
@@ -53,9 +57,21 @@ namespace IS.UI.ViewModel
                     DataLabels = true
                 });
             }
+            PieDataTwo = new SeriesCollection();
+            var leastInRawMaterials = context.RawMaterials.OrderByDescending(x => x.Amount).Take(5).ToList();
+            foreach (var item in leastInRawMaterials)
+            {
+                PieDataTwo.Add(new PieSeries()
+                {
+                    Title = item.Name,
+                    Values = new ChartValues<double> { item.Amount },
+                    DataLabels = true
+                });
+            }
         }
-
+        
         public Func<ChartPoint, string> PointLabel { get; set; }
+        public Func<ChartPoint, string> PointLabelTwo { get; set; }
 
         private void GetInstance_ValuesChangedNotification(object _sender)
         {

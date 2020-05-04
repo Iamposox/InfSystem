@@ -17,7 +17,7 @@ namespace IS.UI.Service
         {
             context = _context;
         }
-        public async Task<IEnumerable<Role>> GetItemsAsync(bool forceRefresh = false) => await context.Roles.ToListAsync();
+        public async Task<IEnumerable<Role>> GetItemsAsync(bool forceRefresh = false) => await context.Roles.Include(x=>x.Users).ToListAsync();
         public async Task<bool> AddOrUpdateItemAsync(Role role)
         {
             if (role.ID == 0)
@@ -45,14 +45,14 @@ namespace IS.UI.Service
         }
         public async Task<bool> DeleteItemAsync(int id)
         {
-            var item = await context.Roles.SingleOrDefaultAsync(x => x.ID == id);
+            var item = await context.Roles.Include(x => x.Users).SingleOrDefaultAsync(x => x.ID == id);
             context.Entry<Role>(item).State = EntityState.Detached;
             context.Remove(item);
             return await context.SaveChangesAsync() > 0;
         }
         public async Task<Role> GetItemAsync(int id)
         {
-            return await context.Roles.SingleOrDefaultAsync(x => x.ID == id);
+            return await context.Roles.Include(x => x.Users).SingleOrDefaultAsync(x => x.ID == id);
         }
     }
 }
