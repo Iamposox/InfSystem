@@ -114,13 +114,13 @@ namespace IS.UI.ViewModel
                 {
                     if (EditerUser.GetUser.ID == 1)
                         MessageBox.Show("Нельзя изменить первоначального администратора");
-                    else
-                    {
-                        var Roles = await dataStoreRole.GetItemAsync(EditerUser.Role.ID);
-                        Roles.Users.Remove(Roles.Users.FirstOrDefault(x => x.ID == EditerUser.GetUser.ID));
-                        if (!await dataStoreRole.AddOrUpdateItemAsync(Roles))
-                            MessageBox.Show("Ошибка");
-                    }
+                    //else
+                    //{
+                    //    var Roles = await dataStoreRole.GetItemAsync(EditerUser.Role.ID);
+                    //    Roles.Users.Remove(Roles.Users.FirstOrDefault(x => x.ID == EditerUser.GetUser.ID));
+                    //    if (!await dataStoreRole.AddOrUpdateItemAsync(Roles))
+                    //        MessageBox.Show("Ошибка");
+                    //}
                 }
                 EditerUser.Role = SelectedRole;
                 if (!await dataStore.AddOrUpdateItemAsync(EditerUser.GetUser))

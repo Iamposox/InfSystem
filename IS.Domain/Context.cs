@@ -17,10 +17,10 @@ namespace IS.Domain
         public Context()
         {
             Database.EnsureCreated();
-            if (this.Customers.Count() < 1)
-            {
-                Seed();
-            }
+            //if (this.Customers.Count() < 1)
+            //{
+            //    Seed();
+            //}
         }
         private void SeedUser()
         {
