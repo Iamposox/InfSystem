@@ -4,7 +4,12 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>OneDrive.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="OneDrive.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\IS.Domain\IS.Domain.csproj" />
@@ -14,6 +19,12 @@
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="MaterialDesignThemes" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="OneDrive.ico">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

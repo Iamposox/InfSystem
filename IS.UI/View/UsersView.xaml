@@ -156,7 +156,7 @@
                                                 Command="{Binding Selected}" CommandParameter="Edit"
                                                 Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
                                                 Text="Изменить"   Grid.Column="1"
-                                                Width="150" VerticalAlignment="Top"
+                                                Width="130" VerticalAlignment="Top"
                                                 HorizontalAlignment="Right"
                                                 Icon="PencilSquareOutline"/>
                                         <Controls:IconButton Command="{Binding Selected}" CommandParameter="Remove" Width="50"

@@ -228,7 +228,7 @@
                                                 CommandParameter="Edit"
                                                 Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
                                                 Text="Изменить"   Grid.Column="2" 
-                                                Width="150" VerticalAlignment="Top"
+                                                Width="130" VerticalAlignment="Top"
                                                 HorizontalAlignment="Right"
                                                 Icon="PencilSquareOutline"/>
                                         <Controls:IconButton 

@@ -64,7 +64,7 @@
                                                 Command="{Binding Selected}" CommandParameter="Edit"
                                                 Visibility="{Binding Converter={Converters:RoleToVisibilityConverter},ConverterParameter=1|2|3}"
                                                 Text="Изменить"   Grid.Column="3" Grid.RowSpan="4"
-                                                Width="150" VerticalAlignment="Top"
+                                                Width="130" VerticalAlignment="Top"
                                                 HorizontalAlignment="Right"
                                                 Icon="PencilSquareOutline"/>
                                         <Controls:IconButton Command="{Binding Selected}" CommandParameter="Remove" 
@@ -93,27 +93,41 @@
         </ScrollViewer>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition MaxHeight="40"/>
-                <RowDefinition MaxHeight="40"/>
-                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <UniformGrid Grid.Row="0" Tag="2" Style="{StaticResource UniformInputFormStyle}">
                 <DockPanel LastChildFill="True"
                            Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UniformGrid}, AncestorLevel=1,Mode=FindAncestor}, Path=ActualWidth}"
                            Style="{StaticResource InputDockingPanelStyle}">
-                    <TextBlock Text="Name:"/>
+                    <TextBlock Text="Имя:"/>
                     <TextBox Text="{Binding EditerAssortiments.Name.Name, BindsDirectlyToSource=True}" x:Name="NameOfProduct"/>
                 </DockPanel>
                 <DockPanel LastChildFill="True"
                            Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UniformGrid}, AncestorLevel=1,Mode=FindAncestor}, Path=ActualWidth}"
                            Style="{StaticResource InputDockingPanelStyle}">
-                    <TextBlock Text="Amount:"/>
-                    <!--<TextBox Text="{Binding EditerAssortiments.InAssortimnet}" x:Name="Amount"/>-->
+                    <TextBlock Text="Количество:" Width="110"/>
                     <Controls:NumericBox x:Name="Amount" HorizontalAlignment="Stretch" BorderBrush="Gray" BorderThickness="2" Style="{StaticResource NumericTextBox}" Text="{Binding EditerAssortiments.InAssortimnet}"/>
                 </DockPanel>
             </UniformGrid>
-            <Controls:IconButton HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Bottom" Command="{Binding AddInAssortiment}" Icon="PlusCircle"  Text="Сохранить изменения">
+            <UniformGrid Grid.Row="1" Tag="2" Style="{StaticResource UniformInputFormStyle}">
+                <DockPanel LastChildFill="True"
+                           Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UniformGrid}, AncestorLevel=1,Mode=FindAncestor}, Path=ActualWidth}"
+                           Style="{StaticResource InputDockingPanelStyle}">
+                    <TextBlock Text="Время:"/>
+                    <TextBox Text="{Binding EditerAssortiments.Name.PreparationDuration, BindsDirectlyToSource=True}" x:Name="Preparative"/>
+                </DockPanel>
+                <DockPanel LastChildFill="True"
+                           Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UniformGrid}, AncestorLevel=1,Mode=FindAncestor}, Path=ActualWidth}"
+                           Style="{StaticResource InputDockingPanelStyle}">
+                    <TextBlock Text="Затраты:"/>
+                    <Controls:NumericBox x:Name="Passive" HorizontalAlignment="Stretch" BorderBrush="Gray" BorderThickness="2" Style="{StaticResource NumericTextBox}" Text="{Binding EditerAssortiments.Name.PassiveCosts}"/>
+                </DockPanel>
+            </UniformGrid>
+            <Controls:IconButton HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Bottom" Command="{Binding AddInAssortiment}" Icon="PlusCircle"  Text="Сохранить изменения">
                 <Controls:IconButton.Style>
                     <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
                         <Setter Property="IsEnabled" Value="True"/>
@@ -125,7 +139,7 @@
                     </Style>
                 </Controls:IconButton.Style>
             </Controls:IconButton>
-            <Controls:IconButton Command="{Binding CancelCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Icon="Refresh" Text="Отменить">
+            <Controls:IconButton Command="{Binding CancelCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Icon="Refresh" Text="Отменить">
                 <Style TargetType="{x:Type Controls:IconButton}" BasedOn="{StaticResource IconButtonStyle}">
                     <Setter Property="IsEnabled" Value="True"/>
                     <Style.Triggers>

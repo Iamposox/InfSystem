@@ -52,7 +52,7 @@ namespace IS.UI.Manager
 
         public bool TryLogin(User _loginData)
         {
-            var user = context.Users
+            var user = new Context().Users
                 .Where(x => x.Name == _loginData.Name)
                 .Where(x => x.Password == _loginData.Password)
                 .Include(x=>x.Role)
